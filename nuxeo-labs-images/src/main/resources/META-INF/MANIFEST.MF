@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-Vendor: Nuxeo
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-Version: 5.7-I20130303_0116
+Bundle-Name: nuxeo-labs-images
+Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.images.GenericConv
+ erter.xml,OSGI-INF/extensions/conversions.xml
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: nuxeo-labs-images
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+

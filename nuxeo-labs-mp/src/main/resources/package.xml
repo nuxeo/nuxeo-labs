@@ -1,0 +1,28 @@
+<package type="addon" name="nuxeo-labs" version="@VERSION@">
+  <title>Nuxeo Labs</title>
+  <description>
+    <p>This addon activate Nuxeo labs addon.</p>
+    <p>This addon adds new features as explained <a href="https://github.com/nuxeo/nuxeo-labs">here</a></p>
+  </description>
+  <home-page>https://github.com/nuxeo/nuxeo-labs</home-page>
+  <vendor>Nuxeo</vendor>
+  <installer restart="false" />
+  <uninstaller restart="false" />
+  <hotreload-support>true</hotreload-support>
+  <require-terms-and-conditions-acceptance>false</require-terms-and-conditions-acceptance>
+  <nuxeo-validation>waiting_nuxeo_certified</nuxeo-validation>
+  <production-state>development</production-state>
+  <supported>false</supported>
+  <platforms>
+    <platform>cap-@VERSION@</platform>
+    <platform>cap-5.8</platform>
+    <platform>cap-5.9.5-SNAPSHOT</platform>
+  </platforms>
+<!-- 
+  <dependencies>
+    <package>nuxeo-adullact-service:@VERSION@</package>
+  </dependencies>
+ -->
+  <license>LGPL</license>
+  <license-url>http://www.gnu.org/licenses/lgpl.html</license-url>
+</package>

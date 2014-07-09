@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.nuxeo.labs</groupId>
+    <artifactId>nuxeo-labs-parent</artifactId>
+    <version>5.9.5-SNAPSHOT</version>
+  </parent>
+  <artifactId>nuxeo-labs-mp</artifactId>
+  <packaging>zip</packaging>
+  <name>Market Place Package for Nuxeo Labs</name>
+  <description/>
+  <dependencies>
+    <dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-operations</artifactId>
+    </dependency>
+   <dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-we-publication</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-video</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-images</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-template-rendition-publisher</artifactId>
+    </dependency>
+	<dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-fancybox</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.nuxeo.build</groupId>
+        <artifactId>ant-assembly-maven-plugin</artifactId>
+        <configuration>
+          <buildFile>${basedir}/src/main/assemble/assembly.xml</buildFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
