@@ -16,6 +16,7 @@
   <platforms>
     <platform>cap-@VERSION@</platform>
     <platform>cap-5.8</platform>
+    <platform>cap-5.9.4</platform>
     <platform>cap-5.9.5-SNAPSHOT</platform>
   </platforms>
 <!-- 
