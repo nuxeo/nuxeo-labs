@@ -1,7 +1,7 @@
 Nuxeo Labs
 ===================
 
-Nuxeo Presales team are daily producing prototypes for our future customers to help them to imagine what can be done with the Nuxeo Platform. Some features recurrently are needed and missing into the Nuxeo Platform.
+Nuxeo Solution Architects team is daily producing prototypes for our future customers to help them to imagine what can be done with the Nuxeo Platform. Some features recurrently are needed and missing into the Nuxeo Platform.
 
 So, into this Labs, we try to capitalize all developments produced. 
 
