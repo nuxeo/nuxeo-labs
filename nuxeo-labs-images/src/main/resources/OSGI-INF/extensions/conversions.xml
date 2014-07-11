@@ -24,6 +24,8 @@
       </parameters>
     </converter>
 </extension>
+
+<require>org.nuxeo.ecm.platform.commandline.executor.service.defaultContrib</require>
  <extension target="org.nuxeo.ecm.platform.commandline.executor.service.CommandLineExecutorComponent"
     point="command">
     <command name="imageOverlay" enabled="true">
