@@ -1,4 +1,4 @@
-package org.nuxeo.labs;
+package org.nuxeo.labs.startindam;
 
 import static org.jboss.seam.ScopeType.SESSION;
 

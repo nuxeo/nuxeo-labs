@@ -1,8 +1,8 @@
 /**
- * 
+ *
  */
 
-package org.labs.we;
+package org.nuxeo.labs.we;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +27,7 @@ import org.nuxeo.runtime.api.Framework;
 
 
 /**
- * The root entry for the WebEngine module. 
+ * The root entry for the WebEngine module.
  * @author fvadon
  */
 @Path("/publication")
@@ -49,12 +49,13 @@ public class Publication extends ModuleRoot {
 	}
 
 
-	protected void initialize(Object... arg) {
+	@Override
+    protected void initialize(Object... arg) {
 		CoreSession session = null;
 		DocumentModelList rootSections = null;
 		DocumentModelList higherSections = null;
 		DocumentModelList testme=null;
-		HashMap latestPublicationsMap=new HashMap<DocumentModel, DocumentModelList>(); 
+		HashMap latestPublicationsMap=new HashMap<DocumentModel, DocumentModelList>();
 		session = ctx.getCoreSession();
 		if (session != null) {
 
@@ -93,14 +94,14 @@ public class Publication extends ModuleRoot {
 			String query;
 			DocumentModelList sectionChildren;
 			DocumentModel higherSection;
-			while (higherSectionsIterator.hasNext()){ 
+			while (higherSectionsIterator.hasNext()){
 				higherSection=higherSectionsIterator.next();
 				query = "select * from Document where ecm:primaryType!='Section' and ecm:path startswith '" + higherSection.getPathAsString() +"' order by dc:issued desc" ;
 				sectionChildren=session.query(query,3);
 				latestPublicationsMap.put(higherSection.getId(), sectionChildren);
 			}
 
-		}		
+		}
 		return latestPublicationsMap;
 	}
 
@@ -113,7 +114,7 @@ public class Publication extends ModuleRoot {
 	public void setSearchPattern(String searchPattern) {
 		this.searchPattern = searchPattern;
 	}
-	
+
 	@POST
 	@Path("search")
 	@Produces("text/html")
@@ -135,7 +136,7 @@ public class Publication extends ModuleRoot {
 		return getView("search");
 
 	}
-	
+
     public String getDownloadURL(DocumentModel doc) throws Exception {
         if (doc == null) {
             return null;

@@ -1,12 +1,10 @@
 /**
- * 
+ *
  */
 
-package org.labs.we;
+package org.nuxeo.labs.we;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -20,11 +18,10 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
-import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
 
 /**
- * The root entry for the WebEngine module. 
+ * The root entry for the WebEngine module.
  * @author fvadon
  */
 
@@ -34,26 +31,29 @@ public class Section extends Publication {
 
 	private static final Log log = LogFactory.getLog(Section.class);
 
-	@GET
+	@Override
+    @GET
 	public Object doGet() {
 		return getView("index");
 	}
 
-	@Path("section/{id}")
+	@Override
+    @Path("section/{id}")
 	public Resource getsectionContent(@PathParam("id") String id){
 		return newObject("Section", id);
 
 	}
 
 
-	protected void initialize(Object... arg) {
+	@Override
+    protected void initialize(Object... arg) {
 		String id = (String) arg[0];
 		CoreSession session = null;
 		DocumentModel currentSection;
 		DocumentModelList childSections = null;
 		DocumentModelList childrenContent;
 		session = ctx.getCoreSession();
-		HashMap latestPublicationsMap=new HashMap<DocumentModel, DocumentModelList>(); 
+		HashMap latestPublicationsMap=new HashMap<DocumentModel, DocumentModelList>();
 		if (session != null) {
 
 			try {
@@ -73,7 +73,7 @@ public class Section extends Publication {
 
 		}
 	}
-	
+
 
 
 
