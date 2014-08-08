@@ -35,6 +35,10 @@
       <groupId>org.nuxeo.labs</groupId>
       <artifactId>nuxeo-labs-fancybox</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-signature</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

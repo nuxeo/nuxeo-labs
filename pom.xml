@@ -19,6 +19,7 @@
     <module>nuxeo-labs-video</module>
 	<module>nuxeo-labs-fancybox</module>
     <module>nuxeo-labs-mp</module>
+    <module>nuxeo-labs-signature</module>
   </modules>
   <properties>
     <nuxeo.labs.version>5.9.5-SNAPSHOT</nuxeo.labs.version>
@@ -54,6 +55,11 @@
       <groupId>org.nuxeo.labs</groupId>
       <artifactId>nuxeo-labs-fancybox</artifactId>
       <version>${nuxeo.labs.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-signature</artifactId>
+        <version>${nuxeo.labs.version}</version>
     </dependency>
     <dependency>
       <groupId>org.nuxeo.labs</groupId>
