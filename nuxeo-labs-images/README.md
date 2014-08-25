@@ -67,7 +67,7 @@ Also, each operation is documented: In Studio, when you select the operation, it
     * `yOffset`: Default value `0`
 
 * **`Conversion > GenericConverter`**
-  * As its name state, this converter is generic. Which means that you must tell it what converter to use, and which parameters to inject
+  * As its name states, this converter is generic. Which means that you must tell it what converter to use, and which parameters to inject
   * The parameters are:
     * `converterName`: The exact name (case sensitive) as the one you declared in Studio or of one of the converters provoided by this plug-in
     * `parameters`: The parameters of the command line to pass to the operation (the command line can be found in the declaration of the converters)
