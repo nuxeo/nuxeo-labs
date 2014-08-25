@@ -1,0 +1,58 @@
+<div xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:a4j="http://richfaces.org/a4j"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxd="http://nuxeo.org/nxweb/document">
+
+  <c:if test="false">
+    Reminder: Do not put comment directely in xhtml or you are gonna have trouble.
+    Use c:if test="false" to add comment in xhtml code.
+  </c:if>
+
+  <c:if test="false">
+  I just do not understand how to load the css (the main one and those of third-parties...
+  So, I force loading them here.
+  Need to ask somebody to check that...
+  </c:if>
+  <script src="#{contextPath}/scripts/nuxeo-labs-image-cropper.js" />
+  <LINK href="#{contextPath}/css/nuxeo-labs-image-cropper.css" rel="stylesheet" type="text/css" />
+  <LINK href="#{contextPath}/css/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
+
+  <h3>
+   <h:outputText value="#{currentDocument.title}"/>
+  </h3>
+
+  <div id="#{fancyboxFormId}">
+    <div>
+      <div id="#{fancyboxFormId}_buttons" class="buttonsGadget">
+        <button id="#{fancyboxFormId}_crop" onclick="NxCrop.save();" class="nxlab_button" style="margin-left: 5px">Crop in Document</button>
+        <!--
+        <span style="width:50px"></span>
+        <button id="#{fancyboxFormId}_download" onclick="NxCrop.download()" class="nxlab_button">Crop and Download</button>
+        -->
+        <span style="width:50px"></span>
+        <span><i>Original image width: #{imageCropHelper.getOriginalImageWidth()}, height: #{imageCropHelper.getOriginalImageHeight()}</i></span>
+        <div id="#{fancyboxFormId}_cropCoords" style="font-size:smaller; padding-top: 5px; margin-left: 5px">
+          <label>X1 <input type="text" size="4" id="#{fancyboxFormId}_cropX1" name="x1" readonly="true"/></label>
+          <label>Y1 <input type="text" size="4" id="#{fancyboxFormId}_cropX2" name="y1" readonly="true"/></label>
+          <label>X2 <input type="text" size="4" id="#{fancyboxFormId}_cropY1" name="x2" readonly="true"/></label>
+          <label>Y2 <input type="text" size="4" id="#{fancyboxFormId}_cropY2" name="y2" readonly="true"/></label>
+          <label>Width <input type="text" size="4" id="#{fancyboxFormId}_cropW" name="w" readonly="true"/></label>
+          <label>Height <input type="text" size="4" id="#{fancyboxFormId}_cropH" name="h" readonly="true"/></label>
+        </div>
+      </div>
+      <p></p>
+      <div id="#{fancyboxFormId}_divImg" style="padding:5px; width: #{imageCropHelper.getImageBoxWidth()}px; height: #{imageCropHelper.getImageBoxHeight()}px;">
+        <img id="#{fancyboxFormId}_img" src="#{nxd:fileUrl('downloadPicture', document, imageCropHelper.getimageViewName(), currentDocument.dublincore.modified)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageCropHelper.getImageWidth()}px" height="#{imageCropHelper.getImageHeight()}px" />
+      </div>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        NxCrop.init("#{fancyboxFormId}", "#{currentDocument.id}");
+    </script>
+  </div>
+
+</div>
