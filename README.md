@@ -9,13 +9,22 @@ So, into this Labs, we try to capitalize all developments produced.
 
 Feel free to use it or let's be inspired for your own code. 
 
-* _nuxeo-labs-operations_: contains interesting operations about list management and an advanced email operation with an easier signature and cc/bcc/replyto configuration
-* _nuxeo-labs-we-publication_: expose the publication as a cool webengine application
-* _nuxeo-labs-template-rendition-publisher_: An Automation operation that enable to publish template rendition. You can use this operation with the plugin : nuxeo template rendering
-* _nuxeo-labs-video_: An helper class (MediaInfoHelper) to call mediainfo -i on video blobs and parse the result.
-* _nuxeo-labs-images_: creates converters to images (PNG, add overlay...)
-* _nuxeo-labs-fancybox_: helpers which make it super simple to display a form in a fancybox and pass the values to an automation chain. 
-* _resources_ are free to use resources for your Studio project (icons, background image, etc...)
+* [_nuxeo-labs-fancybox_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-fancybox): In Studio, define a layout, a callback Automation Chain and an XML Extension. You now have a Fancybox dialog, and in the automaiton chain, you get the values enetered by the user
+* [_nuxeo-labs-images_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-images):
+  * Operations to convert, watermark, crop, ... images
+  * Crop toolbar button with UI
+* [_nuxeo-labs-operations_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-operations): Contains interesting operations about list management and an advanced email operation with an easier signature and cc/bcc/replyto configuration
+* [_nuxeo-labs-signature](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-signature) provides an automation operation which applies a digital signature to an input pdf file
+* [_nuxeo-labs-template-rendition-publisher_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-template-rendition-publisher): An Automation operation that enables to publish a template rendition. You can use this operation with the `nuxeo-template-rendering` plug-in
+* [_nuxeo-labs-video_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-video):
+  * Helper class (using `MediaInfoHelper`) to call `mediainfo -i` on video blobs and parse the result.
+  * With operations you can use in your chains
+* [_nuxeo-labs-we-publication_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-we-publication): Displays the `Sections` as a cool webengine application
+* Others:
+  * [_nuxeo-labs-dam-default-tab_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-dam-default-tab)
+    *  Overrides the default startup helper to select the DAM view by default when a user connects to the application
+    *  *NOTE*: It is not included in the Marketplace Package and its .jar must be installed manually (typically in the `plugins` folder of `nxserver`)
+  * [_resources_](https://github.com/nuxeo/nuxeo-labs/tree/master/resources) are free to use resources for your Studio project (icons, background image, etc...)
 
 ## About Nuxeo
 
