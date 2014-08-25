@@ -14,7 +14,7 @@ Feel free to use it or let's be inspired for your own code.
   * Operations to convert, watermark, crop, ... images
   * Crop toolbar button with UI
 * [_nuxeo-labs-operations_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-operations): Contains interesting operations about list management and an advanced email operation with an easier signature and cc/bcc/replyto configuration
-* [_nuxeo-labs-signature](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-signature) provides an automation operation which applies a digital signature to an input pdf file
+* [_nuxeo-labs-signature_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-signature) provides an automation operation which applies a digital signature to an input pdf file
 * [_nuxeo-labs-template-rendition-publisher_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-template-rendition-publisher): An Automation operation that enables to publish a template rendition. You can use this operation with the `nuxeo-template-rendering` plug-in
 * [_nuxeo-labs-video_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-video):
   * Helper class (using `MediaInfoHelper`) to call `mediainfo -i` on video blobs and parse the result.
