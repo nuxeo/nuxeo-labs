@@ -32,11 +32,11 @@ Also, each operation is documented: In Studio, when you select the operation, it
   * If `targetFileName` is not provided, the output blob filename will be the same as input blob (possibly with another extension - in case of format change for example).
   * f `targetFileSuffix` is used, it will be added to the target file name, *before* the extension. So, for example, if the destination file name is `mypict.jpg` and the suffix is `-copy`, the target file name will be `mypict-copy.jpg`.
 
-* `Conversion > Image: Change Format` (operation ID `ImageChangeFormat`)
+* **`Conversion > Image: Change Format`** (operation ID `ImageChangeFormat`)
 
   Receives a `blob` (picture binary) as input, converts it to another format (`format` parameter), and returns the converted `blob`. See [ImageMagick documentation](http://www.imagemagick.org/script/formats.php) to check the available formats
 
-* `Conversion > Image: Crop` (operation ID `ImageCrop`)
+* **`Conversion > Image: Crop`** (operation ID `ImageCrop`)
   * Receives a `blob` (picture binary) as input, crops it using the parameters, returns the cropped `blob`
   * Parameters:
     * `top`, `left`, `widht`, `height` define the position and size of the crop
@@ -48,12 +48,12 @@ Also, each operation is documented: In Studio, when you select the operation, it
         * And the crop is 10, 10, 200, 200
       * ... then the final crop on the original picture will be 40, 40, 800, 800, so there will be no changes for the user.
 
-* `Conversion > Image: Crop and Save in Document` (operation ID `ImageCropInDocument`)
+* **`Conversion > Image: Crop and Save in Document`** (operation ID `ImageCropInDocument`)
   * Receives a Document as input. Gets it's main file (`file:content`) and crops it (see `ImageCrop`)
   * The cropped image becomes the new main file of the Document.
   * The optionnal `incrementVersion` parameter makes it possible to increment the version of the document *before* replacing the main file.
   
-* `Conversion > Image: Watermark with Text` (operation ID `ImageWatermarkWithText`)
+* **`Conversion > Image: Watermark with Text`** (operation ID `ImageWatermarkWithText`)
   * Receives a `blob` (picture binary) as input, adds the watermark using the parameters, returns the watermarked `blob`.
   * There are many parameters, all optionnal but the `textValue`:
     * `textValue`
@@ -66,7 +66,7 @@ Also, each operation is documented: In Studio, when you select the operation, it
     * `xOffset`: Default value `0`
     * `yOffset`: Default value `0`
 
-* `Conversion > GenericConverter`
+* **`Conversion > GenericConverter`**
   * As its name state, this converter is generic. Which means that you must tell it what converter to use, and which parameters to inject
   * The parameters are:
     * `converterName`: The exact name (case sensitive) as the one you declared in Studio or of one of the converters provoided by this plug-in
