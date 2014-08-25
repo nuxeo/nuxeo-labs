@@ -1,8 +1,8 @@
-<component name="org.nuxeo.labs.images.GenericConverter">
+<component name="org.nuxeo.labs.images.GenericConverterOp">
 
   <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
     point="operations" >
-      <operation class="org.nuxeo.labs.images.GenericConverter" />
+      <operation class="org.nuxeo.labs.images.GenericConverterOp" />
    </extension>
     
 </component>

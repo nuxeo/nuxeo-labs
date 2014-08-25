@@ -23,6 +23,18 @@
         <parameter name="CommandLineName">backgroundColorChange</parameter>
       </parameters>
     </converter>
+    
+		<converter name="textWatermarking" class="org.nuxeo.labs.images.GenericImageMagickConverter">
+			<parameters>
+				<parameter name="CommandLineName">textWatermarking</parameter>
+			</parameters>
+		</converter>
+		
+		<converter name="imageCropping" class="org.nuxeo.labs.images.GenericImageMagickConverter">
+			<parameters>
+				<parameter name="CommandLineName">imageCropping</parameter>
+			</parameters>
+		</converter>
 </extension>
 
 <require>org.nuxeo.ecm.platform.commandline.executor.service.defaultContrib</require>
@@ -48,6 +60,19 @@
       <parameterString>#{sourceFilePath} #{targetFilePath}.#{format}</parameterString>
       <installationDirective>You need to install ImageMagick.</installationDirective>
     </command>
+    
+		<command name="textWatermarking" enabled="true">
+			<commandLine>convert</commandLine>
+			<parameterString>#{sourceFilePath} -gravity #{gravity} -fill #{textColor}  -stroke #{strokeColor} -strokewidth #{strokeWidth} -pointsize #{textSize} -annotate #{textRotation}x#{textRotation}+#{xOffset}+#{yOffset} #{textValue} "#{targetFilePath}"</parameterString>
+			<installationDirective>You need to install ImageMagick.</installationDirective>
+		</command>
+
+		<command name="imageCropping" enabled="true">
+			<commandLine>convert</commandLine>
+			<parameterString>#{sourceFilePath} -crop #{width}x#{height}+#{left}+#{top} #{targetFilePath}</parameterString>
+			<installationDirective>You need to install ImageMagick.</installationDirective>
+		</command>
+		
  </extension>
 </component>
 

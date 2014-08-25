@@ -2,11 +2,16 @@ Manifest-Version: 1.0
 Bundle-Vendor: Nuxeo
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Bundle-Version: 5.7-I20130303_0116
+Bundle-Version: 5.9.6
 Bundle-Name: nuxeo-labs-images
-Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.images.GenericConv
- erter.xml,OSGI-INF/extensions/conversions.xml
 Bundle-ManifestVersion: 2
+Nuxeo-Component: OSGI-INF/extensions/conversions.xml,OSGI-INF/extensio
+ ns/org.nuxeo.labs.images.GenericConverterOp.xml,OSGI-INF/extensions/o
+ rg.nuxeo.labs.images.ImageChangeFormatOp.xml,OSGI-INF/extensions/org.
+ nuxeo.labs.images.ImageCropInDocumentOp.xml,OSGI-INF/extensions/org.n
+ uxeo.labs.images.ImageCropOp.xml,OSGI-INF/theme-contrib.xml,OSGI-INF/
+ extensions/nuxeo-labs-actions-contrib.xml,OSGI-INF/extensions/org.nux
+ eo.labs.images.ImageWatermarkWithTextOp.xml
 Bundle-SymbolicName: nuxeo-labs-images
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 
