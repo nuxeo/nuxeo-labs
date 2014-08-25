@@ -9,7 +9,7 @@ So, into this Labs, we try to capitalize all developments produced.
 
 Feel free to use it or let's be inspired for your own code. 
 
-* [_nuxeo-labs-fancybox_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-fancybox): In Studio, define a layout, a callback Automation Chain and an XML Extension. You now have a Fancybox dialog, and in the automaiton chain, you get the values enetered by the user
+* [_nuxeo-labs-fancybox_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-fancybox): In Studio, define a layout, a callback Automation Chain and an XML Extension. You now have a Fancybox dialog, and in the automation chain, you get the values enetered by the user
 * [_nuxeo-labs-images_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-images):
   * Operations to convert, watermark, crop, ... images
   * Crop toolbar button with UI
