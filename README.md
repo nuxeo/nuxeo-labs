@@ -1,13 +1,11 @@
 Nuxeo Labs
 ===================
 
-Nuxeo Solution Architects team is daily producing prototypes for our future customers to help them to imagine what can be done with the Nuxeo Platform. Some features recurrently are needed and missing into the Nuxeo Platform.
+Nuxeo Solution Architects team produces prototypes for our current and future customers to help them solve a specific problem they have that is not currently a part of the Nuxeo Platform. When something that could be valuable to other users comes out of it, we publish them openly into the nuxeo-labs repository.
 
-So, into this Labs, we try to capitalize all developments produced. 
+**These features are not a part of the supported Production platform** Nuxeo does not support usage of this code as part of any Nuxeo Connect Subscription. This is a moving project (no API maintenance, no depreciation process, etc...). If some developments can be useful for the Nuxeo Platform according Tech Lead team, we will move these develoments into the next version of Nuxeo Platform. Note: this has alredy happened and Nuxeo Labs contains good candidates for integration in the platform.
 
-**These development are not recommended for Production platform** as Nuxeo will not support usage of these development. This is a moving project (no API maintenance, no depreciation process, etc...). If some developments can be useful for the Nuxeo Platform according Tech Lead team, we will move these develoments into the next version of Nuxeo Platform. Notice that this has alredy happened, and we can say that Nuxeo Labs contains good candidates for integration in the platform.
-
-Feel free to use it or let's be inspired for your own code. 
+Feel free to use it or be inspired for your own code. 
 
 * [_nuxeo-labs-fancybox_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-fancybox): In Studio, define a layout, a callback Automation Chain and an XML Extension. You now have a Fancybox dialog, and in the automation chain, you get the values enetered by the user
 * [_nuxeo-labs-images_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-images):
