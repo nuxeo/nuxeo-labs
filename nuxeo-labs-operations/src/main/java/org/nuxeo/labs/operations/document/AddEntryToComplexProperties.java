@@ -1,10 +1,12 @@
 /**
- * 
+ *
  */
 
 package org.nuxeo.labs.operations.document;
 
+import java.io.IOException;
 import java.util.List;
+
 import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.OperationException;
@@ -30,14 +32,14 @@ import org.nuxeo.ecm.core.schema.types.ListType;
 public class AddEntryToComplexProperties {
 
     public static final String ID = "AddComplexProperty";
-    
+
 
     @Context
     protected CoreSession session;
-	
+
     @Context
 	protected AutomationService service;
-    
+
     @Context
     protected OperationContext ctx;
 
@@ -51,25 +53,25 @@ public class AddEntryToComplexProperties {
     protected boolean save = true;
 
     @OperationMethod(collector=DocumentModelCollector.class)
-    public DocumentModel run(DocumentModel doc) throws Exception {
+    public DocumentModel run(DocumentModel doc) throws OperationException, IOException  {
     	Property complexMeta = doc.getProperty(xpath);
     	ListType ltype = (ListType) complexMeta.getField().getType();
-    	
+
     	if (!ltype.getFieldType().isComplexType()) {
     		throw new OperationException(
                     "Property type is not supported by this operation");
     	}
-        
-    	List<Object> newVals = ComplexTypeJSONDecoder.decodeList(ltype, ComplexJsonProperties);		
+
+    	List<Object> newVals = ComplexTypeJSONDecoder.decodeList(ltype, ComplexJsonProperties);
         for(Object newVal : newVals){
         	complexMeta.addValue(newVal);
         }
-    	
+
         if (save) {
             doc = session.saveDocument(doc);
             session.save();
         }
-      return doc; 
-    }    
+      return doc;
+    }
 
 }

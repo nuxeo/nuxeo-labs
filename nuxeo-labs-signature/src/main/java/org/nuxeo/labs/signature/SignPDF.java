@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 
 package org.nuxeo.labs.signature;
@@ -11,8 +11,10 @@ import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.platform.signature.api.exception.SignException;
 import org.nuxeo.ecm.platform.signature.api.sign.SignatureService;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
@@ -45,7 +47,7 @@ public class SignPDF {
     protected String reason;
 
     @OperationMethod
-    public Blob run(Blob blob) throws Exception {
+    public Blob run(Blob blob) throws ClientException, SignException {
         SignatureService service = Framework.getLocalService(SignatureService.class);
         DocumentModel user = umgr.getUserModel(username);
         return service.signPDF(blob,user,password,reason);

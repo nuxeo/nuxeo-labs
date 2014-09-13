@@ -93,7 +93,7 @@ public class ImageCropOp {
     protected String targetFileNameSuffix = "";
 
     @OperationMethod(collector=BlobCollector.class)
-    public Blob run(Blob inBlob) throws Exception {
+    public Blob run(Blob inBlob) {
 
         if(width ==0 || height == 0) {
             return inBlob;

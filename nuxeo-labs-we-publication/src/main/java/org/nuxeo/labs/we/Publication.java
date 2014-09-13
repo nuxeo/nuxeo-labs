@@ -137,7 +137,7 @@ public class Publication extends ModuleRoot {
 
 	}
 
-    public String getDownloadURL(DocumentModel doc) throws Exception {
+    public String getDownloadURL(DocumentModel doc) throws ClientException {
         if (doc == null) {
             return null;
         }
