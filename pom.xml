@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.nuxeo</groupId>
@@ -17,7 +18,7 @@
     <module>nuxeo-labs-images</module>
     <module>nuxeo-labs-template-rendition-publisher</module>
     <module>nuxeo-labs-video</module>
-	<module>nuxeo-labs-fancybox</module>
+    <module>nuxeo-labs-fancybox</module>
     <module>nuxeo-labs-mp</module>
     <module>nuxeo-labs-signature</module>
   </modules>
@@ -51,7 +52,7 @@
       <artifactId>nuxeo-labs-images</artifactId>
       <version>${nuxeo.labs.version}</version>
     </dependency>
-	<dependency>
+    <dependency>
       <groupId>org.nuxeo.labs</groupId>
       <artifactId>nuxeo-labs-fancybox</artifactId>
       <version>${nuxeo.labs.version}</version>
