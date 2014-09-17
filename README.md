@@ -1,7 +1,7 @@
 # Nuxeo Labs
 ===
 
-The Nuxeo Solution Architects team is constantly producing prototype solutions for our current and future customers. From time to time customers have a problem that is not solved by the core Nuxeo platform, so we build a custom solution to solve it. [Nuxeo Labs](https://github.com/jfletcher-nuxeo/nuxeo-labs) contains those custom solutions we feel may enjoy usage by a wider audience.
+The Nuxeo Solution Architects team is constantly producing prototype solutions for our current and future customers. From time to time customers have a problem that is not solved by the core Nuxeo platform, so we build a custom solution to solve it. [Nuxeo Labs](https://github.com/nuxeo/nuxeo-labs) contains those custom solutions we feel may enjoy usage by a wider audience.
 
 ## Build
 
