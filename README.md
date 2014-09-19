@@ -32,7 +32,7 @@ These solutions are provided as examples and inspiration.
   * Operations including convert, watermark, crop, etc. for images.
   * Crop toolbar button with UI.
 * [_nuxeo-labs-operations_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-operations)
-    * Contains interesting operations for list management and an advanced email operation with an easier signature and cc/bcc/replyto configuration.
+    * Contains interesting operations for list management, also a redirect operation and an advanced email operation with an easier signature and cc/bcc/replyto configuration.
 * [_nuxeo-labs-signature_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-signature)
     * Provides an Automation operation that applies a digital signature to a PDF file.
 * [_nuxeo-labs-template-rendition-publisher_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-template-rendition-publisher)
