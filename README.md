@@ -18,11 +18,11 @@ We also plan to eventually make it available from the "Package from Nuxeo Market
 
 ## Important Note
 
-**These features are not part of the supported Production platform.**
+**These features are not part of the Nuxeo Production platform.**
 
-Nuxeo does not support usage of this code as part of any Nuxeo Connect Subscription. This is a moving project (no API maintenance, no depreciation process, etc.). If any of these solutions are found to be useful for the Nuxeo Platform, they will be move into the next version of Nuxeo Platform.
+These solutions are provided for inspiration and we encourage customers to use them as code samples and learning resources.
 
-These solutions are provided as examples and inspiration.
+This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform, not maintained here.
 
 ## What's Inside?
 
