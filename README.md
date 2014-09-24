@@ -22,7 +22,7 @@ We also plan to eventually make it available from the "Package from Nuxeo Market
 
 These solutions are provided for inspiration and we encourage customers to use them as code samples and learning resources.
 
-This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform (but not maintained here).
+This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform, not maintained here.
 
 ## What's Inside?
 
