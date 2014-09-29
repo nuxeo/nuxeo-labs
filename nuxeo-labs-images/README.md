@@ -89,7 +89,7 @@ Also, each operation is documented: In Studio, when you select the operation, it
 <extension target="org.nuxeo.ecm.platform.commandline.executor.service.CommandLineExecutorComponent"
   point="command">
   <command name="MyCommandLine" enabled="true">
-    <!-- The ImageMagickCommand. Here, we use "convert" -->
+    <!-- The Command to use. Here, we use "convert", form ImageMagick -->
     <commandLine>convert</commandLine>
     <!-- The parameters to pass to the command line.
          Here, we use the conversion, from jpg to png for example
@@ -104,7 +104,9 @@ Also, each operation is documented: In Studio, when you select the operation, it
     * Now, you can use the `Conversion > GenericConverter` operation with the following parameters:
       * `converterName`: `MyConverter`
       * `parameters`: `theFormat=png`
-    * **IMPORTANT**: The names of the `sourceFilePath` and `targetFilePath` should not be modified, these names are hard-coded in the converter. Also, the value of `sourceFilePath` is provided by the converter (using the input blob), so you don't have to handle it
+    * **IMPORTANT**: The names of the `sourceFilePath` and `targetFilePath` must not be modified, these names are hard-coded in the converter.
+        * `sourceFilePath` is provided by the converter (using the input blob), so you don't have to handle it. Don't use it in the parameters
+        * `targetFilePath` is misnamed. It actually should be "targetFileName, because it must be filled with the name of the resulting file, including the extension.
 
 # Crop Toolbar Button
 
