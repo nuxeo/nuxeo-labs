@@ -105,10 +105,10 @@ public class AdvancedSendEmail {
     @Param(name = "files", required = false)
     protected StringList blobXpath;
 
-    @Param(name = "viewId", required = false, values = {"view_documents"})
+    @Param(name = "viewId", required = false, values = { "view_documents" })
     protected String viewId = "view_documents";
 
-    @Param(name = "rollbackOnError", required = false, values = {"true"})
+    @Param(name = "rollbackOnError", required = false, values = { "true" })
     protected boolean rollbackOnError = true;
 
     @Param(name = "Strict User Resolution", required = false)

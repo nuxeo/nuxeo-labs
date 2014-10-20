@@ -43,50 +43,46 @@ public class GenericConverterOp {
 
     public static final String ID = "GenericConverter";
 
-	public static final Log log = LogFactory
-			.getLog(GenericConverterOp.class);
+    public static final Log log = LogFactory.getLog(GenericConverterOp.class);
 
-	@Param(name = "converterName")
-	protected String converterName;
+    @Param(name = "converterName")
+    protected String converterName;
 
-	@Param(name = "parameters",  required = false)
-	protected Properties parameters;
+    @Param(name = "parameters", required = false)
+    protected Properties parameters;
 
-	@OperationMethod(collector = BlobCollector.class)
-	public Blob run(Blob input) {
+    @OperationMethod(collector = BlobCollector.class)
+    public Blob run(Blob input) {
 
-		try {
+        try {
 
-			ConversionService conversionService = Framework
-					.getService(ConversionService.class);
+            ConversionService conversionService = Framework.getService(ConversionService.class);
 
-			BlobHolder source = new SimpleBlobHolder(input);
+            BlobHolder source = new SimpleBlobHolder(input);
 
-			Map<String, Serializable> serializableParameters = new HashMap<String, Serializable>();
+            Map<String, Serializable> serializableParameters = new HashMap<String, Serializable>();
 
-			if (parameters !=null) {
-				Set<String> parameterNames = parameters.keySet();
+            if (parameters != null) {
+                Set<String> parameterNames = parameters.keySet();
 
-				for (String parameterName : parameterNames) {
-					serializableParameters.put(parameterName,
-							parameters.get(parameterName));
-				}
-			}
+                for (String parameterName : parameterNames) {
+                    serializableParameters.put(parameterName,
+                            parameters.get(parameterName));
+                }
+            }
 
+            log.debug("Converter Being called:" + converterName);
+            BlobHolder result = conversionService.convert(converterName,
+                    source, serializableParameters);
 
-			log.debug("Converter Being called:"+converterName);
-			BlobHolder result = conversionService.convert(converterName,
-					source, serializableParameters);
+            return result.getBlob();
 
-			return result.getBlob();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            log.error("Error during conversion", e);
+        }
 
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error("Error during conversion",e);
-		}
-
-		return null;
-	}
+        return null;
+    }
 
 }

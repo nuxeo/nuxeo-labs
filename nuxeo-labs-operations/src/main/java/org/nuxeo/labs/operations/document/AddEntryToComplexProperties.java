@@ -35,23 +35,19 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.Property;
 import org.nuxeo.ecm.core.schema.types.ListType;
 
-
-
-
 /**
  * @author fvadon
  */
-@Operation(id=AddEntryToComplexProperties.ID, category=Constants.CAT_DOCUMENT, label="Add Complex Property From Json String", description="This operation can add new fields to a multivalued complex metadata. The value parameter is a String containing the JSON list of new value for the metadata given in xpath")
+@Operation(id = AddEntryToComplexProperties.ID, category = Constants.CAT_DOCUMENT, label = "Add Complex Property From Json String", description = "This operation can add new fields to a multivalued complex metadata. The value parameter is a String containing the JSON list of new value for the metadata given in xpath")
 public class AddEntryToComplexProperties {
 
     public static final String ID = "AddComplexProperty";
-
 
     @Context
     protected CoreSession session;
 
     @Context
-	protected AutomationService service;
+    protected AutomationService service;
 
     @Context
     protected OperationContext ctx;
@@ -65,26 +61,28 @@ public class AddEntryToComplexProperties {
     @Param(name = "save", required = false, values = { "true" })
     protected boolean save = true;
 
-    @OperationMethod(collector=DocumentModelCollector.class)
-    public DocumentModel run(DocumentModel doc) throws OperationException, IOException  {
-    	Property complexMeta = doc.getProperty(xpath);
-    	ListType ltype = (ListType) complexMeta.getField().getType();
+    @OperationMethod(collector = DocumentModelCollector.class)
+    public DocumentModel run(DocumentModel doc) throws OperationException,
+            IOException {
+        Property complexMeta = doc.getProperty(xpath);
+        ListType ltype = (ListType) complexMeta.getField().getType();
 
-    	if (!ltype.getFieldType().isComplexType()) {
-    		throw new OperationException(
+        if (!ltype.getFieldType().isComplexType()) {
+            throw new OperationException(
                     "Property type is not supported by this operation");
-    	}
+        }
 
-    	List<Object> newVals = ComplexTypeJSONDecoder.decodeList(ltype, ComplexJsonProperties);
-        for(Object newVal : newVals){
-        	complexMeta.addValue(newVal);
+        List<Object> newVals = ComplexTypeJSONDecoder.decodeList(ltype,
+                ComplexJsonProperties);
+        for (Object newVal : newVals) {
+            complexMeta.addValue(newVal);
         }
 
         if (save) {
             doc = session.saveDocument(doc);
             session.save();
         }
-      return doc;
+        return doc;
     }
 
 }

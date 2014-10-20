@@ -66,7 +66,7 @@ import static org.junit.Assert.assertNotNull;
         "org.nuxeo.labs.signature.test:OSGI-INF/directory-contrib.xml",
         "org.nuxeo.labs.signature.test:OSGI-INF/schema-contrib.xml",
         "org.nuxeo.labs.signature.test:OSGI-INF/cuser-contrib.xml",
-        "org.nuxeo.labs.signature.test:OSGI-INF/root-contrib.xml"})
+        "org.nuxeo.labs.signature.test:OSGI-INF/root-contrib.xml" })
 public class SignPDFTest {
 
     @Inject
@@ -87,7 +87,6 @@ public class SignPDFTest {
     @Inject
     AutomationService automationService;
 
-
     private static final String ORIGINAL_PDF = "pdf-tests/original.pdf";
 
     private static final String USER_KEY_PASSWORD = "abc";
@@ -99,7 +98,6 @@ public class SignPDFTest {
     private File origPdfFile;
 
     private DocumentModel user;
-
 
     /**
      * Signing Prerequisite: a user with a certificate needs to be present
@@ -144,11 +142,9 @@ public class SignPDFTest {
         OperationContext ctx = new OperationContext(session);
         ctx.setInput(origBlob);
         OperationChain chain = new OperationChain("signTest");
-        chain.add(SignPDF.ID).
-                set("password", USER_KEY_PASSWORD).
-                set("reason", "TEST").
-                set("username",DEFAULT_USER_ID);
-        Blob signedBlob = (Blob) automationService.run(ctx,chain);
+        chain.add(SignPDF.ID).set("password", USER_KEY_PASSWORD).set("reason",
+                "TEST").set("username", DEFAULT_USER_ID);
+        Blob signedBlob = (Blob) automationService.run(ctx, chain);
         assertNotNull(signedBlob);
     }
 }

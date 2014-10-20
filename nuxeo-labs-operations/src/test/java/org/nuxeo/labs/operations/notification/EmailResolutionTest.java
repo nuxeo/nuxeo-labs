@@ -113,7 +113,8 @@ public class EmailResolutionTest {
             operation.getEmailFromString("toto");
             fail();
         } catch (ClientException e) {
-            assertEquals("User or group not found and not an email toto", e.getMessage());
+            assertEquals("User or group not found and not an email toto",
+                    e.getMessage());
         }
     }
 
@@ -125,7 +126,8 @@ public class EmailResolutionTest {
             operation.getEmailFromString("user1");
             fail();
         } catch (ClientException e) {
-            assertEquals("User or group not found and not an email user1", e.getMessage());
+            assertEquals("User or group not found and not an email user1",
+                    e.getMessage());
         }
 
         operation.isStrict = false;
@@ -142,9 +144,12 @@ public class EmailResolutionTest {
     }
 
     @Test
-    public void shouldResolveListOfMixedValueAccordingStringResolution() throws ClientException {
+    public void shouldResolveListOfMixedValueAccordingStringResolution()
+            throws ClientException {
         operation.isStrict = true;
-        List<String> value = Arrays.asList(new String[]{"unknown@example.com", "user:user2", "user:user3@test.com", "group:members" });
+        List<String> value = Arrays.asList(new String[] {
+                "unknown@example.com", "user:user2", "user:user3@test.com",
+                "group:members" });
         List<String> result = operation.getEmails(value, "TO");
 
         assertEquals(5, result.size());
@@ -155,6 +160,5 @@ public class EmailResolutionTest {
         assertEquals("user3@example.com", result.get(4));
 
     }
-
 
 }

@@ -37,7 +37,6 @@ import org.nuxeo.ecm.core.api.impl.SimpleDocumentModel;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
 import org.nuxeo.runtime.api.Framework;
 
-
 @Name("fancyBoxHelper")
 @Scope(CONVERSATION)
 public class FancyBoxHelperBean implements Serializable {
@@ -45,7 +44,7 @@ public class FancyBoxHelperBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final Log log = LogFactory.getLog(FancyBoxHelperBean.class);
-    
+
     @In(create = true)
     protected transient CoreSession documentManager;
 
@@ -57,10 +56,8 @@ public class FancyBoxHelperBean implements Serializable {
 
     @In(create = true)
     protected Map<String, String> messages;
-    
-   
+
     protected DocumentModel fictiveDocumentModel;
-    
 
     public DocumentModel getDocumentModel() {
         if (fictiveDocumentModel == null) {
@@ -69,35 +66,32 @@ public class FancyBoxHelperBean implements Serializable {
         return fictiveDocumentModel;
     }
 
-        
-	public String process(String automationChain) throws ClientException {
+    public String process(String automationChain) throws ClientException {
         if (fictiveDocumentModel != null) {
-        	
-        	// Input setting
-        	OperationContext ctx = new OperationContext(documentManager);
-        	
-        	DocumentModel doc = navigationContext.getCurrentDocument();
 
-        	ctx.setInput(doc);
-        	// Context Variable setting
-        	ctx.put("data", fictiveDocumentModel);
-        	
-       	
-			try {
-				AutomationService service = Framework.getLocalService(AutomationService.class);
-	        	service.run(ctx, automationChain);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				log.error("Could not run the chain: " + automationChain, e);
-			}
-			
+            // Input setting
+            OperationContext ctx = new OperationContext(documentManager);
+
+            DocumentModel doc = navigationContext.getCurrentDocument();
+
+            ctx.setInput(doc);
+            // Context Variable setting
+            ctx.put("data", fictiveDocumentModel);
+
+            try {
+                AutomationService service = Framework.getLocalService(AutomationService.class);
+                service.run(ctx, automationChain);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                log.error("Could not run the chain: " + automationChain, e);
+            }
+
             fictiveDocumentModel = null;
         }
-        
+
         return null;
     }
 
-   
     public void cancel() {
         fictiveDocumentModel = null;
     }

@@ -32,62 +32,64 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
-
 /**
  * The root entry for the WebEngine module.
+ * 
  * @author fvadon
  */
 
 @Produces("text/html;charset=UTF-8")
-@WebObject(type="Section")
+@WebObject(type = "Section")
 public class Section extends Publication {
 
-	private static final Log log = LogFactory.getLog(Section.class);
+    private static final Log log = LogFactory.getLog(Section.class);
 
-	@Override
+    @Override
     @GET
-	public Object doGet() {
-		return getView("index");
-	}
+    public Object doGet() {
+        return getView("index");
+    }
 
-	@Override
+    @Override
     @Path("section/{id}")
-	public Resource getsectionContent(@PathParam("id") String id){
-		return newObject("Section", id);
+    public Resource getsectionContent(@PathParam("id")
+    String id) {
+        return newObject("Section", id);
 
-	}
+    }
 
-
-	@Override
+    @Override
     protected void initialize(Object... arg) {
-		String id = (String) arg[0];
-		CoreSession session = null;
-		DocumentModel currentSection;
-		DocumentModelList childSections = null;
-		DocumentModelList childrenContent;
-		session = ctx.getCoreSession();
-		HashMap latestPublicationsMap=new HashMap<DocumentModel, DocumentModelList>();
-		if (session != null) {
+        String id = (String) arg[0];
+        CoreSession session = null;
+        DocumentModel currentSection;
+        DocumentModelList childSections = null;
+        DocumentModelList childrenContent;
+        session = ctx.getCoreSession();
+        HashMap latestPublicationsMap = new HashMap<DocumentModel, DocumentModelList>();
+        if (session != null) {
 
-			try {
-				currentSection = session.query("SELECT * FROM Document WHERE ecm:uuid='"+id+"'").get(0);
-				childSections = session.query("SELECT * FROM Section WHERE  ecm:currentLifeCycleState != 'deleted' and ecm:parentId='"+currentSection.getId()+"'");
-				childrenContent = session.query("SELECT * FROM Document WHERE  ecm:primaryType!= 'Section' and ecm:currentLifeCycleState != 'deleted' and ecm:parentId='"+currentSection.getId()+"'");
-				ctx.setProperty("childSections", childSections);
-				ctx.setProperty("currentSection", currentSection);
-				ctx.setProperty("childrenContent", childrenContent);
-				latestPublicationsMap = getLatestPublicationMap(session, childSections);
-				ctx.setProperty("latestPublicationsMap", latestPublicationsMap);
+            try {
+                currentSection = session.query(
+                        "SELECT * FROM Document WHERE ecm:uuid='" + id + "'").get(
+                        0);
+                childSections = session.query("SELECT * FROM Section WHERE  ecm:currentLifeCycleState != 'deleted' and ecm:parentId='"
+                        + currentSection.getId() + "'");
+                childrenContent = session.query("SELECT * FROM Document WHERE  ecm:primaryType!= 'Section' and ecm:currentLifeCycleState != 'deleted' and ecm:parentId='"
+                        + currentSection.getId() + "'");
+                ctx.setProperty("childSections", childSections);
+                ctx.setProperty("currentSection", currentSection);
+                ctx.setProperty("childrenContent", childrenContent);
+                latestPublicationsMap = getLatestPublicationMap(session,
+                        childSections);
+                ctx.setProperty("latestPublicationsMap", latestPublicationsMap);
 
-				log.warn(childSections.size());
-			} catch (ClientException e) {
-				log.error(e);
-			}
+                log.warn(childSections.size());
+            } catch (ClientException e) {
+                log.error(e);
+            }
 
-		}
-	}
-
-
-
+        }
+    }
 
 }

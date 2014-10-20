@@ -29,31 +29,28 @@ import org.nuxeo.runtime.api.Framework;
 
 /**
  * @author Thibaud Arguillere
- *
+ * 
  * @since 5.9.6
- *
- * This class avoids having the same code in several operations, that's all.
- *
+ * 
+ *        This class avoids having the same code in several operations, that's
+ *        all.
+ * 
  */
 public class ConversionUtils {
 
     public static final Log myLog = LogFactory.getLog(ConversionUtils.class);
 
-    public static Blob convert(String inConverterName,
-                                Blob inBlob,
-                                Map<String, Serializable> inParams,
-                                String inTargetFileName) {
+    public static Blob convert(String inConverterName, Blob inBlob,
+            Map<String, Serializable> inParams, String inTargetFileName) {
         try {
 
-            ConversionService conversionService = Framework
-                    .getService(ConversionService.class);
+            ConversionService conversionService = Framework.getService(ConversionService.class);
 
             BlobHolder source = new SimpleBlobHolder(inBlob);
             BlobHolder result = conversionService.convert(inConverterName,
-                                                            source,
-                                                            inParams);
+                    source, inParams);
             Blob convertedBlob = result.getBlob();
-            if(inTargetFileName != null && !inTargetFileName.isEmpty()) {
+            if (inTargetFileName != null && !inTargetFileName.isEmpty()) {
                 convertedBlob.setFilename(inTargetFileName);
             }
             return convertedBlob;
@@ -65,29 +62,30 @@ public class ConversionUtils {
         return null;
     }
 
-    public static Blob convert(String inConverterName,
-                                Blob inBlob,
-                                Map<String, Serializable> inParams) {
+    public static Blob convert(String inConverterName, Blob inBlob,
+            Map<String, Serializable> inParams) {
 
         return ConversionUtils.convert(inConverterName, inBlob, inParams, null);
     }
 
     /*
-     * Centralize handling of the targetFileName
-     * (used in at least 3 operations => less code in the operation itself)
+     * Centralize handling of the targetFileName (used in at least 3 operations
+     * => less code in the operation itself)
      */
-    public static String updateTargetFileName(Blob inBlob, String inTargetFileName, String inTargetFileSuffix) {
+    public static String updateTargetFileName(Blob inBlob,
+            String inTargetFileName, String inTargetFileSuffix) {
 
         String updatedName = "";
 
-        if(inTargetFileName ==  null || inTargetFileName.isEmpty()) {
+        if (inTargetFileName == null || inTargetFileName.isEmpty()) {
             updatedName = inBlob.getFilename();
         } else {
             updatedName = inTargetFileName;
         }
 
-        if(inTargetFileSuffix != null && !inTargetFileSuffix.isEmpty()) {
-            updatedName = ConversionUtils.addSuffixToFileName(updatedName, inTargetFileSuffix);
+        if (inTargetFileSuffix != null && !inTargetFileSuffix.isEmpty()) {
+            updatedName = ConversionUtils.addSuffixToFileName(updatedName,
+                    inTargetFileSuffix);
         }
 
         return updatedName;
@@ -97,15 +95,17 @@ public class ConversionUtils {
      * Adds the suffix before the file extension, if any
      */
     public static String addSuffixToFileName(String inFileName, String inSuffix) {
-        if(inFileName == null || inFileName.isEmpty() || inSuffix == null || inSuffix.isEmpty()) {
+        if (inFileName == null || inFileName.isEmpty() || inSuffix == null
+                || inSuffix.isEmpty()) {
             return inFileName;
         }
 
         int dotIndex = inFileName.lastIndexOf('.');
-        if(dotIndex < 0) {
+        if (dotIndex < 0) {
             return inFileName + inSuffix;
         }
 
-        return inFileName.substring(0,dotIndex) + inSuffix + inFileName.substring(dotIndex);
+        return inFileName.substring(0, dotIndex) + inSuffix
+                + inFileName.substring(dotIndex);
     }
 }

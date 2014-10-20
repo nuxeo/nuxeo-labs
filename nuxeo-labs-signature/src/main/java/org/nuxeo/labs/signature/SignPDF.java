@@ -32,11 +32,10 @@ import org.nuxeo.ecm.platform.signature.api.sign.SignatureService;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
-
 /**
  * @author mvachette
  */
-@Operation(id= SignPDF.ID, category=Constants.CAT_CONVERSION, label="Sign PDF", description="Applies a digital signature to the input PDF")
+@Operation(id = SignPDF.ID, category = Constants.CAT_CONVERSION, label = "Sign PDF", description = "Applies a digital signature to the input PDF")
 public class SignPDF {
 
     public static final String ID = "SignPDF";
@@ -63,7 +62,7 @@ public class SignPDF {
     public Blob run(Blob blob) throws ClientException, SignException {
         SignatureService service = Framework.getLocalService(SignatureService.class);
         DocumentModel user = umgr.getUserModel(username);
-        return service.signPDF(blob,user,password,reason);
+        return service.signPDF(blob, user, password, reason);
     }
 
 }

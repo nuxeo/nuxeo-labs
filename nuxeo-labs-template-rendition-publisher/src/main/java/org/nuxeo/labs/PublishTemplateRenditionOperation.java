@@ -1,4 +1,3 @@
-
 /*
  * (C) Copyright 2014 Nuxeo SA (http://nuxeo.com/) and others.
  *
@@ -37,12 +36,11 @@ import org.nuxeo.template.adapters.doc.TemplateBindings;
 /**
  * @author fvadon
  */
-@Operation(id=PublishTemplateRenditionOperation.ID, category=Constants.CAT_DOCUMENT, label="Publish Template Rendition", description="Operation to publish a rendition of a document, the parameters are the target section and the template name: delivery for example. " +
-		"Gives back the original document for now (should give the published proxy of the document in the next version).")
+@Operation(id = PublishTemplateRenditionOperation.ID, category = Constants.CAT_DOCUMENT, label = "Publish Template Rendition", description = "Operation to publish a rendition of a document, the parameters are the target section and the template name: delivery for example. "
+        + "Gives back the original document for now (should give the published proxy of the document in the next version).")
 public class PublishTemplateRenditionOperation {
 
     public static final String ID = "PublishTemplateRendition";
-
 
     @Context
     protected CoreSession session;
@@ -56,14 +54,16 @@ public class PublishTemplateRenditionOperation {
     @Param(name = "target")
     protected DocumentModel target;
 
-    @OperationMethod(collector=DocumentModelCollector.class)
+    @OperationMethod(collector = DocumentModelCollector.class)
     public DocumentModel run(DocumentModel doc) throws ClientException {
-    	Map<String, String> params = new HashMap<String, String>();
-    	PublicationTree tree = service.getPublicationTreeFor(target, session);
-    	params.put(RenditionPublicationFactory.RENDITION_NAME_PARAMETER_KEY, templateName);
-    	service.publish(doc, tree.getNodeByPath(target.getPathAsString()),params);
+        Map<String, String> params = new HashMap<String, String>();
+        PublicationTree tree = service.getPublicationTreeFor(target, session);
+        params.put(RenditionPublicationFactory.RENDITION_NAME_PARAMETER_KEY,
+                templateName);
+        service.publish(doc, tree.getNodeByPath(target.getPathAsString()),
+                params);
 
-      return doc;
+        return doc;
     }
 
 }

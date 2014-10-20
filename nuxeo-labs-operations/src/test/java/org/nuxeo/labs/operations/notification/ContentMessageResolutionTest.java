@@ -63,7 +63,6 @@ public class ContentMessageResolutionTest {
 
     private AdvancedSendEmail operation;
 
-
     @Before
     public void init() throws Exception {
         session.removeChildren(session.getRootDocument().getRef());
@@ -93,6 +92,5 @@ public class ContentMessageResolutionTest {
         Message msg = operation.createContentMessage(src);
         assertEquals("Current doc: /src title: Source", msg.getContent());
     }
-
 
 }

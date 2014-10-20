@@ -5,20 +5,16 @@
   <extension target="org.nuxeo.ecm.platform.actions.ActionService"
     point="actions">
 
-    <action id="cropImageAction" order="0" label="Crop"
-      type="fancybox" icon="/icons/crop_image.png">
+    <action id="cropImageAction" order="0" label="Crop" type="fancybox"
+      icon="/icons/crop_image.png">
       <category>DOCUMENT_UPPER_ACTION</category>
       <category>DAM_ASSET_VIEW_ACTIONS</category>
       <filter-id>canCropImage</filter-id>
       <properties>
         <property name="include">/incl/nuxeo-labs-image-cropper.xhtml</property>
-        <!--
-        <property name="width">80%</property>
-        <property name="height">80%</property>
-        <property name="autoDimensions">false</property>
-        <property name="scrolling">no</property>
-        <property name="autoScale">false</property>
-        -->
+        <!-- <property name="width">80%</property> <property name="height">80%</property> 
+          <property name="autoDimensions">false</property> <property name="scrolling">no</property> 
+          <property name="autoScale">false</property> -->
       </properties>
     </action>
 
