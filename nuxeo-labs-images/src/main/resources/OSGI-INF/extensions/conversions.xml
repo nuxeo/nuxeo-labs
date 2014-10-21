@@ -1,5 +1,8 @@
 <component name="org.nuxeo.labs.images.conversions">
 
+  <!-- Please, do not format this file to nuxeo formating convention. On Windows, 
+    for example, we can't have line breaks in the command -->
+
   <extension target="org.nuxeo.ecm.core.convert.service.ConversionServiceImpl"
     point="converter">
     <!-- converter based on ImageMagick converter command line -->
@@ -50,25 +53,19 @@
     point="command">
     <command name="imageOverlay" enabled="true">
       <commandLine>convert</commandLine>
-      <parameterString>#{sourceFilePath} -gravity #{gravity} -fill #{textColor}
-        -stroke '#070536' -strokewidth 2 -pointsize #{textSize} -annotate
-        #{textRotation}x#{textRotation}+#{xOffset}+#{yOffset} #{textValue}
-        "#{targetFilePath}"</parameterString>
+      <parameterString>#{sourceFilePath} -gravity #{gravity} -fill #{textColor} -stroke '#070536' -strokewidth 2 -pointsize #{textSize} -annotate #{textRotation}x#{textRotation}+#{xOffset}+#{yOffset} #{textValue} #{targetFilePath}</parameterString>
       <installationDirective>You need to install ImageMagick.
       </installationDirective>
     </command>
     <command name="watermarking" enabled="true">
       <commandLine>composite</commandLine>
-      <parameterString>-dissolve 30 -gravity SouthEast #{watermark_path}
-        #{sourceFilePath} #{targetFilePath}</parameterString>
+      <parameterString>-dissolve 30 -gravity SouthEast #{watermark_path} #{sourceFilePath} #{targetFilePath}</parameterString>
       <installationDirective>You need to install ImageMagick.
       </installationDirective>
     </command>
     <command name="backgroundColorChange" enabled="true">
       <commandLine>convert</commandLine>
-      <parameterString>#{sourceFilePath} -alpha set -channel RGBA -fuzz 12%
-        -fill #{targetBackgroundColor} -floodfill +0+0 #{initialBackgroundColor}
-        #{targetFilePath}</parameterString>
+      <parameterString>#{sourceFilePath} -alpha set -channel RGBA -fuzz 12% -fill #{targetBackgroundColor} -floodfill +0+0 #{initialBackgroundColor} #{targetFilePath}</parameterString>
       <installationDirective>You need to install ImageMagick.
       </installationDirective>
     </command>
@@ -82,19 +79,14 @@
 
     <command name="textWatermarking" enabled="true">
       <commandLine>convert</commandLine>
-      <parameterString>#{sourceFilePath} -gravity #{gravity} -fill #{textColor}
-        -stroke #{strokeColor} -strokewidth #{strokeWidth} -pointsize
-        #{textSize} -annotate
-        #{textRotation}x#{textRotation}+#{xOffset}+#{yOffset} #{textValue}
-        "#{targetFilePath}"</parameterString>
+      <parameterString>#{sourceFilePath} -gravity #{gravity} -fill #{textColor} -stroke #{strokeColor} -strokewidth #{strokeWidth} -pointsize #{textSize} -annotate #{textRotation}x#{textRotation}+#{xOffset}+#{yOffset} #{textValue} #{targetFilePath}</parameterString>
       <installationDirective>You need to install ImageMagick.
       </installationDirective>
     </command>
 
     <command name="imageCropping" enabled="true">
       <commandLine>convert</commandLine>
-      <parameterString>#{sourceFilePath} -crop #{width}x#{height}+#{left}+#{top}
-        #{targetFilePath}</parameterString>
+      <parameterString>#{sourceFilePath} -crop #{width}x#{height}+#{left}+#{top} #{targetFilePath}</parameterString>
       <installationDirective>You need to install ImageMagick.
       </installationDirective>
     </command>
