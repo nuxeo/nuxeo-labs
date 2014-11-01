@@ -17,9 +17,6 @@
 package org.nuxeo.labs.images;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ScopeType;
@@ -32,6 +29,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.platform.picture.api.PictureView;
+import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
 
 /**
@@ -40,11 +39,11 @@ import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
  * small/medium image (void using the original multi-mega bytes image).
  * Possibly, the final width/height will be bigger than the image used, so the
  * browser will scale it.
- * 
+ *
  * When the user clicks "Crop" button, the crop itself is managed by the
  * JavaScript not by this Bean (see
  * resources/web/nuxeo.war/scripts/nuxeo-labs-image-cropper.js)
- * 
+ *
  * @since 5.9.6
  */
 @Name("imageCropHelper")
@@ -92,27 +91,26 @@ public class ImageCropHelperBean implements Serializable {
         try {
             currentDocument = navigationContext.getCurrentDocument();
 
-            ArrayList<Map<String, Object>> views = (ArrayList<Map<String, Object>>) currentDocument.getProperty(
-                    "picture", "views");
-
             imageWidth = 0;
             imageHeight = 0;
 
-            if (views != null) {
-                // Here, we should find the most appropriate view to
-                // use, depending on the width/height.
-                for (Map<String, Object> oneView : views) {
+            MultiviewPicture mvp = currentDocument.getAdapter(MultiviewPicture.class);
+            if(mvp != null) {
+                PictureView [] views = mvp.getViews();
+                for(PictureView oneView : views) {
+
                     long viewW = 0, viewH = 0;
                     String viewName;
 
-                    String title = (String) oneView.get("title");
-
+                    String title = oneView.getTitle();
                     viewName = title + ":content";
-                    viewW = (long) oneView.get("width");
-                    viewH = (long) oneView.get("height");
+
+                    viewW = oneView.getWidth();
+                    viewH = oneView.getHeight();
+
                     if (title.equalsIgnoreCase("Original")) {
-                        originalImageWidth = (long) oneView.get("width");
-                        originalImageHeight = (long) oneView.get("height");
+                        originalImageWidth = viewW;
+                        originalImageHeight = viewH;
                     }
 
                     if (viewW < kMAX_WIDTH) {
@@ -122,11 +120,10 @@ public class ImageCropHelperBean implements Serializable {
                             imageViewName = viewName;
                         }
                     }
+
                 }
 
-                // Either we have no views or none of them are < kMAX_WIDTH,
-                // which
-                // is very, very unlikely. Result will be weird anyway.
+                // Either we have no views or none of them are < kMAX_WIDTH which is very, very unlikely. Result will be weird anyway.
                 if (imageWidth == 0) {
                     // We do have a problem
                     log.warn("No  picture view found which is less than "
@@ -146,7 +143,7 @@ public class ImageCropHelperBean implements Serializable {
      * kMAX_WIDTH/kMAX_HEIGHT, and original width/height are greater, it means
      * we can resize the picture to kMAX_WIDTH/kMAX_HEIGHT. The picture used
      * will then be scaled, but it will be more comfortable for the user.
-     * 
+     *
      * - If they are greater than kMAX_WIDTH/kMAX_HEIGHT, then picture is
      * resized to the max. values.
      */

@@ -1,56 +1,46 @@
 <?xml version="1.0"?>
 <component name="org.nuxeo.ecm.platform.ui.nuxeo-labs-image-cropper.theme.contrib">
-	<require>org.nuxeo.theme.nuxeo.default</require>
-	<extension target="org.nuxeo.theme.styling.service" point="pages">
-		<themePage name="*">
-			<styles append="true">
-				<resource>nuxeo-labs-image-cropper.css</resource>
-			</styles>
-		</themePage>
-	</extension>
-	
-	<extension target="org.nuxeo.theme.services.ThemeService" point="views">
-		<view name="nuxeo5 includes" template-engine="jsf-facelets" merge="true">
-			<format-type>widget</format-type>
-			<resource>nuxeo-labs-image-cropper.js</resource>
-		</view>
-	</extension>
-	
-	<extension target="org.nuxeo.theme.services.ThemeService" point="resources">
-		<resource name="jquery.Jcrop.css">
-			<path>css/jquery.Jcrop.css</path>
-		</resource>
-		<resource name="jquery.Jcrop.js">
-			<path>scripts/jquery.Jcrop.js</path>
-			<require>jquery.js</require>
-		</resource>
-		
-		<!--
-		<resource name="nuxeo.js">
-			<path>scripts/nuxeo.js</path>
-			<require>jquery.js</require>
-		</resource>
-		-->
-		
-		<resource name="nuxeo-labs-image-cropper.js">
-			<path>scripts/nuxeo-labs-image-cropper.js</path>
-			<require>jquery.js</require>
-			<!--
-			<require>nuxeo.js</require>
-		-->
-			<require>jquery.Jcrop.js</require>
-		</resource>
-		
-		<resource name="nuxeo-labs-image-cropper.css">
-			<path>css/nuxeo-labs-image-cropper.css</path>
-		</resource>
-		
-	</extension>
+  <require>org.nuxeo.theme.nuxeo.default</require>
+  <extension target="org.nuxeo.theme.styling.service" point="pages">
+    <themePage name="*">
+      <styles append="true">
+        <resource>nuxeo-labs-image-cropper.css</resource>
+      </styles>
+    </themePage>
+  </extension>
 
-	<extension target="org.nuxeo.theme.styling.service" point="styles">
-		<style name="nuxeo-labs-image-cropper.css">
-			<src>themes/css/nuxeo-labs-image-cropper.css</src>
-		</style>
-	</extension>
+  <extension target="org.nuxeo.theme.services.ThemeService" point="views">
+    <view name="nuxeo5 includes" template-engine="jsf-facelets" merge="true">
+      <format-type>widget</format-type>
+      <resource>nuxeo-labs-image-cropper.js</resource>
+    </view>
+  </extension>
+
+  <extension target="org.nuxeo.theme.services.ThemeService" point="resources">
+    <resource name="jquery.Jcrop.css">
+      <path>css/jquery.Jcrop.css</path>
+    </resource>
+    <resource name="jquery.Jcrop.js">
+      <path>scripts/jquery.Jcrop.js</path>
+      <require>jquery.js</require>
+    </resource>
+
+    <resource name="nuxeo-labs-image-cropper.js">
+      <path>scripts/nuxeo-labs-image-cropper.js</path>
+      <require>jquery.js</require>
+      <require>jquery.Jcrop.js</require>
+    </resource>
+
+    <resource name="nuxeo-labs-image-cropper.css">
+      <path>css/nuxeo-labs-image-cropper.css</path>
+    </resource>
+
+  </extension>
+
+  <extension target="org.nuxeo.theme.styling.service" point="styles">
+    <style name="nuxeo-labs-image-cropper.css">
+      <src>themes/css/nuxeo-labs-image-cropper.css</src>
+    </style>
+  </extension>
 
 </component>
