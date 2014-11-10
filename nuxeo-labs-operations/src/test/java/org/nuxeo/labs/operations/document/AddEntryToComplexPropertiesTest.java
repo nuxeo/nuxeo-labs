@@ -34,7 +34,6 @@ import org.nuxeo.ecm.automation.client.Session;
 import org.nuxeo.ecm.automation.client.adapters.DocumentService;
 import org.nuxeo.ecm.automation.client.model.Document;
 import org.nuxeo.ecm.automation.client.model.PathRef;
-import org.nuxeo.ecm.automation.client.model.PropertyList;
 import org.nuxeo.ecm.automation.client.model.PropertyMap;
 import org.nuxeo.ecm.automation.core.operations.document.CreateDocument;
 import org.nuxeo.ecm.automation.core.operations.document.DeleteDocument;
@@ -52,11 +51,10 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import org.nuxeo.runtime.test.runner.Jetty;
-import org.nuxeo.runtime.test.runner.LocalDeploy;
 
 /**
  * @author fvadon
- * 
+ *
  */
 @RunWith(FeaturesRunner.class)
 @Deploy({
@@ -165,15 +163,17 @@ public class AddEntryToComplexPropertiesTest {
         chain.add(AddEntryToComplexProperties.ID).set("xpath", "ds:fields").set(
                 "ComplexJsonProperties", fieldsDataAsJSon);
 
-        service.run(ctx, chain);
-
+        DocumentModel resultDoc = (DocumentModel) service.run(ctx, chain);
+        java.util.ArrayList<?> dbFields = (java.util.ArrayList<?>) resultDoc.getPropertyValue("ds:fields");
+        assertEquals(5, dbFields.size());
+        /*
         testDoc = (Document) session.newRequest(
                 DocumentService.GetDocumentChild).setHeader(
                 Constants.HEADER_NX_SCHEMAS, "*").setInput(new PathRef("/")).set(
                 "name", "testDoc").execute();
-
         PropertyList dbFields = testDoc.getProperties().getList("ds:fields");
         assertEquals(5, dbFields.size());
+        */
 
         // Get new fields from json file to String
         fieldsAsJsonFile = FileUtils.getResourceFileFromContext("newField.json");
@@ -189,7 +189,10 @@ public class AddEntryToComplexPropertiesTest {
         chain.add(AddEntryToComplexProperties.ID).set("xpath", "ds:fields").set(
                 "ComplexJsonProperties", fieldsDataAsJSon);
 
-        service.run(ctx, chain);
+        resultDoc = (DocumentModel) service.run(ctx, chain);
+        dbFields = (java.util.ArrayList<?>) resultDoc.getPropertyValue("ds:fields");
+        assertEquals(7, dbFields.size());
+        /*
         testDoc = (Document) session.newRequest(
                 DocumentService.GetDocumentChild).setHeader(
                 Constants.HEADER_NX_SCHEMAS, "*").setInput(new PathRef("/")).set(
@@ -198,6 +201,7 @@ public class AddEntryToComplexPropertiesTest {
         assertEquals("testDoc", testDoc.getTitle());
         dbFields = testDoc.getProperties().getList("ds:fields");
         assertEquals(7, dbFields.size());
+        */
 
     }
 
