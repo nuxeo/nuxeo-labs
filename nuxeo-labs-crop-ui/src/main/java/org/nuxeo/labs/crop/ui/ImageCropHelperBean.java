@@ -14,7 +14,7 @@
  * Contributors:
  *     Thibaud Arguillere
  */
-package org.nuxeo.labs.images;
+package org.nuxeo.labs.crop.ui;
 
 import java.io.Serializable;
 import org.apache.commons.logging.Log;

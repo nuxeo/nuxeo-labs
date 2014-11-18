@@ -11,6 +11,7 @@
   <packaging>zip</packaging>
   <name>Market Place Package for Nuxeo Labs</name>
   <description/>
+  <!--  not include signature and crop-ui -->
   <dependencies>
     <dependency>
       <groupId>org.nuxeo.labs</groupId>

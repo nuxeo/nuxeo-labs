@@ -9,9 +9,8 @@ Nuxeo-Component: OSGI-INF/extensions/conversions.xml,OSGI-INF/extensio
  ns/org.nuxeo.labs.images.GenericConverterOp.xml,OSGI-INF/extensions/o
  rg.nuxeo.labs.images.ImageChangeFormatOp.xml,OSGI-INF/extensions/org.
  nuxeo.labs.images.ImageCropInDocumentOp.xml,OSGI-INF/extensions/org.n
- uxeo.labs.images.ImageCropOp.xml,OSGI-INF/theme-contrib.xml,OSGI-INF/
- extensions/nuxeo-labs-actions-contrib.xml,OSGI-INF/extensions/org.nux
- eo.labs.images.ImageWatermarkWithTextOp.xml
+ uxeo.labs.images.ImageCropOp.xml,OSGI-INF/extensions/org.nuxeo.labs.i
+ mages.ImageWatermarkWithTextOp.xml
 Bundle-SymbolicName: nuxeo-labs-images
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 

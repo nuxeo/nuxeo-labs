@@ -21,6 +21,7 @@
     <module>nuxeo-labs-fancybox</module>
     <module>nuxeo-labs-mp</module>
     <module>nuxeo-labs-signature</module>
+    <module>nuxeo-labs-crop-ui</module>
   </modules>
   <properties>
     <nuxeo.labs.version>7.1-SNAPSHOT</nuxeo.labs.version>
@@ -60,6 +61,11 @@
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-signature</artifactId>
+        <version>${nuxeo.labs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-crop-ui</artifactId>
         <version>${nuxeo.labs.version}</version>
       </dependency>
       <dependency>
