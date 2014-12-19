@@ -26,7 +26,7 @@
         value="#{action.properties.processLabel}"/>
       <a4j:commandButton styleClass="button"
         immediate="true" ajaxSingle="true"
-        action="#{fancyBoxHelper.cancel}"
+        action="#{fancyBoxHelper.cancel()}"
         value="#{messages['command.cancel']}"
         oncomplete="jQuery.fancybox.close();"/>
       <span class="displayN" id="#{fancyboxFormId}_waiter">
