@@ -4,4 +4,5 @@ Bundle-Name: Nuxeo Labs Test
 Bundle-SymbolicName: org.nuxeo.labs.operation.test;singleton:=true
 Bundle-Vendor: Nuxeo
 Bundle-Version: 1.0.0
-Nuxeo-Component: OSGI-INF/doc-type-contrib.xml, OSGI-INF/core-types-contrib.xml
+Nuxeo-Component: OSGI-INF/doc-type-contrib.xml, OSGI-INF/core-types-co
+ ntrib.xml, OSGI-INF/no-field-validation-contrib.xml
