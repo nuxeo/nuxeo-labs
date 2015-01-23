@@ -4,37 +4,11 @@
            elementFormDefault="qualified"
            targetNamespace="http://nuxeo.org/schemas/dataset/">
 
-    <xs:simpleType name="roleType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="BenchmarkIndicator"/>
-            <xs:enumeration value="Decision"/>
-            <xs:enumeration value="DecisionOverrideCode"/>
-            <xs:enumeration value="Predictor"/>
-            <xs:enumeration value="RecordDate"/>
-            <xs:enumeration value="RecordId"/>
-            <xs:enumeration value="SampleWeight"/>
-            <xs:enumeration value="Score"/>
-            <xs:enumeration value="Selector"/>
-            <xs:enumeration value="Target"/>
-            <xs:enumeration value="TrainTestId"/>
-            <xs:enumeration value="Uninformative"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="fieldType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="string"/>
-            <xs:enumeration value="date"/>
-            <xs:enumeration value="integer"/>
-            <xs:enumeration value="real"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="field">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="description" type="xs:string"/>
-            <xs:element name="fieldType" type="mc:fieldType">
+            <xs:element name="fieldType" type="xs:string">
 
             </xs:element>
             <xs:element name="columnName" type="xs:string"/>
@@ -43,7 +17,7 @@
             <xs:element name="roles">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="role" type="mc:roleType" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
