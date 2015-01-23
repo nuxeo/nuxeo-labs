@@ -13,6 +13,7 @@
  *
  * Contributors:
  *     Thomas Roger <troger@nuxeo.com>
+ *     Thibaud Arguillere
  */
 
 package org.nuxeo.labs.video.operations;
@@ -34,7 +35,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.blobholder.SimpleBlobHolder;
-import org.nuxeo.ecm.core.api.impl.blob.StreamingBlob;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandAvailability;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandLineExecutorService;
@@ -91,8 +92,8 @@ public class MediaInfoOperationsTest {
         InputStream is = MediaInfoOperationsTest.class.getResourceAsStream("/"
                 + path);
         assertNotNull(String.format("Failed to load resource: " + path), is);
-        return new SimpleBlobHolder(
-                StreamingBlob.createFromStream(is, path).persist());
+        
+        return new SimpleBlobHolder( new FileBlob(is) );
     }
 
     // Checks the processing of the output String List from Media Info
@@ -133,7 +134,7 @@ public class MediaInfoOperationsTest {
         assertNotNull(cles);
         CommandAvailability ca = cles.getCommandAvailability("mediainfo-info");
         if (!ca.isAvailable()) {
-            log.warn("mediainfo is not avalaible, skipping test");
+            log.warn("mediainfo is not available, skipping test");
             return;
         }
         BlobHolder in = getBlobFromPath(ELEPHANTS_DREAM);
@@ -144,7 +145,6 @@ public class MediaInfoOperationsTest {
         assertEquals(resultBlob, in.getBlob());
         String theSpecificResult = (String) ctx.get("theSpecificInfoResult");
         assertEquals(theSpecificResult, "Audio Video Interleave");
-
         getSpecificInfosOperation.category = "Audio";
         getSpecificInfosOperation.specificInfo = "Interleave, preload duration";
         resultBlob = getSpecificInfosOperation.run(in.getBlob());

@@ -13,6 +13,7 @@
  *
  * Contributors:
  *     Thomas Roger <troger@nuxeo.com>
+ *     Thibaud Arguillere
  */
 package org.nuxeo.labs.video.mediainfo;
 
@@ -32,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.blobholder.SimpleBlobHolder;
-import org.nuxeo.ecm.core.api.impl.blob.StreamingBlob;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandAvailability;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandLineExecutorService;
 import org.nuxeo.labs.video.mediainfo.MediaInfoHelper;
@@ -67,8 +68,8 @@ public class MediaInfoTest extends NXRuntimeTestCase {
     protected static BlobHolder getBlobFromPath(String path) throws IOException {
         InputStream is = MediaInfoTest.class.getResourceAsStream("/" + path);
         assertNotNull(String.format("Failed to load resource: " + path), is);
-        return new SimpleBlobHolder(
-                StreamingBlob.createFromStream(is, path).persist());
+        
+        return new SimpleBlobHolder( new FileBlob(is) );
     }
 
     // Checks the parsing single outout lines.
@@ -127,7 +128,7 @@ public class MediaInfoTest extends NXRuntimeTestCase {
         assertNotNull(cles);
         CommandAvailability ca = cles.getCommandAvailability("mediainfo-info");
         if (!ca.isAvailable()) {
-            log.warn("mediainfo is not avalaible, skipping test");
+            log.warn("mediainfo is not available, skipping test");
             return;
         }
         BlobHolder in = getBlobFromPath(ELEPHANTS_DREAM);
