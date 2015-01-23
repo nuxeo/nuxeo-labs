@@ -132,7 +132,7 @@ public class AddEntryToComplexPropertiesTest {
 
     // 2015-01-22 - Thibaud
     // Too much hassle with this test. The operation works in misc. projects, just
-    // the unit test is failing. Let's give a break with it.
+    // the unit test is failing. Let's give us a break with it.
     @Ignore
     @Test
     public void shouldAddNewFieldsFromJsonString() throws Exception {
