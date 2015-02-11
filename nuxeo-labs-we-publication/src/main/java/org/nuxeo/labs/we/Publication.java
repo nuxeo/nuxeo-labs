@@ -83,18 +83,17 @@ public class Publication extends ModuleRoot {
                     while (rootSectionIterator.hasNext()) { // in case there are
                                                             // several
                                                             // sectionRoots
-                        query = query.concat(" 'OR ecm:parentId='");
+                        query = query.concat("' OR ecm:parentId='");
                         query = query.concat(rootSectionIterator.next().getId());
                     }
                     query = query.concat("')");
                     higherSections = session.query(query);
+                    log.warn(higherSections.size());
+                    
+                    latestPublicationsMap = getLatestPublicationMap(session, higherSections);
+                    ctx.setProperty("latestPublicationsMap", latestPublicationsMap);
+                    ctx.setProperty("higherSections", higherSections);
                 }
-                ctx.setProperty("higherSections", higherSections);
-                latestPublicationsMap = getLatestPublicationMap(session,
-                        higherSections);
-                ctx.setProperty("latestPublicationsMap", latestPublicationsMap);
-
-                log.warn(higherSections.size());
             } catch (ClientException e) {
                 log.error(e);
             }
