@@ -8,7 +8,8 @@ Bundle-ManifestVersion: 2
 Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.operations.notific
  ation.AdvancedSendEmail.xml,OSGI-INF/extensions/org.nuxeo.labs.operat
  ions.document.AddEntryToComplexProperties.xml,OSGI-INF/extensions/org
- .nuxeo.labs.operations.ui.NavigateToUrl.xml,OSGI-INF/extensions/org.nuxeo.labs.operations.document.CopySchema.xml
+ .nuxeo.labs.operations.ui.NavigateToUrl.xml,OSGI-INF/extensions/org.nuxeo.labs.operations.document.CopySchema.xml,
+ OSGI-INF/extensions/org.nuxeo.labs.operations.document.ResetSchema.xml
 Bundle-SymbolicName: org.nuxeo.labs.operation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 
