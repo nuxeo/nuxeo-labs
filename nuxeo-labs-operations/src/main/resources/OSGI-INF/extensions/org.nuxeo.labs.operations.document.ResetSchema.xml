@@ -1,4 +1,4 @@
-<component name="org.nuxeo.labs.operations.document.CopySchema">
+<component name="org.nuxeo.labs.operations.document.ResetSchema">
 
   <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
     point="operations" >

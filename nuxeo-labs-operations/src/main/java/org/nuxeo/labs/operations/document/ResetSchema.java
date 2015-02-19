@@ -9,6 +9,7 @@ import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DataModel;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 
 import java.util.Map;
 
@@ -40,5 +41,21 @@ public class ResetSchema {
         dm.setMap(map);
         
         return doc;
+    }
+
+    
+    @OperationMethod
+    public DocumentModelList run(DocumentModelList docs) {
+        for (DocumentModel doc : docs) {
+            DataModel dm = doc.getDataModel(schema);
+            if (dm != null) {
+                Map<String, Object> map = dm.getMap();
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    entry.setValue(null);
+                }
+                dm.setMap(map);
+            }
+        }
+        return docs;
     }
 }
