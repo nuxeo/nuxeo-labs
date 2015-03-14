@@ -14,7 +14,7 @@
  * Contributors:
  *     Thibaud Arguillere
  */
-var gDocId, gCropButton;
+var gDocId, gCropAndSave;
 var gImgObj, gX1Obj, gX2Obj, gY1Obj, gY2Obj, gWidthObj, gHeightObj;
 
 var gJcropApi;
@@ -31,6 +31,8 @@ NxCrop = {
 	},
 
 	init : function (inCropDivId, inNxDocId, inImageWidth, inImageHeight) {
+		
+		debugger;
 
 		gImageW = inImageWidth;
 		gImageH = inImageHeight;
@@ -39,9 +41,13 @@ NxCrop = {
 		
 		gDocId = inNxDocId;
 
-		var gCropButton = jQuery( document.getElementById(inCropDivId + "_crop") );
-		if(gCropButton) {
-			gCropButton.attr("disabled", true);
+		var gCropAndSave = jQuery( document.getElementById(inCropDivId + "_cropAndSave") );
+		if(gCropAndSave) {
+			gCropAndSave.attr("disabled", true);
+		}
+		var gCropAndDownloadButton = jQuery( document.getElementById(inCropDivId + "_download") );
+		if(gCropAndDownloadButton) {
+			gCropAndDownloadButton.attr("disabled", true);
 		}
 
 		gX1Obj = jQuery( document.getElementById(inCropDivId + "_cropX1") );
@@ -72,8 +78,11 @@ NxCrop = {
 			
 			gImgObj.Jcrop({
 				onSelect: function(c) {
-					if(gCropButton) {
-						gCropButton.removeAttr("disabled");
+					if(gCropAndSave) {
+						gCropAndSave.removeAttr("disabled");
+					}
+					if(gCropAndDownloadButton) {
+						gCropAndDownloadButton.removeAttr("disabled");
 					}
 					NxCrop.showCoordinates(c);
 				},
@@ -95,8 +104,8 @@ NxCrop = {
 		}
 	},
 
-	save: function() {
-		//alert("Saving doc id " + gDocId + " with crop " + JSON.stringify(gJcropApi.tellSelect()));
+	cropAndSave: function() {
+
 	    var c = gJcropApi.tellSelect();
 	    if(c.w <= 0 || c.h <= 0) {
 	    	alert("There is no crop area.");
@@ -127,7 +136,7 @@ NxCrop = {
 				type	: "POST",
 				contentType: "application/json+nxrequest",
 				data	: JSON.stringify(automationParams),
-				headers	: {'X-NXVoidOperation': true}
+				headers	: {'X-NXVoidOperation': true, 'Accept': '*/*'}
 			})
 			.done( function() {
 				location.reload(true);
@@ -139,14 +148,53 @@ NxCrop = {
 		}
 	},
 
-	download: function() {
-		console.log("...downloading..." + gDocId);
+	cropAndAddToViews: function() {
+
+	    var c = gJcropApi.tellSelect();
+	    if(c.w <= 0 || c.h <= 0) {
+	    	alert("There is no crop area.");
+	    } else {
+	    	// Call the ImageCropInDocumentOp operation.
+	    	// We can't use nuxeo.js, because the "nuxeo" object
+	    	// already exists (and it is the main object of
+	    	// nuxeo.js...
+	    	// And we don't have time to fix that.
+	    	var automationParams = {
+	    		params: {	top		: c.y,
+				    		left	: c.x,
+				    		width	: c.w,
+				    		height	: c.h,
+				    		pictureWidth  : gImgObj.width(),
+				    		pictureHeight : gImgObj.height()
+				    	},
+
+				context: {},
+
+				input : gDocId
+			}
+	    	
+	    	var theURL = "/nuxeo/site/automation/ImageCropInViewsOp";
+	    	jQuery.ajax({
+				url		: theURL,
+				type	: "POST",
+				contentType: "application/json+nxrequest",
+				data	: JSON.stringify(automationParams),
+				headers	: {'X-NXVoidOperation': true, 'Accept': '*/*'}
+			})
+			.done( function() {
+				location.reload(true);
+			})
+			.fail( function(jqXHR, textStatus, errorThrown) {
+				//alert("Dommage. Essaye encore.");
+				alert( "Request failed: " + textStatus )
+			} );
+	    }
 	},
 
 	lastItem: "just for no comma in the JSON"
 
 };
-// = = = = = = = = = = End of nuxeo-labs-image-cropperjs
+// = = = = = = = = = = End of nuxeo-labs-image-cropper.js
 
 
 

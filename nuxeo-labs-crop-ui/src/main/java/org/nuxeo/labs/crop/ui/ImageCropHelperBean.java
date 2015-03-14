@@ -93,7 +93,7 @@ public class ImageCropHelperBean implements Serializable {
 
             imageWidth = 0;
             imageHeight = 0;
-
+            
             MultiviewPicture mvp = currentDocument.getAdapter(MultiviewPicture.class);
             if(mvp != null) {
                 PictureView [] views = mvp.getViews();
@@ -108,7 +108,7 @@ public class ImageCropHelperBean implements Serializable {
                     viewW = oneView.getWidth();
                     viewH = oneView.getHeight();
 
-                    if (title.equalsIgnoreCase("Original")) {
+                    if (title.toLowerCase().indexOf("original") == 0) {
                         originalImageWidth = viewW;
                         originalImageHeight = viewH;
                     }
@@ -163,6 +163,12 @@ public class ImageCropHelperBean implements Serializable {
             imageHeight = kMAX_HEIGHT;
             imageWidth *= coef;
         }
+    }
+    
+    public String getImageViewURL() {
+        //return "";
+        //http://localhost:8080/nuxeo/nxpicsfile/default/1b5ef2d1-c152-4b84-904d-0ec7c2cf4510/Thumbnail:content/Thu%20Mar%2012%2016%3A51%3A49%20EDT%202015
+        return "/nuxeo/nxpicsfile/default/" + currentDocument.getId() + "/" + imageViewName + "/Thu%20Mar%2012%2016%3A51%3A49%20EDT%202015";
     }
 
     public String getimageViewName() {

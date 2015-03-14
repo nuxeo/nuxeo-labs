@@ -8,10 +8,13 @@
     <action id="cropImageAction" order="0" label="Crop" type="fancybox"
       icon="/icons/crop_image.png">
       <category>DOCUMENT_UPPER_ACTION</category>
-      <category>DAM_ASSET_VIEW_ACTIONS</category>
+      <category>INFO_VIEW_ACTIONS</category>
       <filter-id>canCropImage</filter-id>
       <properties>
         <property name="include">/incl/nuxeo-labs-image-cropper.xhtml</property>
+        <property name="autoDimensions">false</property>
+        <property name="width">90%</property>
+        <property name="height">100%</property>
       </properties>
     </action>
 

@@ -121,19 +121,13 @@ public class ImageCropInDocumentOp {
             inDoc = DocumentHelper.saveDocument(session, inDoc);
         }
 
-        // This was inspired by the Picture.getView operation
-        MultiviewPicture mvp = inDoc.getAdapter(MultiviewPicture.class);
-        PictureView pv = mvp.getView("Original");
-        if (pv == null) {
-            pv = mvp.getView(mvp.getOrigin());
-        }
-        Blob pictureBlob = (Blob) pv.getContent();
+        Blob pictureBlob = (Blob) inDoc.getPropertyValue("file:content");
 
         // Scale the crop
         if (pictureWidth > 0 && pictureHeight > 0) {
             double coef = 0.0;
-            int w = pv.getWidth();
-            int h = pv.getHeight();
+            int w = ((Long) inDoc.getPropertyValue("picture:info/width")).intValue();
+            int h = ((Long) inDoc.getPropertyValue("picture:info/height")).intValue();
 
             if (w != (int) pictureWidth) {
                 coef = (double) w / (double) pictureWidth;

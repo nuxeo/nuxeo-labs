@@ -5,3 +5,10 @@
 	padding-right: 8px;
 }
 
+.nxlab_cropfield {
+	width: 50px !important;
+}
+
+.nxlab_cropfieldlabel {
+	padding-left: 10px;
+}

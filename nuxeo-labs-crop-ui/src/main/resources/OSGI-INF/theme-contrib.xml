@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <component name="org.nuxeo.ecm.platform.ui.nuxeo-labs-image-cropper.theme.contrib">
   <require>org.nuxeo.theme.nuxeo.default</require>
+  <!--
   <extension target="org.nuxeo.theme.styling.service" point="pages">
     <themePage name="*">
       <styles append="true">
@@ -42,5 +43,5 @@
       <src>themes/css/nuxeo-labs-image-cropper.css</src>
     </style>
   </extension>
-
+-->
 </component>

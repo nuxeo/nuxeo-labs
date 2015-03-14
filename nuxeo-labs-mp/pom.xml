@@ -15,6 +15,10 @@
   <dependencies>
     <dependency>
       <groupId>org.nuxeo.labs</groupId>
+      <artifactId>nuxeo-labs-crop-ui</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nuxeo.labs</groupId>
       <artifactId>nuxeo-labs-operations</artifactId>
     </dependency>
    <dependency>

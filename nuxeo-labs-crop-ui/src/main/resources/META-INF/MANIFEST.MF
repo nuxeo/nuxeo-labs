@@ -3,10 +3,10 @@ Bundle-Vendor: Nuxeo
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-Version: 5.9.6
-Bundle-Name: nuxeo-labs-images
+Bundle-Name: nuxeo-labs-crop-ui
 Bundle-ManifestVersion: 2
 Nuxeo-Component: OSGI-INF/theme-contrib.xml,OSGI-INF/extensions/nuxeo-
  labs-actions-contrib.xml
-Bundle-SymbolicName: nuxeo-labs-images
+Bundle-SymbolicName: nuxeo-labs-crop-ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 
