@@ -16,28 +16,26 @@
  */
 var gDocId, gCropAndSave;
 var gImgObj, gX1Obj, gX2Obj, gY1Obj, gY2Obj, gWidthObj, gHeightObj;
-
 var gJcropApi;
+var gScaleH, gScaleV;
 
 NxCrop = {
 
-	showCoordinates: function(c) {
-		gX1Obj.val(c.x);
-		gX2Obj.val(c.y);
-		gY1Obj.val(c.x2);
-		gY2Obj.val(c.y2);
-		gWidthObj.val(c.w);
-		gHeightObj.val(c.h);
+	showCoordinates: function(c) {		
+		
+		gX1Obj.val(Math.floor(c.x * gScaleH) );
+		gX2Obj.val( Math.floor(c.y * gScaleV) );
+		gY1Obj.val( Math.floor(c.x2 * gScaleH) );
+		gY2Obj.val( Math.floor(c.y2 * gScaleV) );
+		gWidthObj.val( Math.floor(c.w * gScaleH) );
+		gHeightObj.val( Math.floor(c.h * gScaleV) );
+		
 	},
 
-	init : function (inCropDivId, inNxDocId, inImageWidth, inImageHeight) {
-		
-		debugger;
+	init : function (inCropDivId, inNxDocId, inScaleH, inScaleV) {
 
-		gImageW = inImageWidth;
-		gImageH = inImageHeight;
-
-		//console.log(inCropDivId + " - " + inNxDocId + " - " + inImageWidth + "x" + inImageHeight);
+		gScaleH = inScaleH;
+		gScaleV = inScaleV;
 		
 		gDocId = inNxDocId;
 
@@ -45,9 +43,9 @@ NxCrop = {
 		if(gCropAndSave) {
 			gCropAndSave.attr("disabled", true);
 		}
-		var gCropAndDownloadButton = jQuery( document.getElementById(inCropDivId + "_download") );
-		if(gCropAndDownloadButton) {
-			gCropAndDownloadButton.attr("disabled", true);
+		var gCropAndAddToViews = jQuery( document.getElementById(inCropDivId + "_cropAndAddToViews") );
+		if(gCropAndAddToViews) {
+			gCropAndAddToViews.attr("disabled", true);
 		}
 
 		gX1Obj = jQuery( document.getElementById(inCropDivId + "_cropX1") );
@@ -56,10 +54,9 @@ NxCrop = {
 		gY2Obj = jQuery( document.getElementById(inCropDivId + "_cropY2") );
 		gWidthObj = jQuery( document.getElementById(inCropDivId + "_cropW") );
 		gHeightObj = jQuery( document.getElementById(inCropDivId + "_cropH") );
-		
 
 		// The code is called twice: When the fancybox is initialized but not
-		// yes displayed, and when it is displayed
+		// yet displayed, and when it is displayed
 		// This leads to problem with the cropping tool, which duplicates
 		// the picture and losts itself.
 		var fancybox = jQuery("#fancybox-content");
@@ -81,8 +78,8 @@ NxCrop = {
 					if(gCropAndSave) {
 						gCropAndSave.removeAttr("disabled");
 					}
-					if(gCropAndDownloadButton) {
-						gCropAndDownloadButton.removeAttr("disabled");
+					if(gCropAndAddToViews) {
+						gCropAndAddToViews.removeAttr("disabled");
 					}
 					NxCrop.showCoordinates(c);
 				},

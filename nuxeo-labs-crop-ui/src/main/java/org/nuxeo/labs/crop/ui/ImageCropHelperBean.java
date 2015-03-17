@@ -17,6 +17,7 @@
 package org.nuxeo.labs.crop.ui;
 
 import java.io.Serializable;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ScopeType;
@@ -29,6 +30,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.platform.picture.api.PictureView;
 import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
@@ -85,6 +87,10 @@ public class ImageCropHelperBean implements Serializable {
     protected long originalImageWidth = 0;
 
     protected long originalImageHeight = 0;
+    
+    protected double scaleH = 1.0;
+    
+    protected double scaleV = 1.0;
 
     @Create
     public void initialize() throws ClientException {
@@ -93,6 +99,14 @@ public class ImageCropHelperBean implements Serializable {
 
             imageWidth = 0;
             imageHeight = 0;
+            
+            try {
+                originalImageWidth = ((Long) currentDocument.getPropertyValue("picture:info/width")).intValue();
+                originalImageHeight = ((Long) currentDocument.getPropertyValue("picture:info/height")).intValue();
+            } catch (Exception e) {
+                originalImageWidth = 0;
+                originalImageHeight = 0;
+            }
             
             MultiviewPicture mvp = currentDocument.getAdapter(MultiviewPicture.class);
             if(mvp != null) {
@@ -108,7 +122,7 @@ public class ImageCropHelperBean implements Serializable {
                     viewW = oneView.getWidth();
                     viewH = oneView.getHeight();
 
-                    if (title.toLowerCase().indexOf("original") == 0) {
+                    if (originalImageWidth == 0 && title.toLowerCase().indexOf("original") == 0) {
                         originalImageWidth = viewW;
                         originalImageHeight = viewH;
                     }
@@ -163,6 +177,17 @@ public class ImageCropHelperBean implements Serializable {
             imageHeight = kMAX_HEIGHT;
             imageWidth *= coef;
         }
+        
+        scaleH = 1.0;
+        if (originalImageWidth != (int) imageWidth) {
+            scaleH = (double) originalImageWidth / (double) imageWidth;
+        }
+        
+        scaleV = 1.0;
+        if (originalImageHeight != (int) imageHeight) {
+            scaleV = (double) originalImageHeight / (double) imageHeight;
+        }
+        
     }
     
     public String getImageViewURL() {
@@ -173,6 +198,14 @@ public class ImageCropHelperBean implements Serializable {
 
     public String getimageViewName() {
         return imageViewName;
+    }
+    
+    public double getScaleH() {
+        return scaleH;
+    }
+    
+    public double getScaleV() {
+        return scaleV;
     }
 
     public long getImageWidth() {
