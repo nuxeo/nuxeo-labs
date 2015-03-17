@@ -108,33 +108,35 @@ public class ImageCropHelperBean implements Serializable {
                 originalImageHeight = 0;
             }
             
+            // Cf. images-service-contrib.xml
+            // We try the main views as pre-calculated by nuxeo: Small, Medium, Original
+            String [] viewNames = {"Small", "Medium", "Original"};
             MultiviewPicture mvp = currentDocument.getAdapter(MultiviewPicture.class);
             if(mvp != null) {
-                PictureView [] views = mvp.getViews();
-                for(PictureView oneView : views) {
+                
+                for(String name : viewNames) {
+                    PictureView oneView = mvp.getView(name);
+                    if(oneView != null) {
+                        String title = oneView.getTitle();
+                        String viewName = title + ":content";
+                        
+                        long viewW = 0, viewH = 0;
+                        viewW = oneView.getWidth();
+                        viewH = oneView.getHeight();
+                        
+                        if (originalImageWidth == 0 && title.toLowerCase().indexOf("original") == 0) {
+                            originalImageWidth = viewW;
+                            originalImageHeight = viewH;
+                        }
 
-                    long viewW = 0, viewH = 0;
-                    String viewName;
-
-                    String title = oneView.getTitle();
-                    viewName = title + ":content";
-
-                    viewW = oneView.getWidth();
-                    viewH = oneView.getHeight();
-
-                    if (originalImageWidth == 0 && title.toLowerCase().indexOf("original") == 0) {
-                        originalImageWidth = viewW;
-                        originalImageHeight = viewH;
-                    }
-
-                    if (viewW < kMAX_WIDTH) {
-                        if (viewW > imageWidth) {
-                            imageWidth = viewW;
-                            imageHeight = viewH;
-                            imageViewName = viewName;
+                        if (viewW < kMAX_WIDTH) {
+                            if (viewW > imageWidth) {
+                                imageWidth = viewW;
+                                imageHeight = viewH;
+                                imageViewName = viewName;
+                            }
                         }
                     }
-
                 }
 
                 // Either we have no views or none of them are < kMAX_WIDTH which is very, very unlikely. Result will be weird anyway.
