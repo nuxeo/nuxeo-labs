@@ -18,10 +18,6 @@
   So, I force loading them here.
   Need to ask somebody to check that...
   </c:if>
-  <script>
-  console.log("coucou");
-  //debugger;
-  </script>
   <script src="#{contextPath}/scripts/jquery.Jcrop.js" />
   <script src="#{contextPath}/scripts/nuxeo-labs-image-cropper.js" />
   <LINK href="#{contextPath}/css/nuxeo-labs-image-cropper.css" rel="stylesheet" type="text/css" />
@@ -30,6 +26,11 @@
   <h3>
    <h:outputText value="#{currentDocument.title}"/>
   </h3>
+  
+  <c:set var="imageWidth" value="#{imageCropHelper.getImageWidth()}" />
+  <c:set var="imageHeight" value="#{imageCropHelper.getImageHeight()}" />
+  <c:set var="originalImageWidth" value="#{imageCropHelper.getOriginalImageWidth()}" />
+  <c:set var="originalImageHeight" value="#{imageCropHelper.getOriginalImageHeight()}" />
 
   <div id="#{fancyboxFormId}">
     <div>
@@ -43,26 +44,46 @@
         <span style="width:50px"></span>
         <span><i>Original image width: #{imageCropHelper.getOriginalImageWidth()}, height: #{imageCropHelper.getOriginalImageHeight()}</i></span>
         <div id="#{fancyboxFormId}_cropCoords" style="font-size:smaller; padding-top: 5px; margin-left: 5px">
-          <label class="nxlab_cropfieldlabel">X1 <input type="text" size="4" id="#{fancyboxFormId}_cropX1" name="x1" readonly="true" class="nxlab_cropfield" /></label>
-          <label class="nxlab_cropfieldlabel">Y1 <input type="text" size="4" id="#{fancyboxFormId}_cropX2" name="y1" readonly="true" class="nxlab_cropfield" /></label>
-          <label class="nxlab_cropfieldlabel">X2 <input type="text" size="4" id="#{fancyboxFormId}_cropY1" name="x2" readonly="true" class="nxlab_cropfield" /></label>
-          <label class="nxlab_cropfieldlabel">Y2 <input type="text" size="4" id="#{fancyboxFormId}_cropY2" name="y2" readonly="true" class="nxlab_cropfield" /></label>
-          <label class="nxlab_cropfieldlabel">Width <input type="text" size="4" id="#{fancyboxFormId}_cropW" name="w" readonly="true" class="nxlab_cropfield" /></label>
-          <label class="nxlab_cropfieldlabel">Height <input type="text" size="4" id="#{fancyboxFormId}_cropH" name="h" readonly="true" class="nxlab_cropfield" /></label>
+          <div style="display:inline-block;width:120px;"><label class="nxlab_cropfieldlabel">Local (this picture)</label></div>
+          <label class="nxlab_cropfieldlabel">X1 <input type="number" min="0" max="#{imageWidth}" size="4" id="#{fancyboxFormId}_cropX1" readonly="true" name="x1" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Y1 <input type="number" min="0" max="#{imageHeight}" size="4" id="#{fancyboxFormId}_cropX2" readonly="true" name="y1" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">X2 <input type="number" min="0" max="#{imageWidth}" size="4" id="#{fancyboxFormId}_cropY1" readonly="true" name="x2" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Y2 <input type="number" min="0" max="#{imageHeight}" size="4" id="#{fancyboxFormId}_cropY2" readonly="true" name="y2" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Width <input type="number" min="1" max="#{imageWidth}" size="4" id="#{fancyboxFormId}_cropW" readonly="true" name="w" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Height <input type="number" min="1" max="#{imageHeight}" size="4" id="#{fancyboxFormId}_cropH" readonly="true" name="h" class="nxlab_cropfield" /></label>
+        </div>
+        <div id="#{fancyboxFormId}_cropCoordsOriginal" style="font-size:smaller; padding-top: 5px; margin-left: 5px">
+         <div style="display:inline-block;width:120px;"><label class="nxlab_cropfieldlabel">In original picture</label></div>
+          <label class="nxlab_cropfieldlabel">X1 <input type="number" min="0" max="originalImageWidth" size="4" id="#{fancyboxFormId}_originalX1" readonly="true" name="origx1" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Y1 <input type="number" min="0" max="originalImageHeight" size="4" id="#{fancyboxFormId}_originalX2" readonly="true" name="origy1" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">X2 <input type="number" min="0" max="originalImageWidth" size="4" id="#{fancyboxFormId}_originalY1" readonly="true" name="origx2" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Y2 <input type="number" min="0" max="originalImageHeight" size="4" id="#{fancyboxFormId}_originalY2" readonly="true" name="origy2" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Width <input type="number" min="0" max="originalImageWidth" size="4" id="#{fancyboxFormId}_originalW" readonly="true" name="origw" class="nxlab_cropfield" /></label>
+          <label class="nxlab_cropfieldlabel">Height <input type="number" min="0" max="originalImageHeight" size="4" id="#{fancyboxFormId}_originalH" readonly="true" name="origh" class="nxlab_cropfield" /></label>
         </div>
       </div>
       <p></p>
       <div id="#{fancyboxFormId}_divImg" style="padding:5px; width: #{imageCropHelper.getImageBoxWidth()}px; height: #{imageCropHelper.getImageBoxHeight()}px;">
         <!--
-        <img id="#{fancyboxFormId}_img" src="#{nxd:fileUrl('downloadPicture', document, imageCropHelper.getimageViewName(), currentDocument.dublincore.modified)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageCropHelper.getImageWidth()}px" height="#{imageCropHelper.getImageHeight()}px" />
+        <img id="#{fancyboxFormId}_img" src="#{nxd:fileUrl('downloadPicture', document, imageCropHelper.getimageViewName(), currentDocument.dublincore.modified)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageWidth}px" height="#{imageCropHelper.getImageHeight()}px" />
         -->
         
-        <img id="#{fancyboxFormId}_img" src="#{imageCropHelper.getImageViewURL()}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageCropHelper.getImageWidth()}px" height="#{imageCropHelper.getImageHeight()}px" />
+        <img id="#{fancyboxFormId}_img" src="#{imageCropHelper.getImageViewURL(false)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageCropHelper.getImageWidth()}px" height="#{imageHeight}px" />
         
       </div>
     </div>
     <script type="text/javascript" charset="utf-8">
-        NxCrop.init("#{fancyboxFormId}", "#{currentDocument.id}", #{imageCropHelper.getScaleH()}, #{imageCropHelper.getScaleV()});
+    	var imageProps = {
+    			cropWidth: #{imageWidth},
+    			cropHeight: #{imageHeight},
+    			cropUrl: "#{imageCropHelper.getImageViewURL(false)}",
+    			originalWidth: #{originalImageWidth},
+    			originalHeight: #{originalImageHeight},
+    			originalUrl: "#{imageCropHelper.getImageViewURL(true)}",
+    			scaleH: #{imageCropHelper.getScaleH()},
+    			scaleV: #{imageCropHelper.getScaleV()}
+    	}
+        NxCrop.init("#{fancyboxFormId}", "#{currentDocument.id}", imageProps);
     </script>
   </div>
 

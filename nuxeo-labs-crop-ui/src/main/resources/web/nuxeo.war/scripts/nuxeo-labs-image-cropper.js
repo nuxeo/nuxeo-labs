@@ -14,28 +14,103 @@
  * Contributors:
  *     Thibaud Arguillere
  */
-var gDocId, gCropAndSave;
-var gImgObj, gX1Obj, gX2Obj, gY1Obj, gY2Obj, gWidthObj, gHeightObj;
+var gDocId, gCropAndSave, gCropAndAddToViews;
+var gImgObj;
+var gX1Obj, gX2Obj, gY1Obj, gY2Obj, gWidthObj, gHeightObj;
+var gOrigX1Obj, gOrigX2Obj, gOrigY1Obj, gOrigY2Obj, gOrigWidthObj, gOrigHeightObj;
 var gJcropApi;
-var gScaleH, gScaleV;
+var gImageProps;
+
+// Utilities
+function isInteger(inString) {
+	var n = parseInt(inString);
+	if(!isNaN(n)) {
+		return n.toString().length == inString.length;
+	}
+	
+	return false;
+}
 
 NxCrop = {
 
 	showCoordinates: function(c) {		
 		
-		gX1Obj.val(Math.floor(c.x * gScaleH) );
-		gX2Obj.val( Math.floor(c.y * gScaleV) );
-		gY1Obj.val( Math.floor(c.x2 * gScaleH) );
-		gY2Obj.val( Math.floor(c.y2 * gScaleV) );
-		gWidthObj.val( Math.floor(c.w * gScaleH) );
-		gHeightObj.val( Math.floor(c.h * gScaleV) );
+		gX1Obj.val(c.x);
+		gX2Obj.val(c.y);
+		gY1Obj.val(c.x2);
+		gY2Obj.val(c.y2);
+		gWidthObj.val(c.w);
+		gHeightObj.val(c.h);	
 		
+		gOrigX1Obj.val(Math.floor(c.x * gScaleH) );
+		gOrigX2Obj.val( Math.floor(c.y * gScaleV) );
+		gOrigY1Obj.val( Math.floor(c.x2 * gScaleH) );
+		gOrigY2Obj.val( Math.floor(c.y2 * gScaleV) );
+		gOrigWidthObj.val( Math.floor(c.w * gScaleH) );
+		gOrigHeightObj.val( Math.floor(c.h * gScaleV) );
+				
+	},
+	
+	askUser: function(inWhat, inObj) {
+		
+		var newValue = null,
+			tmp;
+		
+		//debugger;
+		
+		function setValueIfNotNull(inObj, inValue) {
+			if(isInteger(inValue)) {
+				inObj.val(inValue);
+			}
+		}
+		
+		switch(inWhat) {
+		case "x1":
+			newValue = prompt("Left point:");
+			setValueIfNotNull(gX1Obj, newValue);
+			break;
+
+		case "x2":
+			newValue = prompt("Top point:");
+			setValueIfNotNull(gX2Obj, newValue);
+			gX2Obj.val(newValue);
+			break;
+
+		case "w":
+			newValue = prompt("Width:");
+			if(isInteger(newValue)) {
+				tmp = parseInt(gX1Obj.val()) + parseInt(newValue);
+				gY1Obj.val(tmp);
+			}
+			break;
+
+		case "h":
+			newValue = prompt("Height:");
+			if(isInteger(newValue)) {
+				tmp = parseInt(gX2Obj.val()) + parseInt(newValue);
+				gY2Obj.val(tmp);
+			}
+			break;
+		
+		default:
+			newValue = null;
+			break;
+		}
+		
+		if(newValue != null && isInteger(newValue)) {
+			var x1 = Math.round( parseInt(gX1Obj.val()) / gScaleH );
+			var x2 = Math.round( parseInt(gX2Obj.val()) / gScaleV );
+			var y1 = Math.round( parseInt(gY1Obj.val()) / gScaleH );
+			var y2 = Math.round( parseInt(gY2Obj.val()) / gScaleV );
+			gJcropApi.setSelect([x1, x2, y1, y2]);
+		}
 	},
 
-	init : function (inCropDivId, inNxDocId, inScaleH, inScaleV) {
+	init : function (inCropDivId, inNxDocId, inImageProps) {
 
-		gScaleH = inScaleH;
-		gScaleV = inScaleV;
+		gImageProps = inImageProps;
+		gScaleH = gImageProps.scaleH;
+		gScaleV = gImageProps.scaleV;
 		
 		gDocId = inNxDocId;
 
@@ -54,6 +129,13 @@ NxCrop = {
 		gY2Obj = jQuery( document.getElementById(inCropDivId + "_cropY2") );
 		gWidthObj = jQuery( document.getElementById(inCropDivId + "_cropW") );
 		gHeightObj = jQuery( document.getElementById(inCropDivId + "_cropH") );
+		
+		gOrigX1Obj = jQuery( document.getElementById(inCropDivId + "_originalX1") );
+		gOrigX2Obj = jQuery( document.getElementById(inCropDivId + "_originalX2") );
+		gOrigY1Obj = jQuery( document.getElementById(inCropDivId + "_originalY1") );
+		gOrigY2Obj = jQuery( document.getElementById(inCropDivId + "_originalY2") );
+		gOrigWidthObj = jQuery( document.getElementById(inCropDivId + "_originalW") );
+		gOrigHeightObj = jQuery( document.getElementById(inCropDivId + "_originalH") );
 
 		// The code is called twice: When the fancybox is initialized but not
 		// yet displayed, and when it is displayed
@@ -64,14 +146,12 @@ NxCrop = {
 			// Can't use jQuery(@-"#" + inNxDocId) because nuxeo, sometimes adds
 			// colons inside the id, so jQuery is lost.
 			gImgObj = jQuery( document.getElementById(inCropDivId + "_img") );
-			/*
-			gImgObj.imgAreaSelect({
-				handles: true,
-				onSelectEnd: function(img, selection) {
-					console.log(JSON.stringify(selection));
-				}
-			});
-			*/
+
+			//debugger;
+			gOrigX1Obj.dblclick(function() { NxCrop.askUser("x1", gX1Obj); });
+			gOrigX2Obj.dblclick(function() { NxCrop.askUser("x2", gX2Obj); });
+			gOrigWidthObj.dblclick(function() { NxCrop.askUser("w", gWidthObj); });
+			gOrigHeightObj.dblclick(function() { NxCrop.askUser("h", gHeightObj); });
 			
 			gImgObj.Jcrop({
 				onSelect: function(c) {
@@ -87,17 +167,6 @@ NxCrop = {
 			}, function() {
 				gJcropApi = this;
 			});
-			
-			/*
-			gImgObj.cropper({
-			    aspectRatio: 1,
-			    modal: false,
-			    preview: "", //.extra-preview",
-			    done: function(data) {
-			        console.log(data);
-			    }
-			});
-			*/
 		}
 	},
 
@@ -151,7 +220,7 @@ NxCrop = {
 	    if(c.w <= 0 || c.h <= 0) {
 	    	alert("There is no crop area.");
 	    } else {
-	    	// Call the ImageCropInDocumentOp operation.
+	    	// Call the ImageCropInViewsOp operation.
 	    	// We can't use nuxeo.js, because the "nuxeo" object
 	    	// already exists (and it is the main object of
 	    	// nuxeo.js...

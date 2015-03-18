@@ -17,6 +17,7 @@
 package org.nuxeo.labs.crop.ui;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -192,10 +193,14 @@ public class ImageCropHelperBean implements Serializable {
         
     }
     
-    public String getImageViewURL() {
-        //return "";
+    public String getImageViewURL(boolean inOriginalJpeg) {
+        
         //http://localhost:8080/nuxeo/nxpicsfile/default/1b5ef2d1-c152-4b84-904d-0ec7c2cf4510/Thumbnail:content/Thu%20Mar%2012%2016%3A51%3A49%20EDT%202015
-        return "/nuxeo/nxpicsfile/default/" + currentDocument.getId() + "/" + imageViewName + "/Thu%20Mar%2012%2016%3A51%3A49%20EDT%202015";
+        String lastModification = "" + (((Calendar) currentDocument.getPropertyValue("dc:modified")).getTimeInMillis());
+        if(inOriginalJpeg) {
+            return "/nuxeo/nxpicsfile/default/" + currentDocument.getId() + "/OriginalJpeg/" + lastModification;
+        }
+        return "/nuxeo/nxpicsfile/default/" + currentDocument.getId() + "/" + imageViewName + "/" + lastModification;
     }
 
     public String getimageViewName() {
