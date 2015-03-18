@@ -43,6 +43,10 @@
         -->
         <span style="width:50px"></span>
         <span><i>Original image width: #{imageCropHelper.getOriginalImageWidth()}, height: #{imageCropHelper.getOriginalImageHeight()}</i></span>
+        <!--
+        <span style="width:50px"></span>
+        <button id="#{fancyboxFormId}_changeImgSrc" onclick="NxCrop.changeImgSrc();" class="nxlab_button" style="margin-left: 5px">Use Original Image</button>
+        -->
         <div id="#{fancyboxFormId}_cropCoords" style="font-size:smaller; padding-top: 5px; margin-left: 5px">
           <div style="display:inline-block;width:120px;"><label class="nxlab_cropfieldlabel">Local (this picture)</label></div>
           <label class="nxlab_cropfieldlabel">X1 <input type="number" min="0" max="#{imageWidth}" size="4" id="#{fancyboxFormId}_cropX1" readonly="true" name="x1" class="nxlab_cropfield" /></label>
@@ -68,7 +72,7 @@
         <img id="#{fancyboxFormId}_img" src="#{nxd:fileUrl('downloadPicture', document, imageCropHelper.getimageViewName(), currentDocument.dublincore.modified)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageWidth}px" height="#{imageCropHelper.getImageHeight()}px" />
         -->
         
-        <img id="#{fancyboxFormId}_img" src="#{imageCropHelper.getImageViewURL(false)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageCropHelper.getImageWidth()}px" height="#{imageHeight}px" />
+        <img id="#{fancyboxFormId}_img" src="#{imageCropHelper.getImageViewURL(false)}" style="display:block; margin-left: auto; margin-right:auto" width="#{imageWidth}px" height="#{imageHeight}px" />
         
       </div>
     </div>

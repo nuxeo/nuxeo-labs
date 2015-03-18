@@ -14,12 +14,12 @@
  * Contributors:
  *     Thibaud Arguillere
  */
-var gDocId, gCropAndSave, gCropAndAddToViews;
+var gDocId, gCropAndSave, gCropAndAddToViews, gChangeImgSrc, gTheImg, gTheImgDiv;
 var gImgObj;
 var gX1Obj, gX2Obj, gY1Obj, gY2Obj, gWidthObj, gHeightObj;
 var gOrigX1Obj, gOrigX2Obj, gOrigY1Obj, gOrigY2Obj, gOrigWidthObj, gOrigHeightObj;
 var gJcropApi;
-var gImageProps;
+var gImageProps, gImagePropsOriginal;
 
 // Utilities
 function isInteger(inString) {
@@ -40,14 +40,17 @@ NxCrop = {
 		gY1Obj.val(c.x2);
 		gY2Obj.val(c.y2);
 		gWidthObj.val(c.w);
-		gHeightObj.val(c.h);	
+		gHeightObj.val(c.h);
 		
-		gOrigX1Obj.val(Math.floor(c.x * gScaleH) );
-		gOrigX2Obj.val( Math.floor(c.y * gScaleV) );
-		gOrigY1Obj.val( Math.floor(c.x2 * gScaleH) );
-		gOrigY2Obj.val( Math.floor(c.y2 * gScaleV) );
-		gOrigWidthObj.val( Math.floor(c.w * gScaleH) );
-		gOrigHeightObj.val( Math.floor(c.h * gScaleV) );
+		var scaleH = gImageProps.scaleH;
+		var scaleV = gImageProps.scaleV;
+		
+		gOrigX1Obj.val(Math.floor(c.x * scaleH) );
+		gOrigX2Obj.val( Math.floor(c.y * scaleV) );
+		gOrigY1Obj.val( Math.floor(c.x2 * scaleH) );
+		gOrigY2Obj.val( Math.floor(c.y2 * scaleV) );
+		gOrigWidthObj.val( Math.floor(c.w * scaleH) );
+		gOrigHeightObj.val( Math.floor(c.h * scaleV) );
 				
 	},
 	
@@ -98,10 +101,10 @@ NxCrop = {
 		}
 		
 		if(newValue != null && isInteger(newValue)) {
-			var x1 = Math.round( parseInt(gX1Obj.val()) / gScaleH );
-			var x2 = Math.round( parseInt(gX2Obj.val()) / gScaleV );
-			var y1 = Math.round( parseInt(gY1Obj.val()) / gScaleH );
-			var y2 = Math.round( parseInt(gY2Obj.val()) / gScaleV );
+			var x1 = Math.round( parseInt(gX1Obj.val()) / gImageProps.scaleH );
+			var x2 = Math.round( parseInt(gX2Obj.val()) / gImageProps.scaleV );
+			var y1 = Math.round( parseInt(gY1Obj.val()) / gImageProps.scaleH );
+			var y2 = Math.round( parseInt(gY2Obj.val()) / gImageProps.scaleV );
 			gJcropApi.setSelect([x1, x2, y1, y2]);
 		}
 	},
@@ -109,19 +112,20 @@ NxCrop = {
 	init : function (inCropDivId, inNxDocId, inImageProps) {
 
 		gImageProps = inImageProps;
-		gScaleH = gImageProps.scaleH;
-		gScaleV = gImageProps.scaleV;
-		
+		gImagePropsOriginal = jQuery.extend({}, gImageProps);
+				
 		gDocId = inNxDocId;
+		
+		gTheImg = jQuery( document.getElementById(inCropDivId + "_img") );
+		gTheImgDiv = jQuery( document.getElementById(inCropDivId + "_divImg") );
 
-		var gCropAndSave = jQuery( document.getElementById(inCropDivId + "_cropAndSave") );
-		if(gCropAndSave) {
-			gCropAndSave.attr("disabled", true);
-		}
-		var gCropAndAddToViews = jQuery( document.getElementById(inCropDivId + "_cropAndAddToViews") );
-		if(gCropAndAddToViews) {
-			gCropAndAddToViews.attr("disabled", true);
-		}
+		gCropAndSave = jQuery( document.getElementById(inCropDivId + "_cropAndSave") );
+		gCropAndSave.attr("disabled", true);
+		
+		gCropAndAddToViews = jQuery( document.getElementById(inCropDivId + "_cropAndAddToViews") );
+		gCropAndAddToViews.attr("disabled", true);
+		
+		gChangeImgSrc = jQuery( document.getElementById(inCropDivId + "_changeImgSrc") );
 
 		gX1Obj = jQuery( document.getElementById(inCropDivId + "_cropX1") );
 		gX2Obj = jQuery( document.getElementById(inCropDivId + "_cropX2") );
@@ -255,6 +259,59 @@ NxCrop = {
 				alert( "Request failed: " + textStatus )
 			} );
 	    }
+	},
+	
+	changeImgSrc: function(inEvt) {
+		var src, w, h;
+		
+		var c = gJcropApi.tellSelect();
+				
+		if(gChangeImgSrc.text() == "Use Original Image") {
+			src = gImageProps.originalUrl;
+			w = gImageProps.originalWidth;
+			h = gImageProps.originalHeight;
+			gChangeImgSrc.text("Use Resized Image View");
+			
+			gImageProps.cropWidth = w;
+			gImageProps.cropHeight = h;
+			gImageProps.scaleH = 1.0;
+			gImageProps.scaleV = 1.0;
+			gImageProps.cropUrl = src;
+			
+			
+		} else {
+			
+			gImageProps = jQuery.extend({}, gImagePropsOriginal);
+			
+			src = gImageProps.cropUrl;
+			w = gImageProps.cropWidth;
+			h = gImageProps.cropHeight;
+			gChangeImgSrc.text("Use Original Image");
+		}
+		
+		//gTheImgDiv.width(w);
+		//gTheImgDiv.height(h);
+
+		gTheImg.width(w);
+		gTheImg.height(h);
+		gTheImg.attr("src", src);
+
+		//gJcropApi.setImage(src);
+		gJcropApi.destroy();
+		gImgObj.Jcrop({
+			onSelect: function(c) {
+				if(gCropAndSave) {
+					gCropAndSave.removeAttr("disabled");
+				}
+				if(gCropAndAddToViews) {
+					gCropAndAddToViews.removeAttr("disabled");
+				}
+				NxCrop.showCoordinates(c);
+			},
+			onChange: NxCrop.showCoordinates
+		}, function() {
+			gJcropApi = this;
+		});
 	},
 
 	lastItem: "just for no comma in the JSON"
