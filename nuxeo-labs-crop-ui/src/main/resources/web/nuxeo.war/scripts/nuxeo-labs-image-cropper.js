@@ -33,7 +33,7 @@ function isInteger(inString) {
 
 NxCrop = {
 
-	showCoordinates: function(c) {		
+	showCoordinates: function(c) {
 		
 		gX1Obj.val(c.x);
 		gX2Obj.val(c.y);
