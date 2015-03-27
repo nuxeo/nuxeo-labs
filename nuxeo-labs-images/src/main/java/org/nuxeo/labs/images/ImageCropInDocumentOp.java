@@ -53,7 +53,7 @@ import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
  * See comments in GenericImageMagickConverter for (a bit) more explanations
  * about converters and commandLines.
  * 
- * @since 5.9.6
+ * @since 7.1
  */
 @Operation(id = ImageCropInDocumentOp.ID, category = Constants.CAT_CONVERSION, label = "Image: Crop and Save in Document", description = "Crops the picture: Generates a new picture whose size will be <code>width</code>/<code>height</code>, origin of the crop is <code>top</code>/<code>left</code>. If <code>width</code> or <code>height</code> is 0, nothing is done (no version, no replacement)<br/>If <code>incrementVersion</code> is not set to 'None', a version of the document is first created, then the crop replaces the picture. If the document is not versionable, the crop just replaces current picture.<p><code>pictureWidth</code>x<code>pictureHeight</code> is the size of the picture used for cropping. The coordinates of the crop will be scaled to fit the original picture. So, if original picture is 4000x2000, the picture used for cropping is 1000x500 (4 time smaller), and the crop is 10, 10, 200, 200, the final crop on the original picture will be 40, 40, 800, 800, so there will be no changes for the user.</p><p>If <code>targetFileName</code> is not provided, the output blob filename will be the same name as the picture to crop. Also, if <code>targetFileSuffix</code> is used, it will be added to the target file name <i>before</i> the extension (So, if the file name is 'mypict.jpg' and the suffix is '-copy', the target file name will be 'mypict-copy.jpg')</p><p>If <code>width</code> is 0 or <code>height</code> is 0, the original picture is returned.</p>")
 public class ImageCropInDocumentOp {

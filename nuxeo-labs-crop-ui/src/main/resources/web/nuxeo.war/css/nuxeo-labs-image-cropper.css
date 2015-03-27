@@ -14,3 +14,15 @@
 .nxlab_cropfieldlabel {
 	padding-left: 10px;
 }
+
+.nxlab_edit {
+	vertical-align: middle;
+}
+
+.nxlab_headerInfo {
+  padding-left: 15px;
+  font-size: smaller;
+  color: black;
+  font-weight: normal;
+  font-style: italic;
+}
