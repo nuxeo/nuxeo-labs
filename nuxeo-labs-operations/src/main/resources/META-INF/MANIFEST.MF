@@ -1,15 +1,17 @@
 Manifest-Version: 1.0
-Bundle-Vendor: Nuxeo
-Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
+Bundle-SymbolicName: org.nuxeo.labs.operation
 Bundle-Version: 1.0.qualifier
 Bundle-Name: nuxeo-labs-operations
+Bundle-ClassPath: .
+Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Nuxeo
 Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.operations.notific
  ation.AdvancedSendEmail.xml,OSGI-INF/extensions/org.nuxeo.labs.operat
  ions.document.AddEntryToComplexProperties.xml,OSGI-INF/extensions/org
- .nuxeo.labs.operations.ui.NavigateToUrl.xml,OSGI-INF/extensions/org.nuxeo.labs.operations.document.CopySchema.xml,
- OSGI-INF/extensions/org.nuxeo.labs.operations.document.ResetSchema.xml
-Bundle-SymbolicName: org.nuxeo.labs.operation
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+ .nuxeo.labs.operations.ui.NavigateToUrl.xml,OSGI-INF/extensions/org.n
+ uxeo.labs.operations.document.CopySchema.xml,OSGI-INF/extensions/org.
+ nuxeo.labs.operations.document.ResetSchema.xml,OSGI-INF/extensions/or
+ g.nuxeo.labs.operations.services.RESTGetOp.xml
 
