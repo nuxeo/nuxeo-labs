@@ -25,9 +25,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -46,7 +50,7 @@ import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 /**
  * 
  */
-@Operation(id = RESTGetOp.ID, category = Constants.CAT_SERVICES, label = "REST: GET", description = "Calls the url (with the headers). Returns a JSON string with 3 fields: status (200, 404, ...), statusMessage and result, which is plain text (will be ok for text, JSON, ..., but will not work with binaries). Fills the restGetStatus and restGetStatusMessage context variables")
+@Operation(id = RESTGetOp.ID, category = Constants.CAT_SERVICES, label = "REST: GET", description = "Calls the url (with the headers). Returns a JSON object as string in a StringBlob with 3 fields: <code>status</code> (200, 404, ...), <code>statusMessage</code> and <code>result</code>, which is plain text (will be ok for text, JSON, ..., but will not work with binaries)")
 public class RESTGetOp {
 
     public static final String ID = "REST.Get";
@@ -59,20 +63,36 @@ public class RESTGetOp {
     @Param(name = "url", required = true)
     protected String url;
 
-    @Param(name = "headers", required = true)
+    @Param(name = "headers", required = false)
     protected Properties headers;
 
+    @Param(name = "headersAsJSON", required = false)
+    protected String headersAsJSON;
+
     @OperationMethod
-    public String run() throws IOException {
+    public Blob run() throws IOException {
 
         URL theURL = new URL(url);
         HttpURLConnection http = null;
 
         http = (HttpURLConnection) theURL.openConnection();
 
-        http.setAllowUserInteraction(false);
-        for (String oneHeader : headers.keySet()) {
-            http.setRequestProperty(oneHeader, headers.get(oneHeader));
+        // http.setAllowUserInteraction(false);
+        if (headers != null) {
+            for (String oneHeader : headers.keySet()) {
+                http.setRequestProperty(oneHeader, headers.get(oneHeader));
+            }
+        }
+
+        if (StringUtils.isNotBlank(headersAsJSON)) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(headersAsJSON);
+            Iterator<String> it = rootNode.getFieldNames();
+            while (it.hasNext()) {
+                String oneHeader = it.next();
+                http.setRequestProperty(oneHeader,
+                        rootNode.get(oneHeader).getTextValue());
+            }
         }
 
         InputStream is = http.getInputStream();
@@ -90,7 +110,8 @@ public class RESTGetOp {
                 + RESTUtils.doubleQuoteString(http.getResponseMessage());
         result += ", \"result\": " + RESTUtils.formatForJSON(sb.toString())
                 + "}";
-        return result;
+
+        return new StringBlob(result, "text/plain", "UTF-8");
 
     }
 }
