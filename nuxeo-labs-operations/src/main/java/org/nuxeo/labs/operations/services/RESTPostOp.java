@@ -46,7 +46,7 @@ import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 /**
  * 
  */
-@Operation(id=RESTPostOp.ID, category=Constants.CAT_DOCUMENT, label="REST: POST", description="")
+@Operation(id=RESTPostOp.ID, category=Constants.CAT_SERVICES, label="REST: POST", description="")
 public class RESTPostOp {
 
     public static final String ID = "REST.Post";
