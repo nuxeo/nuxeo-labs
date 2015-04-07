@@ -1,8 +1,8 @@
-<component name="org.nuxeo.labs.operations.services.RESTGetOp">
+<component name="org.nuxeo.labs.operations.services.HTTPCall">
 
   <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
     point="operations" >
-      <operation class="org.nuxeo.labs.operations.services.RESTGetOp" />
+      <operation class="org.nuxeo.labs.operations.services.HTTPCall" />
    </extension>
     
 </component>

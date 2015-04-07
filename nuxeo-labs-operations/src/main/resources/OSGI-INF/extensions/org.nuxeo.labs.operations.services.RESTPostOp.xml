@@ -1,8 +1,0 @@
-<component name="org.nuxeo.labs.operations.services.RESTPostOp">
-
-  <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
-    point="operations" >
-      <operation class="org.nuxeo.labs.operations.services.RESTPostOp" />
-   </extension>
-    
-</component>

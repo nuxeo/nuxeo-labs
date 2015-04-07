@@ -92,9 +92,10 @@ public class RESTTest {
         props.put("Accept", "application/json");
         props.put("Content-Type", "application/json");
 
-        chain.add(RESTGetOp.ID).set("url", URL_TEST_GET).set("headers", props);
+        chain.add(HTTPCall.ID).set("method", "GET").set("url", URL_TEST_GET).set(
+                "headers", props);
         // No input
-        
+
         Blob result = (Blob) service.run(ctx, chain);
         assertTrue(result instanceof StringBlob);
 
@@ -109,14 +110,15 @@ public class RESTTest {
             String str;
 
             str = theDoc.get("type").getTextValue();
-            assertEquals("Root", str);
+            assertEquals("Roo", str);
 
         } else {
 
             String statusMsg = rootNode.get("statusMessage").getTextValue();
             String error = rootNode.get("error").getTextValue();
-            log.error("PROBLEM REACHING " + URL_TEST_GET + ", status: " + status
-                    + ", statusMessage: " + statusMsg + ", error: " + error);
+            log.error("PROBLEM REACHING " + URL_TEST_GET + ", status: "
+                    + status + ", statusMessage: " + statusMsg + ", error: "
+                    + error);
         }
 
     }

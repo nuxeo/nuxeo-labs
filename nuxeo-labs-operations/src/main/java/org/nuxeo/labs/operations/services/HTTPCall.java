@@ -23,11 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -46,15 +43,17 @@ import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 /**
  * 
  */
-@Operation(id=RESTPostOp.ID, category=Constants.CAT_SERVICES, label="REST: POST", description="")
-public class RESTPostOp {
+@Operation(id = HTTPCall.ID, category = Constants.CAT_SERVICES, label = "HTTP Call", description = "")
+public class HTTPCall {
 
-    public static final String ID = "REST.Post";
-
-    private static final Log log = LogFactory.getLog(RESTPostOp.class);
+    public static final String ID = "HTTP.Call";
 
     @Context
     protected OperationContext ctx;
+
+    @Param(name = "method", required = true, widget = Constants.W_OPTION, values = {
+            "GET", "POST" })
+    String method;
 
     @Param(name = "url", required = true)
     protected String url;
@@ -64,8 +63,8 @@ public class RESTPostOp {
 
     @Param(name = "headersAsJSON", required = false)
     protected String headersAsJSON;
-    
-    @Param(name = "body", required = true)
+
+    @Param(name = "body", required = false)
     protected String body;
 
     @OperationMethod
@@ -76,43 +75,51 @@ public class RESTPostOp {
         String restResult = "";
         String error = "";
         boolean isUnknownHost = false;
+
         try {
-        
+
             URL theURL = new URL(url);
+
             http = (HttpURLConnection) theURL.openConnection();
-            
+
             RESTUtils.addHeaders(http, headers, headersAsJSON);
-            
-            http.setRequestMethod("POST");
-            http.setDoInput(true);
-            http.setDoOutput(true);
-            
-            OutputStreamWriter writer = new OutputStreamWriter(http.getOutputStream());
-            writer.write(body);
-            writer.flush();
-            
+
+            method = method.toUpperCase();
+            http.setRequestMethod(method);
+            if (method.equals("POST")) {
+
+                http.setRequestMethod("POST");
+                http.setDoInput(true);
+                http.setDoOutput(true);
+
+                OutputStreamWriter writer = new OutputStreamWriter(
+                        http.getOutputStream());
+                writer.write(body);
+                writer.flush();
+            }
+
             InputStream is = http.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
-    
+
             StringBuffer sb = new StringBuffer();
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 sb.append(inputLine);
             }
             in.close();
-    
+
             restResult = sb.toString();
-            
+
         } catch (Exception e) {
 
             error = e.getMessage();
-            if(e instanceof java.net.UnknownHostException) {
+            if (e instanceof java.net.UnknownHostException) {
                 isUnknownHost = true;
             }
 
         } finally {
             result = "{";
-            if(isUnknownHost) { // can't use our http variable
+            if (isUnknownHost) { // can't use our http variable
                 result += "\"status\": 0";
                 result += ", \"statusMessage\": \"UnknownHostException\"";
             } else {
@@ -126,6 +133,6 @@ public class RESTPostOp {
         }
 
         return new StringBlob(result, "text/plain", "UTF-8");
-    }    
+    }
 
 }
