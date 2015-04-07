@@ -72,44 +72,67 @@ public class RESTGetOp {
     @OperationMethod
     public Blob run() throws IOException {
 
-        URL theURL = new URL(url);
         HttpURLConnection http = null;
+        String result = "";
+        String restResult = "";
+        String error = "";
+        boolean isUnknownHost = false;
+        try {
 
-        http = (HttpURLConnection) theURL.openConnection();
+            URL theURL = new URL(url);
 
-        // http.setAllowUserInteraction(false);
-        if (headers != null) {
-            for (String oneHeader : headers.keySet()) {
-                http.setRequestProperty(oneHeader, headers.get(oneHeader));
+            http = (HttpURLConnection) theURL.openConnection();
+
+            if (headers != null) {
+                for (String oneHeader : headers.keySet()) {
+                    http.setRequestProperty(oneHeader, headers.get(oneHeader));
+                }
             }
-        }
 
-        if (StringUtils.isNotBlank(headersAsJSON)) {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode rootNode = mapper.readTree(headersAsJSON);
-            Iterator<String> it = rootNode.getFieldNames();
-            while (it.hasNext()) {
-                String oneHeader = it.next();
-                http.setRequestProperty(oneHeader,
-                        rootNode.get(oneHeader).getTextValue());
+            if (StringUtils.isNotBlank(headersAsJSON)) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode rootNode = mapper.readTree(headersAsJSON);
+                Iterator<String> it = rootNode.getFieldNames();
+                while (it.hasNext()) {
+                    String oneHeader = it.next();
+                    http.setRequestProperty(oneHeader,
+                            rootNode.get(oneHeader).getTextValue());
+                }
             }
+
+            InputStream is = http.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(is));
+
+            StringBuffer sb = new StringBuffer();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                sb.append(inputLine);
+            }
+            in.close();
+
+            restResult = sb.toString();
+
+        } catch (Exception e) {
+
+            error = e.getMessage();
+            if(e instanceof java.net.UnknownHostException) {
+                isUnknownHost = true;
+            }
+
+        } finally {
+            result = "{";
+            if(isUnknownHost) { // can't use our http variable
+                result += "\"status\": 0";
+                result += ", \"statusMessage\": \"UnknownHostException\"";
+            } else {
+                result += "\"status\": " + http.getResponseCode();
+                result += ", \"statusMessage\": "
+                        + RESTUtils.doubleQuoteString(http.getResponseMessage());
+            }
+            result += ", \"result\": " + RESTUtils.formatForJSON(restResult);
+            result += ", \"error\": " + RESTUtils.doubleQuoteString(error);
+            result += "}";
         }
-
-        InputStream is = http.getInputStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(is));
-
-        StringBuffer sb = new StringBuffer();
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            sb.append(inputLine);
-        }
-        in.close();
-
-        String result = "{\"status\": " + http.getResponseCode();
-        result += ", \"statusMessage\": "
-                + RESTUtils.doubleQuoteString(http.getResponseMessage());
-        result += ", \"result\": " + RESTUtils.formatForJSON(sb.toString())
-                + "}";
 
         return new StringBlob(result, "text/plain", "UTF-8");
 

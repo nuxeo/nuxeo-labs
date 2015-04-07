@@ -24,3 +24,45 @@ This plugin contains miscellaneous operations. It was better to group them in th
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirect to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
+* `Services > REST: GET` (id: `REST.Get`)
+  * Sends a HTTP GET request, returns the result as a `StringBlob`
+  * Parameters:
+    * `url`: Required. The full URL to call, including every queryString, parameters, ...
+    * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
+    * headersAsJSON`: A string containing a JSON object with the headers.
+  * Returns a `StringBlob` whose data is a JSON string with the following fields:
+    * `status`: The HTTP status code (200, 404, ...). 0 means an error occured during the call itself (before reaching the server)
+    * `statusMessage`: The HTTP status message ("OK" for example)
+    * `error`: The detailed error when reaching the server or parsing the result failed.
+    * `result`: The raw data ans returned by the server
+  * Example of JavaScript Automation (**new since nuxeo 7.2), getting a document from a distant nuxeo server:
+
+  ```javascript
+function run(ctx, input, params) {
+      var headers, resultStringBlob, resultTxt, resultObj;
+      // Setup headers
+      headers = {
+          "Authorization": "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+      }
+      // Call the operation
+      resultStringBlob = REST.Get(input, {
+          'url': "http://your_server_address/nuxeo/api/v1//path//",
+          'headersAsJSON': JSON.stringify(headers)
+      });
+      // We have a StringBlob, get just the string from it (using its Java API actually, wrapped in JavaScript)
+      resultTxt = resultStringBlob.getString();
+      // Now, get the result as an object
+      resultObj = JSON.parse(resultTxt);
+      // Check the result is OK
+      if(resultObj.status == 200) {
+         // Here is the doc id for example:
+         var docId = resultObj.result.uid;
+      }
+    
+}
+```
+
+
+
