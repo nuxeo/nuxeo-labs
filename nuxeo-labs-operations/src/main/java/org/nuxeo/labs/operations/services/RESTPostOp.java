@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and contributors.
+ * (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and contributors.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Lesser General Public License
@@ -21,17 +21,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -50,12 +46,12 @@ import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 /**
  * 
  */
-@Operation(id = RESTGetOp.ID, category = Constants.CAT_SERVICES, label = "REST: GET", description = "Calls the url (with the headers). Returns a JSON object as string in a StringBlob with 3 fields: <code>status</code> (200, 404, ...), <code>statusMessage</code> and <code>result</code>, which is plain text (will be ok for text, JSON, ..., but will not work with binaries)")
-public class RESTGetOp {
+@Operation(id=RESTPostOp.ID, category=Constants.CAT_DOCUMENT, label="REST: POST", description="")
+public class RESTPostOp {
 
-    public static final String ID = "REST.Get";
+    public static final String ID = "REST.Post";
 
-    private static final Log log = LogFactory.getLog(RESTGetOp.class);
+    private static final Log log = LogFactory.getLog(RESTPostOp.class);
 
     @Context
     protected OperationContext ctx;
@@ -68,6 +64,9 @@ public class RESTGetOp {
 
     @Param(name = "headersAsJSON", required = false)
     protected String headersAsJSON;
+    
+    @Param(name = "body", required = true)
+    protected String body;
 
     @OperationMethod
     public Blob run() throws IOException {
@@ -78,25 +77,32 @@ public class RESTGetOp {
         String error = "";
         boolean isUnknownHost = false;
         try {
-
+        
             URL theURL = new URL(url);
-
             http = (HttpURLConnection) theURL.openConnection();
             
             RESTUtils.addHeaders(http, headers, headersAsJSON);
-
+            
+            http.setRequestMethod("POST");
+            http.setDoInput(true);
+            http.setDoOutput(true);
+            
+            OutputStreamWriter writer = new OutputStreamWriter(http.getOutputStream());
+            writer.write(body);
+            writer.flush();
+            
             InputStream is = http.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
-
+    
             StringBuffer sb = new StringBuffer();
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 sb.append(inputLine);
             }
             in.close();
-
+    
             restResult = sb.toString();
-
+            
         } catch (Exception e) {
 
             error = e.getMessage();
@@ -120,6 +126,6 @@ public class RESTGetOp {
         }
 
         return new StringBlob(result, "text/plain", "UTF-8");
+    }    
 
-    }
 }

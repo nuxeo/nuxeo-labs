@@ -16,8 +16,18 @@
  */
 package org.nuxeo.labs.operations.services;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.Iterator;
+
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.nuxeo.ecm.automation.core.util.Properties;
+
 /**
- * 
+ * Centralizing utilities used in the GET, POST, ... operations
  *
  * @since 7.2
  */
@@ -54,5 +64,36 @@ public class RESTUtils {
 
         return "\"" + inStr + "\"";
         
+    }
+    
+    /**
+     * Adds the headers to the HttpURLConnection object
+     * 
+     * @param inHttp
+     * @param inProps. A list of key-value pairs
+     * @param inJsonStr. A JSON objects as String, each property is a header to set
+     * @throws JsonProcessingException
+     * @throws IOException
+     *
+     * @since 7.2
+     */
+    public static void addHeaders(HttpURLConnection inHttp, Properties inProps, String inJsonStr) throws JsonProcessingException, IOException {
+        
+        if (inProps != null) {
+            for (String oneHeader : inProps.keySet()) {
+                inHttp.setRequestProperty(oneHeader, inProps.get(oneHeader));
+            }
+        }
+
+        if (StringUtils.isNotBlank(inJsonStr)) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(inJsonStr);
+            Iterator<String> it = rootNode.getFieldNames();
+            while (it.hasNext()) {
+                String oneHeader = it.next();
+                inHttp.setRequestProperty(oneHeader,
+                        rootNode.get(oneHeader).getTextValue());
+            }
+        }
     }
 }
