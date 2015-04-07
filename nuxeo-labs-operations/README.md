@@ -24,12 +24,14 @@ This plugin contains miscellaneous operations. It was better to group them in th
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirect to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
-* `Services > REST: GET` (id: `REST.Get`)
-  * Sends a HTTP GET request, returns the result as a `StringBlob`
+* `Services > HTTP: Call` (id: `HTTP Call`)
+  * Sends a HTTP request, returns the result as a `StringBlob`
   * Parameters:
+    * `method`: As of today, must be either GET or POST
     * `url`: Required. The full URL to call, including every queryString, parameters, ...
     * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
     * headersAsJSON`: A string containing a JSON object with the headers.
+	* `body`: Required if the method is POST
   * Returns a `StringBlob` whose data is a JSON string with the following fields:
     * `status`: The HTTP status code (200, 404, ...). 0 means an error occured during the call itself (before reaching the server)
     * `statusMessage`: The HTTP status message ("OK" for example)
@@ -47,7 +49,8 @@ function run(ctx, input, params) {
           "Content-Type": "application/json"
       }
       // Call the operation
-      resultStringBlob = REST.Get(input, {
+      resultStringBlob = HTTP.Call(input, {
+		  'method': "GET",
           'url': "http://your_server_address/nuxeo/api/v1//path//",
           'headersAsJSON': JSON.stringify(headers)
       });

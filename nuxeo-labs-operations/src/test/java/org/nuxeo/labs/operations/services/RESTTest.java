@@ -110,7 +110,7 @@ public class RESTTest {
             String str;
 
             str = theDoc.get("type").getTextValue();
-            assertEquals("Roo", str);
+            assertEquals("Root", str);
 
         } else {
 
