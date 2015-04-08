@@ -27,43 +27,76 @@ This plugin contains miscellaneous operations. It was better to group them in th
 * `Services > HTTP: Call` (id: `HTTP Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
   * Parameters:
-    * `method`: As of today, must be either GET or POST
-    * `url`: Required. The full URL to call, including every queryString, parameters, ...
+    * `method`: Required. The HTTP method to use: "GET", "POST", "PUT3, "DELETE", "OPTIONS" or "TRACE"
+    * `url`: Required. The full URL to call, including any queryString, parameters, ... (must be already formated)
     * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
-    * headersAsJSON`: A string containing a JSON object with the headers.
-	* `body`: Required if the method is POST
+    * `headersAsJSON`: A string containing a JSON object with the headers.
+	* `body`: If not empty, `body` is sent along with the request
   * Returns a `StringBlob` whose data is a JSON string with the following fields:
     * `status`: The HTTP status code (200, 404, ...). 0 means an error occured during the call itself (before reaching the server)
     * `statusMessage`: The HTTP status message ("OK" for example)
     * `error`: The detailed error when reaching the server or parsing the result failed.
-    * `result`: The raw data ans returned by the server
+    * `result`: The raw data ans returned by the server.
   * Example of JavaScript Automation (**new since nuxeo 7.2), getting a document from a distant nuxeo server:
 
   ```javascript
 function run(ctx, input, params) {
-      var headers, resultStringBlob, resultTxt, resultObj;
-      // Setup headers
-      headers = {
-          "Authorization": "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-      }
-      // Call the operation
-      resultStringBlob = HTTP.Call(input, {
-		  'method': "GET",
-          'url': "http://your_server_address/nuxeo/api/v1//path//",
-          'headersAsJSON': JSON.stringify(headers)
-      });
-      // We have a StringBlob, get just the string from it (using its Java API actually, wrapped in JavaScript)
-      resultTxt = resultStringBlob.getString();
-      // Now, get the result as an object
-      resultObj = JSON.parse(resultTxt);
-      // Check the result is OK
-      if(resultObj.status == 200) {
-         // Here is the doc id for example:
-         var docId = resultObj.result.uid;
-      }
+  
+  var resultStringBlob, headers, resultTxt, resultObj, msg;
+
+  try {
     
+    headers = {
+       "Authorization": "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
+       "Accept": "application/json",
+       "Content-Type": "application/json"
+    };
+
+    resultStringBlob = HTTP.Call(input, {
+      'method': "GET",
+      'url': "http://dam.cloud.nuxeo.com/nuxeo/api/v1//path//",
+      'headersAsJSON': JSON.stringify(headers)
+    });
+  
+    // If we are here, the call itself was succesful, lets get the results as an object
+    resultTxt = resultStringBlob.getString();
+    resultObj = JSON.parse(resultTxt);
+    
+    // Check the status. Here, we are expecting 200
+    if(resultObj.status == 200) {
+      Log(input, {
+	'level': "warn",
+	'message': "All good, the doc uid is: " + resultObj.result.uid,
+      });
+      
+    } else {
+      // The server returned an error
+      msg = "Status: " + resultObj.status;
+      msg += ", message: " + resultObj.statusMessage;
+      msg += ", error: " + resultObj.error;
+      Log(input, {
+        'level': "warn",
+         'message': "Some error occured: " + msg
+      });
+    }
+    
+  } catch(e) {
+    // An error occured when reaching the server or parsing the result
+    if(typeof resultStringBlob !== "undefined" && resultStringBlob != null) {
+      resultTxt = resultStringBlob.getString();
+      resultObj = JSON.parse(resultTxt);
+    
+      msg = "Status: " + resultObj.status;
+      msg += ", message: " + resultObj.statusMessage;
+      msg += ", error: " + resultObj.error;
+    } else {
+      msg = e;
+    }
+    Log(input, {
+        'level': "warn",
+         'message': "An error was catched during execution of the script: " + msg
+    });
+  }
 }
 ```
 
