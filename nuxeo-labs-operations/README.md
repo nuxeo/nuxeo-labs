@@ -42,7 +42,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
   ```javascript
 function run(ctx, input, params) {
   
-  var resultStringBlob, headers, resultTxt, resultObj, msg;
+  var resultStringBlob, headers, resultTxt, resultObj, msg, serverAndPort;
 
   try {
     
@@ -54,7 +54,7 @@ function run(ctx, input, params) {
 
     resultStringBlob = HTTP.Call(input, {
       'method': "GET",
-      'url': "http://dam.cloud.nuxeo.com/nuxeo/api/v1//path//",
+      'url': "http://YOUR_NUXEO_SERVER/nuxeo/api/v1//path//",
       'headersAsJSON': JSON.stringify(headers)
     });
   
