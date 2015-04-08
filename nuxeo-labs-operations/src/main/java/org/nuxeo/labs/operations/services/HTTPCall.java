@@ -24,7 +24,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+import org.codehaus.jackson.map.TreeMapper;
+import org.codehaus.jackson.node.ObjectNode;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -52,7 +60,7 @@ public class HTTPCall {
     protected OperationContext ctx;
 
     @Param(name = "method", required = true, widget = Constants.W_OPTION, values = {
-            "GET", "POST" })
+            "GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE" })
     String method;
 
     @Param(name = "url", required = true)
@@ -82,13 +90,13 @@ public class HTTPCall {
 
             http = (HttpURLConnection) theURL.openConnection();
 
-            RESTUtils.addHeaders(http, headers, headersAsJSON);
+            addHeaders(http, headers, headersAsJSON);
 
             method = method.toUpperCase();
             http.setRequestMethod(method);
-            if (method.equals("POST")) {
 
-                http.setRequestMethod("POST");
+            if (body != null && !body.isEmpty()) {
+
                 http.setDoInput(true);
                 http.setDoOutput(true);
 
@@ -118,21 +126,80 @@ public class HTTPCall {
             }
 
         } finally {
-            result = "{";
+
+            int status = 0;
+            String statusMessage = "";
+
             if (isUnknownHost) { // can't use our http variable
-                result += "\"status\": 0";
-                result += ", \"statusMessage\": \"UnknownHostException\"";
+                status = 0;
+                statusMessage = "UnknownHostException";
             } else {
-                result += "\"status\": " + http.getResponseCode();
-                result += ", \"statusMessage\": "
-                        + RESTUtils.doubleQuoteString(http.getResponseMessage());
+                // Still, other failures _before_ reaching the server may occur
+                // => http.getResponseCode() and others woul throw an error
+                try {
+                    status = http.getResponseCode();
+                    statusMessage = http.getResponseMessage();
+                } catch (Exception e) {
+                    statusMessage = "Error getting the status message itself";
+                }
+
             }
-            result += ", \"result\": " + RESTUtils.formatForJSON(restResult);
-            result += ", \"error\": " + RESTUtils.doubleQuoteString(error);
-            result += "}";
+
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode resultObj = mapper.createObjectNode();
+            resultObj.put("status", status);
+            resultObj.put("statusMessage", statusMessage);
+            resultObj.put("error", error);
+
+            // Check if we received a JSON string, so we put the object directly
+            // in "result"
+            try {
+                ObjectMapper resultAsObj = new ObjectMapper();
+                JsonNode rootNode = resultAsObj.readTree(restResult);
+                resultObj.put("result", rootNode);
+            } catch (Exception e) {
+                resultObj.put("result", restResult);
+            }
+
+            ObjectWriter ow = mapper.writer();// .withDefaultPrettyPrinter();
+            result = ow.writeValueAsString(resultObj);
+
         }
 
         return new StringBlob(result, "text/plain", "UTF-8");
+    }
+    
+    /**
+     * Adds the headers to the HttpURLConnection object
+     * 
+     * @param inHttp
+     * @param inProps. A list of key-value pairs
+     * @param inJsonStr. A JSON objects as String, each property is a header to
+     *            set
+     * @throws JsonProcessingException
+     * @throws IOException
+     *
+     * @since 7.2
+     */
+    public static void addHeaders(HttpURLConnection inHttp, Properties inProps,
+            String inJsonStr) throws JsonProcessingException, IOException {
+
+        if (inProps != null) {
+            for (String oneHeader : inProps.keySet()) {
+                inHttp.setRequestProperty(oneHeader, inProps.get(oneHeader));
+            }
+        }
+
+        if (StringUtils.isNotBlank(inJsonStr)) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(inJsonStr);
+            Iterator<String> it = rootNode.getFieldNames();
+            while (it.hasNext()) {
+                String oneHeader = it.next();
+                inHttp.setRequestProperty(oneHeader,
+                        rootNode.get(oneHeader).getTextValue());
+            }
+        }
     }
 
 }
