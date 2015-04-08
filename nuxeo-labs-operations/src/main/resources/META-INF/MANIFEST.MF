@@ -13,5 +13,6 @@ Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.operations.notific
  .nuxeo.labs.operations.ui.NavigateToUrl.xml,OSGI-INF/extensions/org.n
  uxeo.labs.operations.document.CopySchema.xml,OSGI-INF/extensions/org.
  nuxeo.labs.operations.document.ResetSchema.xml,OSGI-INF/extensions/or
- g.nuxeo.labs.operations.services.HTTPCall.xml
+ g.nuxeo.labs.operations.services.HTTPCall.xml,OSGI-INF/extensions/or
+ g.nuxeo.labs.operations.document.UnpublishDocument.xml
 
