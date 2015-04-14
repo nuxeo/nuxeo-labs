@@ -109,8 +109,13 @@ public class ImageCropInViewsOp {
         // Scale the crop
         if (pictureWidth > 0 && pictureHeight > 0) {
             double coef = 0.0;
-            int w = ((Long) inDoc.getPropertyValue("picture:info/width")).intValue();
-            int h = ((Long) inDoc.getPropertyValue("picture:info/height")).intValue();
+            int w;
+            int h;
+            
+            ImagingService imagingService = Framework.getService(ImagingService.class);
+            ImageInfo info = imagingService.getImageInfo(pictureBlob);
+            w = info.getWidth();
+            h = info.getHeight();
 
             if (w != (int) pictureWidth) {
                 coef = (double) w / (double) pictureWidth;

@@ -27,14 +27,18 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.platform.picture.api.ImageInfo;
+import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.ecm.platform.picture.api.PictureView;
 import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
+import org.nuxeo.runtime.api.Framework;
 
 /**
  * Display "Crop image" UI in a fancybox. The bean sets up information about the
@@ -102,8 +106,11 @@ public class ImageCropHelperBean implements Serializable {
             imageHeight = 0;
             
             try {
-                originalImageWidth = ((Long) currentDocument.getPropertyValue("picture:info/width")).intValue();
-                originalImageHeight = ((Long) currentDocument.getPropertyValue("picture:info/height")).intValue();
+                Blob pictureBlob = (Blob) currentDocument.getPropertyValue("file:content");
+                ImagingService imagingService = Framework.getService(ImagingService.class);
+                ImageInfo info = imagingService.getImageInfo(pictureBlob);
+                originalImageWidth = info.getWidth();
+                originalImageHeight = info.getHeight();
             } catch (Exception e) {
                 originalImageWidth = 0;
                 originalImageHeight = 0;
