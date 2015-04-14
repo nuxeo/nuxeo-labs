@@ -147,74 +147,28 @@ public class ImageCropInViewsOp {
         if (title == null || title.isEmpty()) {
             title = "Crop-" + top + "-" + left + "-" + width + "x" + height;
         }
-        /*
-         * MultiviewPicture mvp = inDoc.getAdapter(MultiviewPicture.class);
-         * PictureView view = mvp.getView(title); if(view != null) {
-         * mvp.removeView(title); }
-         */
+        
+        MultiviewPicture mvp = inDoc.getAdapter(MultiviewPicture.class);
+        PictureView view = mvp.getView(title);
+        if(view != null) {
+            mvp.removeView(title);
+        }
 
         ImagingService imagingService = Framework.getService(ImagingService.class);
         ImageInfo info = imagingService.getImageInfo(croppedBlob);
-        PictureView view = new PictureViewImpl();
-        view.setBlob(croppedBlob);
-        view.setDescription(title);
-        view.setFilename(croppedBlob.getFilename());
-        view.setHeight((int) height);
-        view.setImageInfo(info);
+        view = new PictureViewImpl();
         view.setTitle(title);
+        view.setContent(croppedBlob);
+        view.setFilename(croppedBlob.getFilename());
+        view.setDescription(title);
+        view.setTag(title);
+        view.setHeight((int) height);
         view.setWidth((int) width);
-        // mvp.addView(view);
+        mvp.addView(view);
 
-        List<Map<String, Object>> views = (List<Map<String, Object>>) inDoc.getPropertyValue("picture:views");
-        if (views != null) {
-            int max = views.size();
-            int idxToDelete = -1;
-            for (int i = 0; i < max; ++i) {
-                Map<String, Object> map = views.get(i);
-                if (map.get(PictureView.FIELD_TITLE).equals(title)) {
-                    idxToDelete = i;
-                    break;
-                }
-            }
-            if (idxToDelete > -1) {
-                views.remove(idxToDelete);
-            }
-        }
-        views.add(myViewToMap(view));
-        inDoc.setPropertyValue("picture:views", (Serializable) views);
         inDoc = session.saveDocument(inDoc);
 
         return inDoc;
-    }
-
-    // 2015-03-14: workaround a bug in MultiviewPictureAdapter#viewToMap.
-    // Will be fixed in the platform very soon, but need this to work for like
-    // in 2 days.
-    protected Map<String, Object> myViewToMap(PictureView view) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(PictureView.FIELD_TITLE, view.getTitle());
-        map.put(PictureView.FIELD_DESCRIPTION, view.getDescription());
-        map.put(PictureView.FIELD_TAG, view.getTag());
-        map.put(PictureView.FIELD_HEIGHT, view.getHeight());
-        map.put(PictureView.FIELD_WIDTH, view.getWidth());
-        map.put(PictureView.FIELD_FILENAME, view.getFilename());
-        Object o = view.getBlob();
-        Blob blob = null;
-        if (o instanceof File) {
-            blob = new FileBlob((File) o, "application/octet-stream");
-        } /*
-           * else if (o instanceof InputStream) { blob = new
-           * InputStreamBlob((InputStream) o, "application/octet-stream"); }
-           */else if (o instanceof Blob) {
-            blob = (Blob) o;
-        }
-        if (blob != null) {
-            map.put(PictureView.FIELD_CONTENT, blob);
-        }
-
-        map.put(PictureView.FIELD_INFO, view.getImageInfo().toMap());
-
-        return map;
     }
 
 }

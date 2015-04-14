@@ -5,11 +5,12 @@
   <parent>
     <groupId>org.nuxeo</groupId>
     <artifactId>nuxeo-addons-parent</artifactId>
-    <version>7.2-SNAPSHOT</version>
+    <version>6.0</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
   <name>Parent Project for Nuxeo Labs</name>
+  <version>6.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description />
   <modules>
@@ -24,7 +25,7 @@
     <module>nuxeo-labs-crop-ui</module>
   </modules>
   <properties>
-    <nuxeo.labs.version>7.2-SNAPSHOT</nuxeo.labs.version>
+    <nuxeo.labs.version>6.0-SNAPSHOT</nuxeo.labs.version>
   </properties>
   <dependencyManagement>
     <dependencies>

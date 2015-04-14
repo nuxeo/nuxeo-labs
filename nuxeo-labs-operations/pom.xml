@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-labs-parent</artifactId>
-    <version>7.2-SNAPSHOT</version>
+    <version>6.0-SNAPSHOT</version>
   </parent>
   <artifactId>nuxeo-labs-operations</artifactId>
   <name>Content Automation Operations Project for Nuxeo Labs</name>

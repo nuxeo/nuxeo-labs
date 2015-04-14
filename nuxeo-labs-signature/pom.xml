@@ -5,7 +5,7 @@
   <parent>
   <artifactId>nuxeo-labs-parent</artifactId>
   <groupId>org.nuxeo.labs</groupId>
-  <version>7.2-SNAPSHOT</version>
+  <version>6.0-SNAPSHOT</version>
   </parent>
 
   <groupId>org.nuxeo.labs</groupId>
