@@ -24,7 +24,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirect to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
-* `Services > HTTP: Call` (id: `HTTP Call`)
+* `Services > HTTP: Call` (id: `HTTP.Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
   * Parameters:
     * `method`: Required. The HTTP method to use: "GET", "POST", "PUT3, "DELETE", "OPTIONS" or "TRACE"
@@ -37,7 +37,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * `statusMessage`: The HTTP status message ("OK" for example)
     * `error`: The detailed error when reaching the server or parsing the result failed.
     * `result`: The raw data ans returned by the server.
-  * Example of JavaScript Automation (**new since nuxeo 7.2), getting a document from a distant nuxeo server:
+  * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a document from a distant nuxeo server:
 
   ```javascript
 function run(ctx, input, params) {
@@ -99,6 +99,37 @@ function run(ctx, input, params) {
   }
 }
 ```
+
+* `Services > HTTP: Download File` (id: `HTTP.DownloadFile`)
+  * Sends a GET HTTP request, returns the result as a `FileBlob`
+  * Parameters:
+    * `url`: Required. The full URL to call, including any queryString, parameters, ... (must be already formated)
+    * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
+    * `headersAsJSON`: A string containing a JSON object with the headers.
+  * Returns a `FileBlob`
+  * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a file from a distant nuxeo server, saving the file to current document:
+  ```
+// Here, input is a File for example
+function run(ctx, input, params) {
+  var headers, blob;
+
+  headers = {
+    "Authorization": "Basic 34565pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
+    "Accept": "*/*"
+  };
+
+  blob = HTTP.DownloadFile(input, {
+    'url': "your-server-url-to-the-file",
+    'headersAsJSON': JSON.stringify(headers)
+  });
+
+  // Save the blob to the document
+  input.setPropertyValue("file:content", blob);
+  input = Document.Save(input, {});
+
+  return input;
+}
+  ```
 
 
 
