@@ -56,9 +56,9 @@ import com.google.inject.Inject;
 @Features({ PlatformFeature.class, CoreFeature.class,
         EmbeddedAutomationServerFeature.class })
 @Deploy({ "org.nuxeo.labs.operation" })
-public class RESTTest {
+public class HTTPTest {
 
-    private static final Log log = LogFactory.getLog(RESTTest.class);
+    private static final Log log = LogFactory.getLog(HTTPTest.class);
 
     // Maybe we should _not_ use dam.cloud.nuxeo.com. At least, PELAE DO NOT ADD
     // DOCUMENTS THERE, we're using it for demos
