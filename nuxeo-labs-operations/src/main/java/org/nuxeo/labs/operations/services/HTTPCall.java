@@ -24,14 +24,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
-import org.codehaus.jackson.map.TreeMapper;
 import org.codehaus.jackson.node.ObjectNode;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
@@ -39,13 +35,8 @@ import org.nuxeo.ecm.automation.core.annotations.Context;
 import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
-import org.nuxeo.ecm.automation.core.collectors.DocumentModelCollector;
-import org.nuxeo.ecm.automation.core.collectors.BlobCollector;
 import org.nuxeo.ecm.automation.core.util.Properties;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 
 /**
@@ -90,8 +81,8 @@ public class HTTPCall {
 
             http = (HttpURLConnection) theURL.openConnection();
 
-            addHeaders(http, headers, headersAsJSON);
-
+            HTTPUtils.addHeaders(http, headers, headersAsJSON);
+            
             method = method.toUpperCase();
             http.setRequestMethod(method);
 
@@ -168,38 +159,5 @@ public class HTTPCall {
 
         return new StringBlob(result, "text/plain", "UTF-8");
     }
-    
-    /**
-     * Adds the headers to the HttpURLConnection object
-     * 
-     * @param inHttp
-     * @param inProps. A list of key-value pairs
-     * @param inJsonStr. A JSON objects as String, each property is a header to
-     *            set
-     * @throws JsonProcessingException
-     * @throws IOException
-     *
-     * @since 7.2
-     */
-    public static void addHeaders(HttpURLConnection inHttp, Properties inProps,
-            String inJsonStr) throws JsonProcessingException, IOException {
-
-        if (inProps != null) {
-            for (String oneHeader : inProps.keySet()) {
-                inHttp.setRequestProperty(oneHeader, inProps.get(oneHeader));
-            }
-        }
-
-        if (StringUtils.isNotBlank(inJsonStr)) {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode rootNode = mapper.readTree(inJsonStr);
-            Iterator<String> it = rootNode.getFieldNames();
-            while (it.hasNext()) {
-                String oneHeader = it.next();
-                inHttp.setRequestProperty(oneHeader,
-                        rootNode.get(oneHeader).getTextValue());
-            }
-        }
-    }
-
+   
 }
