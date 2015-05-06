@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-Vendor: Nuxeo
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-Version: 5.9.6
+Bundle-Name: nuxeo-labs-more-like-ui
+Bundle-ManifestVersion: 1
+Bundle-SymbolicName: nuxeo-labs-more-like-ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Nuxeo-Component: OSGI-INF/extensions/widget-contrib.xml
+

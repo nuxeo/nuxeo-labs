@@ -1,0 +1,32 @@
+<div xmlns:nxu="http://nuxeo.org/nxweb/util"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:a4j="http://richfaces.org/a4j"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:nxh="http://nuxeo.org/nxweb/html"
+  xmlns:nxl="http://nuxeo.org/nxforms/layout"
+  xmlns:nxd="http://nuxeo.org/nxweb/document">
+
+  <c:if test="false">
+    Reminder: Do not put comment directely in xhtml or you are gonna have trouble.
+    Use c:if test="false" to add comment in xhtml code.
+  </c:if>
+
+  <c:if test="false">
+  Could be loaded in a theme, etc. Easier here.
+  </c:if>
+  <script src="#{contextPath}/scripts/elasticsearch.jquery.min.js" />
+  <script src="#{contextPath}/scripts/more_like_this.js" />
+  
+  <c:set var="docId" value="#{currentDocument.id}" />
+
+  <div id="similarDocs"></div>
+
+  <script type="text/javascript" charset="utf-8">
+    jQuery(document).ready(function () {
+         doMoreLikeThisSearch("#{docId}");
+    });
+  </script>
+
+</div>

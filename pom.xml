@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.nuxeo</groupId>
     <artifactId>nuxeo-addons-parent</artifactId>
-    <version>7.2-SNAPSHOT</version>
+    <version>7.2</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
@@ -22,9 +22,10 @@
     <module>nuxeo-labs-mp</module>
     <module>nuxeo-labs-signature</module>
     <module>nuxeo-labs-crop-ui</module>
+    <module>nuxeo-labs-more-like-ui</module>
   </modules>
   <properties>
-    <nuxeo.labs.version>7.2-SNAPSHOT</nuxeo.labs.version>
+    <nuxeo.labs.version>7.2</nuxeo.labs.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -66,6 +67,11 @@
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-crop-ui</artifactId>
+        <version>${nuxeo.labs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-more-like-ui</artifactId>
         <version>${nuxeo.labs.version}</version>
       </dependency>
       <dependency>
