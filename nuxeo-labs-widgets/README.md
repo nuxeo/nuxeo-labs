@@ -20,7 +20,7 @@ It must be contributed to the header though the action extension point using the
 	      <category>MAIN_TABS</category>
 	      <properties>
 	        <property name="addForm">false</property>
-	        <property name="template">/widgets/externalheadermenu_widget_template.xhtml
+	        <property name="template">/widgets/externalheadermenu_widget.xhtml
 	        </property>
 	      </properties>
 	    </action>
