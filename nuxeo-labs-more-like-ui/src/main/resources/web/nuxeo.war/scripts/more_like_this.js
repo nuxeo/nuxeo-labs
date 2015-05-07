@@ -27,7 +27,6 @@ function doMoreLikeThisSearch(id) {
                   "_type" : "doc",
                   "_id" : id}],
                 "min_term_freq" : 1,
-                "max_query_terms" : 5,
                 "min_word_length" : 5,
                 "min_doc_freq" : 3,
                 "boost" : 3
@@ -55,7 +54,9 @@ function callbackSearch(resp) {
         var root = jQuery('#similarDocs');
 
         var style =
-            "background-image:url('http://192.168.56.101:8080/nuxeo/nxthumb/default/"+
+            "background-image:url('"+
+            window.location.protocol+'//'+
+            window.location.host+'/nuxeo/nxthumb/default/'+
             id+"/blobholder:0/"+
             "');";
         var img = jQuery('<div>').addClass('thumbnailContainer').attr('style',style);
