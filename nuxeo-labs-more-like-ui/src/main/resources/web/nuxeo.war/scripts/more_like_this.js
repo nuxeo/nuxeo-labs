@@ -4,7 +4,7 @@ function doMoreLikeThisSearch(id) {
     hosts: {
             protocol: window.location.protocol,
             host: window.location.hostname,
-            port: window.location.port,
+            port: window.location.port.length != 0 ? window.location.port : 80,
             path: '/nuxeo/site/es',
             headers: {
                 'Content-Type' : 'application/json'

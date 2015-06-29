@@ -31,6 +31,7 @@
       <artifact:set>
         <includes>
           <artifact groupId="org.nuxeo.labs" scope="!test" type="!pom" />
+          <artifact groupId="org.nuxeo.elasticsearch" artifactId = "nuxeo-elasticsearch-http-read-only" scope="!test" type="!pom" />
         </includes>
       </artifact:set>
     </copy>
