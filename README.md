@@ -12,6 +12,8 @@ cd /path/to/nuxeo-labs
 mvn install
 ```
 
+QA build status: [![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=nuxeo-labs-master)](https://qa.nuxeo.org/jenkins/view/sandbox/job/nuxeo-labs-master/)
+
 The MP is in `nuxeo-labs-mp/target`, named `nuxeo-labs-mp-{version}.zip`. It can be [installed from the Admin Center](http://doc.nuxeo.com/display/ADMINDOC/Installing+a+new+package+on+your+instance#InstallingaNewPackageonYourInstance-OfflineInstallation), or from the commandline using `nuxeoctl mp-install`.
 
 We also plan to eventually make it available from the "Package from Nuxeo Marketplace" tab.
