@@ -37,6 +37,10 @@ function doMoreLikeThisSearch(id,query) {
     }
   };
 
+  /* replace id placeholder by actual doc id*/
+  if (query) query = query.replace("\"id\"","\""+id+"\"");
+
+  /* if no query is provided, use default one*/
   var actualQuery = query ? JSON.parse(query) : defaultQuery;
 
   esClient.search({
