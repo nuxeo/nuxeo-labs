@@ -1,4 +1,4 @@
-function doMoreLikeThisSearch(id) {
+function doMoreLikeThisSearch(id,query) {
 
   var esClient= new jQuery.es.Client({
     hosts: {
@@ -12,35 +12,39 @@ function doMoreLikeThisSearch(id) {
     }
   });
 
+  var defaultQuery = {
+    "bool": {
+        "should": [{
+            "more_like_this" : {
+             "fields" : ["dc:title.fulltext"],
+             "docs" : [{
+               "_index" : "nuxeo",
+               "_type" : "doc",
+               "_id" : id}],
+             "min_term_freq" : 1,
+             "min_word_length" : 5,
+             "min_doc_freq" : 3,
+             "boost" : 3
+           }},{
+           "more_like_this" : {
+             "docs" : [{
+               "_index" : "nuxeo",
+               "_type" : "doc",
+               "_id" : id}],
+             "min_term_freq" : 1,
+             "max_query_terms" : 25,
+           }}]
+    }
+  };
+
+  var actualQuery = query ? JSON.parse(query) : defaultQuery;
+
   esClient.search({
     index: 'nuxeo',
     body: {
      fields: ["_source"],
      size : 3,
-     query : {
-        "bool": {
-          "should": [{
-               "more_like_this" : {
-                "fields" : ["dc:title.fulltext"],
-                "docs" : [{
-                  "_index" : "nuxeo",
-                  "_type" : "doc",
-                  "_id" : id}],
-                "min_term_freq" : 1,
-                "min_word_length" : 5,
-                "min_doc_freq" : 3,
-                "boost" : 3
-              }},{
-              "more_like_this" : {
-                "docs" : [{
-                  "_index" : "nuxeo",
-                  "_type" : "doc",
-                  "_id" : id}],
-                "min_term_freq" : 1,
-                "max_query_terms" : 25,
-              }}]
-        }
-      }
+     query : actualQuery
     }
   }).then(callbackSearch, function (err) {
       console.trace(err.message);
