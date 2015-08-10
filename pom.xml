@@ -24,6 +24,7 @@
     <module>nuxeo-labs-signature</module>
     <module>nuxeo-labs-crop-ui</module>
     <module>nuxeo-labs-more-like-ui</module>
+    <module>nuxeo-labs-google-calendar-publisher</module>
   </modules>
   <properties>
     <nuxeo.labs.version>7.3-SNAPSHOT</nuxeo.labs.version>
@@ -73,6 +74,11 @@
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-more-like-ui</artifactId>
+        <version>${nuxeo.labs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-google-calendar-publisher</artifactId>
         <version>${nuxeo.labs.version}</version>
       </dependency>
       <dependency>
