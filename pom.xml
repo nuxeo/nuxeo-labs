@@ -20,11 +20,11 @@
     <module>nuxeo-labs-template-rendition-publisher</module>
     <module>nuxeo-labs-video</module>
     <module>nuxeo-labs-fancybox</module>
+    <module>nuxeo-labs-google-calendar-publisher</module>
     <module>nuxeo-labs-mp</module>
     <module>nuxeo-labs-signature</module>
     <module>nuxeo-labs-crop-ui</module>
     <module>nuxeo-labs-more-like-ui</module>
-    <module>nuxeo-labs-google-calendar-publisher</module>
   </modules>
   <properties>
     <nuxeo.labs.version>7.3-SNAPSHOT</nuxeo.labs.version>
