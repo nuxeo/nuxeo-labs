@@ -30,8 +30,8 @@ This is a moving project (no API maintenance, no deprecation process, etc.) If a
 
 * [_nuxeo-labs-fancybox_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-fancybox)
     * In Studio define a layout, a callback Automation Chain and an XML Extension. You now have a [Fancybox](http://fancybox.net/) dialog, and in the automation chain, you get the values enetered by the user.
-* [_nuxeo-labs-google-calendar-publisher_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-google-calendar-publisher)
-      * This plugin enables you to publish on Google Calendar through a nuxeo automation operation.
+* [_nuxeo-labs-google-publisher_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-google-publisher)
+      * This plugin enables you to publish on Google Calendar and Tasks through a nuxeo automation operation.
 * [_nuxeo-labs-images_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-images)
   * Operations including convert, watermark, crop, etc. for images.
   * Crop toolbar button with UI.
