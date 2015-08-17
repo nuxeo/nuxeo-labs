@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: nuxeo-google-publisher
+Bundle-Name: nuxeo-google-publisher
+Bundle-Version: 1.0.qualifier
+Bundle-ClassPath: .
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ManifestVersion: 2
+Bundle-Vendor: Nuxeo
+Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.google.calendar.Publi
+ sher.xml,OSGI-INF/extensions/org.nuxeo.google.task.Publi
+ sher.xml
+

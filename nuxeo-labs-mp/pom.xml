@@ -47,7 +47,7 @@
     </dependency>
     <dependency>
       <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-google-calendar-publisher</artifactId>
+      <artifactId>nuxeo-labs-google-publisher</artifactId>
     </dependency>
   </dependencies>
   <build>

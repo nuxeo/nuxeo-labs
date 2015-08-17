@@ -8,8 +8,8 @@
     <version>7.3-SNAPSHOT</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
-  <artifactId>nuxeo-labs-google-calendar-publisher</artifactId>
-  <name>Nuxeo Google Calendar Publisher</name>
+  <artifactId>nuxeo-labs-google-publisher</artifactId>
+  <name>Nuxeo Google Publisher</name>
   <description/>
   <dependencies>
     <dependency>
@@ -44,6 +44,11 @@
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-calendar</artifactId>
       <version>v3-rev132-1.20.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-tasks</artifactId>
+      <version>v1-rev41-1.20.0</version>
     </dependency>
     <dependency>
       <groupId>org.nuxeo.ecm.automation</groupId>
