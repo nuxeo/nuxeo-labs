@@ -1,13 +1,5 @@
-<!-- See documentation at http://doc.nuxeo.com/x/IgIz -->
 <install>
-  
-   <update file="${package.root}/install/bundles" todir="${env.bundles}" />
-  
-   <update file="${package.root}/install/lib" todir="${env.lib}" />
-  
-   <copy file="${package.root}/install/artifacts-sample.properties"
-     todir="${env.server.home}/sdk" overwrite="true" />
-   <copy file="${package.root}/install/test-artifacts-sample.properties"
-     todir="${env.server.home}/sdk" overwrite="true" />
-  
+  <copy dir="${package.root}/install/bundles" todir="${env.bundles}"
+    overwriteIfNewerVersion="true" />
+  <update file="${package.root}/install/lib" todir="${env.lib}" />
 </install>
