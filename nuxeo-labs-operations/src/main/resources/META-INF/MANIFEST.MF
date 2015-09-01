@@ -15,5 +15,7 @@ Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.operations.notific
  nuxeo.labs.operations.document.ResetSchema.xml,OSGI-INF/extensions/or
  g.nuxeo.labs.operations.services.HTTPCall.xml,OSGI-INF/extensions/org
  .nuxeo.labs.operations.document.UnpublishDocument.xml,OSGI-INF/extens
- ions/org.nuxeo.labs.operations.services.HTTPDownloadFile.xml
+ ions/org.nuxeo.labs.operations.services.HTTPDownloadFile.xml,OSGI-INF
+ /extensions/org.nuxeo.labs.operations.document.GetLastDocumentVersion
+ .xml
 

@@ -21,8 +21,11 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Or a list of mixed value
   * If `rollbackOnError` is checked, then error will be catch if one is thrown.
   * For the file value just put the `xpath` value of field that stores the file (`file:content`, `files:/files/0/content`, `myschema:myfield`, `myschema:/myfield/0/content`)
+* `Document > Get Last version` (id: `Document.GetLastVersion`)
+  * Returns the last version of the input document.
+  * Returns `null` if the document has no version at all.
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
-  * Redirect to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
+  * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
 * `Services > HTTP: Call` (id: `HTTP.Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
