@@ -4,9 +4,20 @@ This plugin contains miscellaneous operations. It was better to group them in th
 # List of Operations 
 * `Document > Add Complex Property From Json String` (id `AddComplexProperty`)
   * This operation can add new fields to a multivalued complex metadata. The `value` parameter is a String containing the JSON list of new values for the metadata given in `xpath`
+* `Services > Vocabulary: Add Entry` (id `Vocabulary.AddEntry`)
+  * Add a new entry to a vocabulary.
+  * The operation only handles Nuxeo Vocabularies, which are specific types of Directories. It assumes the directory has the following fields `id`, `label`, `obsolete` and `ordering`. It it is a hierarchical vocabulary, it also assumes there is a `parent` field.
+  * Parameters:
+    * `name`: The name of the vocabulary, required
+    * `id`: The id of the new entry, required
+    * `label`: The label of of the new entry. If empty, the label is set to the id
+    * `obsolete`: Integer/long, 0 or 1,  optional
+    * `ordering`: Integer/long, optional
+    * `parent`: The parent of of the new entry, in case the vocabulary is hierarchical (not use if it is not hierarchical)
+    
 * `Notification > AdvancedSendEmail` (id `AdvancedSendEmail`)
   * Send Email according parameters set.
-  * EMail Address resolution is as following if you check `strict` : <ul>
+  * EMail Address resolution is as following if you check `strict` :
     * If you set a string that starts with 'user:xxxx', will resolve email of username xxxx.
     * I you set a string that starts with 'group:xxxx, will resolve all users and add their email.
     * If none these 2, if the value contains an '@' it is handle as a full eMail address already formated.

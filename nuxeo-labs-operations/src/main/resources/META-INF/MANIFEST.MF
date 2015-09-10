@@ -17,5 +17,6 @@ Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.operations.notific
  .nuxeo.labs.operations.document.UnpublishDocument.xml,OSGI-INF/extens
  ions/org.nuxeo.labs.operations.services.HTTPDownloadFile.xml,OSGI-INF
  /extensions/org.nuxeo.labs.operations.document.GetLastDocumentVersion
- .xml
+ .xml,OSGI-INF/extensions/org.nuxeo.labs.operations.services.Vocabular
+ yAddEntryOp.xml
 
