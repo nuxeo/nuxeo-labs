@@ -28,7 +28,10 @@ It must be contributed to the header though the action extension point using the
 
 
 
-
+## flash_preview_widget.xhtml	
+Enables to display a flash file (.swf).
+It should be bound to the binary field to display (file:content most of the time).
+width and height properties can also be set up.
 
 
 
