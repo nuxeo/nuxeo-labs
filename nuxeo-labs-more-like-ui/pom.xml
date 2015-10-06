@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-labs-parent</artifactId>
-    <version>7.3-SNAPSHOT</version>
+    <version>7.4-SNAPSHOT</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-more-like-ui</artifactId>
@@ -31,7 +31,6 @@
     <dependency>
       <groupId>org.nuxeo.elasticsearch</groupId>
       <artifactId>nuxeo-elasticsearch-http-read-only</artifactId>
-      <version>7.3</version>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
