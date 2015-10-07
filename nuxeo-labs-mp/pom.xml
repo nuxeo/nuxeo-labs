@@ -1,65 +1,161 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.nuxeo.labs</groupId>
-    <artifactId>nuxeo-labs-parent</artifactId>
-    <version>7.4-SNAPSHOT</version>
-  </parent>
-  <artifactId>nuxeo-labs-mp</artifactId>
-  <packaging>zip</packaging>
-  <name>Market Place Package for Nuxeo Labs</name>
-  <description/>
-  <!--  not include signature and crop-ui -->
-  <dependencies>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-crop-ui</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-more-like-ui</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-operations</artifactId>
-    </dependency>
-   <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-we-publication</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-video</artifactId>
-    </dependency>
-     <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-images</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-template-rendition-publisher</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-fancybox</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nuxeo.labs</groupId>
-      <artifactId>nuxeo-labs-google-publisher</artifactId>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.nuxeo.build</groupId>
-        <artifactId>ant-assembly-maven-plugin</artifactId>
-        <configuration>
-          <buildFile>${basedir}/src/main/assemble/assembly.xml</buildFile>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-parent</artifactId>
+        <version>7.4-SNAPSHOT</version>
+    </parent>
+    <artifactId>nuxeo-labs-mp</artifactId>
+    <packaging>zip</packaging>
+    <name>Market Place Package for Nuxeo Labs</name>
+    <description/>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Import Nuxeo BOM -->
+            <dependency>
+                <groupId>org.nuxeo.ecm.distribution</groupId>
+                <artifactId>nuxeo-distribution</artifactId>
+                <version>${nuxeo.distribution.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Base distribution(s) for the MP -->
+        <dependency>
+            <groupId>org.nuxeo.ecm.distribution</groupId>
+            <artifactId>nuxeo-distribution-cap</artifactId>
+            <!-- <artifactId>nuxeo-distribution-coreserver</artifactId> -->
+            <!-- <artifactId>nuxeo-distribution-dm</artifactId> -->
+            <!-- <artifactId>nuxeo-distribution-dam</artifactId> -->
+            <!-- <artifactId>nuxeo-distribution-social-collaboration</artifactId> -->
+            <type>pom</type>
+        </dependency>
+
+        <!-- Additional bundles to be deployed by the MP -->
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-crop-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-more-like-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-operations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-we-publication</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-video</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-images</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-template-rendition-publisher</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-fancybox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.labs</groupId>
+            <artifactId>nuxeo-labs-google-publisher</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- Copy pluginManagement from org.nuxeo:nuxeo-ecm if not inheriting -->
+        <!-- <pluginManagement> -->
+        <!-- <plugins> -->
+        <!-- <plugin> -->
+        <!-- <groupId>org.nuxeo.build</groupId> -->
+        <!-- <artifactId>ant-assembly-maven-plugin</artifactId> -->
+        <!-- <version>${ant.assembly.version}</version> -->
+        <!-- <extensions>true</extensions> -->
+        <!-- </plugin> -->
+        <!-- </plugins> -->
+        <!-- </pluginManagement> -->
+        <plugins>
+            <plugin>
+                <groupId>org.nuxeo.build</groupId>
+                <artifactId>ant-assembly-maven-plugin</artifactId>
+                <configuration>
+                    <buildFiles>
+                        <buildFile>${basedir}/src/main/assemble/assembly.xml</buildFile>
+                    </buildFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <url>http://maven.nuxeo.org/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>public-snapshot</id>
+            <url>http://maven.nuxeo.org/nexus/content/groups/public-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <url>http://maven.nuxeo.org/nexus/content/groups/public</url>
+            <name>Nuxeo virtual release repository</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>public-snapshot</id>
+            <url>http://maven.nuxeo.org/nexus/content/groups/public-snapshot</url>
+            <name>Nuxeo virtual snapshot repository</name>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <scm>
+        <connection>scm:git:git://github.com/nuxeo/nuxeo-marketplace-sample.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:nuxeo/nuxeo-marketplace-sample.git</developerConnection>
+        <url>https://github.com/nuxeo/nuxeo-marketplace-sample</url>
+    </scm>
 
 </project>

@@ -1,5 +1,7 @@
+<!-- See documentation at http://doc.nuxeo.com/x/IgIz -->
 <install>
-  <copy dir="${package.root}/install/bundles" todir="${env.bundles}"
-    overwriteIfNewerVersion="true" />
-  <update file="${package.root}/install/lib" todir="${env.lib}" />
+  @BUNDLES@
+  @LIBS@
+  @PROPERTIES@
+  @TEMPLATES@
 </install>
