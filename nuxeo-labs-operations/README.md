@@ -32,6 +32,10 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Or a list of mixed value
   * If `rollbackOnError` is checked, then error will be catch if one is thrown.
   * For the file value just put the `xpath` value of field that stores the file (`file:content`, `files:/files/0/content`, `myschema:myfield`, `myschema:/myfield/0/content`)
+* `Document > Add Facet` (id: `Document.AddFacet`)
+  * Dynamically adds a facet to the current document, returns the document with its new facet.
+  * Parameter: `facet`, the name of the facet to add.
+  * NOTICE: The facet must already be declared in the system, typically using the `doctype` end point of the `org.nuxeo.ecm.core.schema.TypeService` component.
 * `Document > Get Last version` (id: `Document.GetLastVersion`)
   * Returns the last version of the input document.
   * Returns `null` if the document has no version at all.

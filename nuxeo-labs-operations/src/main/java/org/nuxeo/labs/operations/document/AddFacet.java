@@ -34,7 +34,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 @Operation(id=AddFacet.ID, category=Constants.CAT_DOCUMENT, label="Add Facet", description="Adds the facet to the document")
 public class AddFacet {
 
-    public static final String ID = "AddFacet";
+    public static final String ID = "Document.AddFacet";
 
     @Param(name = "facet", required = true)
     String facet = "";
