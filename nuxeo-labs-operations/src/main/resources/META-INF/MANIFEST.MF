@@ -18,5 +18,6 @@ Nuxeo-Component: OSGI-INF/extensions/org.nuxeo.labs.operations.notific
  ions/org.nuxeo.labs.operations.services.HTTPDownloadFile.xml,OSGI-INF
  /extensions/org.nuxeo.labs.operations.document.GetLastDocumentVersion
  .xml,OSGI-INF/extensions/org.nuxeo.labs.operations.services.Vocabular
- yAddEntryOp.xml
+ yAddEntryOp.xml,OSGI-INF/extensions/org.nuxeo.labs.operations.documen
+ t.AddFacet.xml
 
