@@ -39,10 +39,15 @@ public class AddFacet {
     @Param(name = "facet", required = true)
     String facet = "";
 
+    @Context
+    protected CoreSession session;
+
     @OperationMethod(collector=DocumentModelCollector.class)
     public DocumentModel run(DocumentModel input) {
         
         boolean result = input.addFacet(facet);
+        
+        session.saveDocument(input);
         
         return input; 
     }    
