@@ -1,5 +1,10 @@
 # nuxeo-labs-google-publisher
-This plugin enables you to publish on Google Calendar through a nuxeo automation operation.
+This plugin enables you to publish on Google Calendar and Google Tasks via nuxeo automation operations.
+
+
+## Requirements
+
+You must install `nuxeo-liveconnect` (available in the Marketplace) in order to use these features.
 
 ## Build
 
