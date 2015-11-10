@@ -1,5 +1,0 @@
-<component name="org.nuxeo.labs.signature.SignPDF">
-  <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent" point="operations" >
-      <operation class="org.nuxeo.labs.signature.SignPDF" />
-   </extension>
-</component>

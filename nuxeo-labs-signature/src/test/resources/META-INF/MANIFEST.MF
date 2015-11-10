@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 1
-Bundle-Name: Nuxeo Labs Test
-Bundle-SymbolicName: org.nuxeo.labs.signature.test;singleton:=true
-Bundle-Vendor: Nuxeo
-Bundle-Version: 1.0.0
-Nuxeo-Component: OSGI-INF/directory-contrib.xml, OSGI-INF/schema-contrib.xml, OSGI-INF/cuser-contrib.xml, OSGI-INF/root-contrib.xml

@@ -22,7 +22,6 @@
     <module>nuxeo-labs-fancybox</module>
     <module>nuxeo-labs-google-publisher</module>
     <module>nuxeo-labs-mp</module>
-    <module>nuxeo-labs-signature</module>
     <module>nuxeo-labs-crop-ui</module>
     <module>nuxeo-labs-more-like-ui</module>
   </modules>
@@ -60,11 +59,6 @@
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-fancybox</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-signature</artifactId>
         <version>${nuxeo.labs.version}</version>
       </dependency>
       <dependency>
