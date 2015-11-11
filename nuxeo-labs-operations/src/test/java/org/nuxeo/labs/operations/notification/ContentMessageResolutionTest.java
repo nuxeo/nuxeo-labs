@@ -16,7 +16,7 @@
  */
 package org.nuxeo.labs.operations.notification;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import java.io.File;
 import java.io.InputStream;
 

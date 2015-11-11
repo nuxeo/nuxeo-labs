@@ -34,8 +34,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * @author <a href="mailto:bjalon@nuxeo.com">Benjamin JALON</a>

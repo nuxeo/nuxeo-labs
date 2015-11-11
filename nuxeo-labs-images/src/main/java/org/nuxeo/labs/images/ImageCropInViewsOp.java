@@ -19,14 +19,10 @@ package org.nuxeo.labs.images;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.faces.context.FacesContext;
 
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -34,21 +30,15 @@ import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.collectors.DocumentModelCollector;
-import org.nuxeo.ecm.automation.core.collectors.BlobCollector;
-import org.nuxeo.ecm.automation.core.util.DocumentHelper;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.ecm.platform.picture.api.PictureView;
 import org.nuxeo.ecm.platform.picture.api.PictureViewImpl;
-import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
-import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPictureAdapter;
-import org.nuxeo.ecm.platform.ui.web.util.ComponentUtils;
 import org.nuxeo.runtime.api.Framework;
 
 /**
@@ -165,6 +155,7 @@ public class ImageCropInViewsOp {
         view.setWidth((int) width);
         // mvp.addView(view);
 
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> views = (List<Map<String, Object>>) inDoc.getPropertyValue("picture:views");
         if (views != null) {
             int max = views.size();

@@ -31,7 +31,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.platform.picture.api.PictureView;
 import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;

@@ -37,8 +37,6 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.VersioningOption;
 import org.nuxeo.ecm.core.schema.FacetNames;
 import org.nuxeo.ecm.core.versioning.VersioningService;
-import org.nuxeo.ecm.platform.picture.api.PictureView;
-import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
 
 /**
  * Crops the image embedded in a document: - Uses the main file ("file:content")

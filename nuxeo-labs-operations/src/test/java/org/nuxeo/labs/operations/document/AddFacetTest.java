@@ -5,7 +5,6 @@
 package org.nuxeo.labs.operations.document;
 
 import static org.junit.Assert.*;
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,20 +15,14 @@ import org.nuxeo.ecm.automation.InvalidChainException;
 import org.nuxeo.ecm.automation.OperationChain;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.OperationException;
-import org.nuxeo.ecm.automation.core.operations.FetchContextDocument;
-import org.nuxeo.ecm.automation.core.operations.document.PublishDocument;
-import org.nuxeo.ecm.automation.core.util.DocumentHelper;
 import org.nuxeo.ecm.automation.test.EmbeddedAutomationServerFeature;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.VersioningOption;
 import org.nuxeo.ecm.core.test.CoreFeature;
-import org.nuxeo.ecm.core.versioning.VersioningService;
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.LocalDeploy;
 
 import com.google.inject.Inject;
 
