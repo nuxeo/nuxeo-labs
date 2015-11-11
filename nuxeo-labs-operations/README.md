@@ -4,6 +4,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
 # List of Operations 
 * `Document > Add Complex Property From Json String` (id `AddComplexProperty`)
   * This operation can add new fields to a multivalued complex metadata. The `value` parameter is a String containing the JSON list of new values for the metadata given in `xpath`
+  
 * `Services > Vocabulary: Add Entry` (id `Vocabulary.AddEntry`)
   * Add a new entry to a vocabulary.
   * The operation only handles Nuxeo Vocabularies, which are specific types of Directories. It assumes the directory has the following fields `id`, `label`, `obsolete` and `ordering`. It it is a hierarchical vocabulary, it also assumes there is a `parent` field.
@@ -32,10 +33,12 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Or a list of mixed value
   * If `rollbackOnError` is checked, then error will be catch if one is thrown.
   * For the file value just put the `xpath` value of field that stores the file (`file:content`, `files:/files/0/content`, `myschema:myfield`, `myschema:/myfield/0/content`)
+  
 * `Document > Add Facet` (id: `Document.AddFacet`)
   * Dynamically adds a facet to the current document, returns the document with its new facet.
   * Parameter: `facet`, the name of the facet to add.
   * NOTICE: The facet must already be declared in the system, typically using the `doctype` end point of the `org.nuxeo.ecm.core.schema.TypeService` component.
+  
 * `Document > Get Last version` (id: `Document.GetLastVersion`)
   * Returns the last version of the input document.
   * If the document has no version:
@@ -43,9 +46,11 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Else, creates a version, using `increment` ("Minor" or "Major") and returns this version.
     * IMPORTANT: If a version is created, the document is saved.
   * Returns `null` if the document has no version at all.
+  
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
+  
 * `Services > HTTP: Call` (id: `HTTP.Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
   * Parameters:
