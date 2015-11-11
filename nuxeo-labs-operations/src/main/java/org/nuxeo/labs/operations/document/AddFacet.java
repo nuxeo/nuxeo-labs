@@ -35,7 +35,7 @@ public class AddFacet {
     public static final String ID = "Document.AddFacet";
 
     @Param(name = "facet", required = true)
-    String facet = "";
+    protected String facet = "";
 
     @Context
     protected CoreSession session;

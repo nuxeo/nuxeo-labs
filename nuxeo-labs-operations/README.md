@@ -38,6 +38,10 @@ This plugin contains miscellaneous operations. It was better to group them in th
   * NOTICE: The facet must already be declared in the system, typically using the `doctype` end point of the `org.nuxeo.ecm.core.schema.TypeService` component.
 * `Document > Get Last version` (id: `Document.GetLastVersion`)
   * Returns the last version of the input document.
+  * If the document has no version:
+    * Returns `null` if `createIfNeeded` is false (default value)
+    * Else, creates a version, using `increment` ("Minor" or "Major") and returns this version.
+    * IMPORTANT: If a version is created, the document is saved.
   * Returns `null` if the document has no version at all.
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
