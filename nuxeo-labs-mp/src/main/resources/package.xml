@@ -2,7 +2,7 @@
 <package type="addon" name="nuxeo-labs" version="@VERSION@">
   <title>Nuxeo Labs</title>
   <description></description>
-  <home-page>http://doc.nuxeo.com/</home-page>
+  <home-page>https://github.com/nuxeo/nuxeo-labs</home-page>
   <vendor>Nuxeo</vendor>
   <installer restart="true" />
   <uninstaller restart="true" />
@@ -18,12 +18,8 @@
   <supported>false</supported>
   <platforms>
     <platform>cap-@VERSION@</platform>
-    <platform>cap-5.9.5</platform>
-    <platform>cap-6.0</platform>
-    <platform>cap-7.1</platform>
-    <platform>cap-7.2</platform>
-    <platform>cap-7.3</platform>
     <platform>cap-7.4</platform>
+    <platform>cap-7.10</platform>
   </platforms>
   <!-- Dependencies on other packages -->
   <!-- <dependencies> -->
