@@ -31,7 +31,7 @@ import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.collectors.DocumentModelCollector;
 import org.nuxeo.ecm.automation.core.util.DocumentHelper;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.VersioningOption;
@@ -92,7 +92,7 @@ public class ImageCropInDocumentOp {
     protected String incrementVersion = "None";
 
     @OperationMethod(collector = DocumentModelCollector.class)
-    public DocumentModel run(DocumentModel inDoc) throws ClientException {
+    public DocumentModel run(DocumentModel inDoc) throws NuxeoException {
 
         // Possibly, nothing to do.
         if (width == 0 || height == 0) {
@@ -100,7 +100,7 @@ public class ImageCropInDocumentOp {
         }
 
         if (!inDoc.hasFacet("Picture")) {
-            throw new ClientException(
+            throw new NuxeoException(
                     String.format(
                             "The document (id:'%s') with title '%s' doesn't have the 'Picture' facet",
                             inDoc.getId(), inDoc.getTitle()));

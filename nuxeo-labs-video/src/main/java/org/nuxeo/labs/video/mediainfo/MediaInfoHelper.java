@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.platform.commandline.executor.api.CmdParameters;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandLineExecutorService;
 import org.nuxeo.ecm.platform.commandline.executor.api.ExecResult;
@@ -41,7 +41,7 @@ public class MediaInfoHelper {
     // Calls media info on the input video and returns the output processed in a
     // map of maps (following mediaInfo output pattern).
     public static Map<String, Map<String, String>> getProcessedMediaInfo(
-            Blob video) throws ClientException {
+            Blob video) throws NuxeoException {
         return processMediaInfo(getRawMediaInfo(video));
     }
 
@@ -52,13 +52,13 @@ public class MediaInfoHelper {
      */
 
     public static String getSpecificMediaInfo(String key1, String key2,
-            Blob video) throws ClientException {
+            Blob video) throws NuxeoException {
         return getProcessedMediaInfo(video).get(key1).get(key2);
     }
 
     // Get the String List from mediainfo without any processing
     public static List<String> getRawMediaInfo(Blob video)
-            throws ClientException {
+            throws NuxeoException {
         if (video == null) {
             return null;
         }
@@ -79,7 +79,7 @@ public class MediaInfoHelper {
                     MEDIAINFO_INFO_COMMAND_LINE, params);
             return result.getOutput();
         } catch (Exception e) {
-            throw ClientException.wrap(e);
+            throw new NuxeoException(e);
         } finally {
             if (file != null) {
                 file.delete();

@@ -28,7 +28,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
@@ -67,8 +67,7 @@ public class Publication extends ModuleRoot {
         CoreSession session = null;
         DocumentModelList rootSections = null;
         DocumentModelList higherSections = null;
-        DocumentModelList testme = null;
-        HashMap latestPublicationsMap = new HashMap<DocumentModel, DocumentModelList>();
+        HashMap<String, DocumentModelList> latestPublicationsMap;
         session = ctx.getCoreSession();
         if (session != null) {
 
@@ -94,15 +93,15 @@ public class Publication extends ModuleRoot {
                     ctx.setProperty("latestPublicationsMap", latestPublicationsMap);
                     ctx.setProperty("higherSections", higherSections);
                 }
-            } catch (ClientException e) {
+            } catch (NuxeoException e) {
                 log.error(e);
             }
 
         }
     }
 
-    protected HashMap getLatestPublicationMap(CoreSession session,
-            DocumentModelList higherSections) throws ClientException {
+    protected HashMap<String, DocumentModelList> getLatestPublicationMap(CoreSession session,
+            DocumentModelList higherSections) throws NuxeoException {
         HashMap<String, DocumentModelList> latestPublicationsMap = new HashMap<String, DocumentModelList>();
         if (!higherSections.isEmpty()) {
             Iterator<DocumentModel> higherSectionsIterator = higherSections.iterator();
@@ -147,7 +146,7 @@ public class Publication extends ModuleRoot {
         DocumentModelList searchResult = null;
         try {
             searchResult = session.query(query);
-        } catch (ClientException e) {
+        } catch (NuxeoException e) {
             log.error(e);
         }
         ctx.setProperty("searchResult", searchResult);
@@ -155,7 +154,7 @@ public class Publication extends ModuleRoot {
 
     }
 
-    public String getDownloadURL(DocumentModel doc) throws ClientException {
+    public String getDownloadURL(DocumentModel doc) throws NuxeoException {
         if (doc == null) {
             return null;
         }

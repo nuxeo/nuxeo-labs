@@ -17,7 +17,7 @@ import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.collectors.DocumentModelCollector;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.oauth2.providers.OAuth2ServiceProvider;
 import org.nuxeo.ecm.platform.oauth2.providers.OAuth2ServiceProviderRegistry;
@@ -113,7 +113,7 @@ public class Publisher {
     		String calendarId = "primary";
     		event = service.events().insert(calendarId, event).execute();	    	
 		} catch (GeneralSecurityException | IOException e) {
-			 throw new ClientException(e);
+			 throw new NuxeoException(e);
 		}		    	
       return input; 
     }  

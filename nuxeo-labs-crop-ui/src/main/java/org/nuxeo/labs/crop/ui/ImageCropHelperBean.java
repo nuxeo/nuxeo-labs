@@ -27,7 +27,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
@@ -93,7 +93,7 @@ public class ImageCropHelperBean implements Serializable {
     protected double scaleV = 1.0;
 
     @Create
-    public void initialize() throws ClientException {
+    public void initialize() throws NuxeoException {
         try {
             currentDocument = navigationContext.getCurrentDocument();
 
@@ -149,7 +149,7 @@ public class ImageCropHelperBean implements Serializable {
 
             _updateDimensions();
 
-        } catch (ClientException e) {
+        } catch (NuxeoException e) {
             log.error(e);
         }
     }

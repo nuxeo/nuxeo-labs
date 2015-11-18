@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.automation.OperationContext;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
@@ -69,7 +69,7 @@ public class EmailResolutionTest {
     }
 
     @Test
-    public void shouldResolveEmailAsEmail() throws ClientException {
+    public void shouldResolveEmailAsEmail() throws NuxeoException {
         operation.isStrict = true;
         List<String> result = operation.getEmailFromString("unknown@example.com");
 
@@ -78,7 +78,7 @@ public class EmailResolutionTest {
     }
 
     @Test
-    public void shouldResolveUserAsUserEmail() throws ClientException {
+    public void shouldResolveUserAsUserEmail() throws NuxeoException {
         operation.isStrict = true;
         List<String> result = operation.getEmailFromString("user:user1");
 
@@ -92,7 +92,7 @@ public class EmailResolutionTest {
     }
 
     @Test
-    public void shouldResolveGroupAsUserEmails() throws ClientException {
+    public void shouldResolveGroupAsUserEmails() throws NuxeoException {
         operation.isStrict = true;
         List<String> result = operation.getEmailFromString("group:members");
 
@@ -103,12 +103,12 @@ public class EmailResolutionTest {
 
     @Test
     public void shouldThrowExceptionIfStrictAndUnkownUserAndGroupAndNotEmail()
-            throws ClientException {
+            throws NuxeoException {
         operation.isStrict = true;
         try {
             operation.getEmailFromString("toto");
             fail();
-        } catch (ClientException e) {
+        } catch (NuxeoException e) {
             assertEquals("User or group not found and not an email toto",
                     e.getMessage());
         }
@@ -116,12 +116,12 @@ public class EmailResolutionTest {
 
     @Test
     public void shouldResolveUserWithoutPrefixAsUserEmailIfNotStrict()
-            throws ClientException {
+            throws NuxeoException {
         operation.isStrict = true;
         try {
             operation.getEmailFromString("user1");
             fail();
-        } catch (ClientException e) {
+        } catch (NuxeoException e) {
             assertEquals("User or group not found and not an email user1",
                     e.getMessage());
         }
@@ -141,7 +141,7 @@ public class EmailResolutionTest {
 
     @Test
     public void shouldResolveListOfMixedValueAccordingStringResolution()
-            throws ClientException {
+            throws NuxeoException {
         operation.isStrict = true;
         List<String> value = Arrays.asList(new String[] {
                 "unknown@example.com", "user:user2", "user:user3@test.com",

@@ -18,6 +18,7 @@
 package org.nuxeo.labs.we;
 
 import java.util.HashMap;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -25,7 +26,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
@@ -66,7 +67,7 @@ public class Section extends Publication {
         DocumentModelList childSections = null;
         DocumentModelList childrenContent;
         session = ctx.getCoreSession();
-        HashMap latestPublicationsMap = new HashMap<DocumentModel, DocumentModelList>();
+        HashMap<String, DocumentModelList> latestPublicationsMap;
         if (session != null) {
 
             try {
@@ -85,7 +86,7 @@ public class Section extends Publication {
                 ctx.setProperty("latestPublicationsMap", latestPublicationsMap);
 
                 log.warn(childSections.size());
-            } catch (ClientException e) {
+            } catch (NuxeoException e) {
                 log.error(e);
             }
 

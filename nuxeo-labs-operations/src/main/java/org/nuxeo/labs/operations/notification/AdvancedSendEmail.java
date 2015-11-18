@@ -42,11 +42,11 @@ import org.nuxeo.ecm.automation.core.operations.notification.MailTemplateHelper;
 import org.nuxeo.ecm.automation.core.scripting.Scripting;
 import org.nuxeo.ecm.automation.core.util.StringList;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.model.Property;
-import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.api.PropertyException;
 import org.nuxeo.ecm.core.api.model.impl.ListProperty;
 import org.nuxeo.ecm.platform.ec.notification.service.NotificationServiceHelper;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
@@ -190,35 +190,35 @@ public class AdvancedSendEmail {
         return map;
     }
 
-    protected void addToEmails(Message msg) throws ClientException,
+    protected void addToEmails(Message msg) throws NuxeoException,
             MessagingException {
         for (String email : getEmails(to, "TO")) {
             msg.addTo(email);
         }
     }
 
-    protected void addFromEmails(Message msg) throws ClientException,
+    protected void addFromEmails(Message msg) throws NuxeoException,
             MessagingException {
         for (String email : getEmails(from, "FROM")) {
             msg.addFrom(email);
         }
     }
 
-    protected void addCcEmails(Message msg) throws ClientException,
+    protected void addCcEmails(Message msg) throws NuxeoException,
             MessagingException {
         for (String email : getEmails(cc, "CC")) {
             msg.addCc(email);
         }
     }
 
-    protected void addBccEmails(Message msg) throws ClientException,
+    protected void addBccEmails(Message msg) throws NuxeoException,
             MessagingException {
         for (String email : getEmails(bcc, "BCC")) {
             msg.addBcc(email);
         }
     }
 
-    protected void addReplyToEmails(Message msg) throws ClientException,
+    protected void addReplyToEmails(Message msg) throws NuxeoException,
             MessagingException {
 
         if (replyto == null) {
@@ -239,7 +239,7 @@ public class AdvancedSendEmail {
 
     @SuppressWarnings("unchecked")
     protected List<String> getEmails(Object value, String fieldType)
-            throws ClientException {
+            throws NuxeoException {
         List<String> result = new ArrayList<String>();
 
         if (value == null) {
@@ -263,7 +263,7 @@ public class AdvancedSendEmail {
                     if (user instanceof NuxeoPrincipal) {
                         result.add(((NuxeoPrincipal) user).getEmail());
                     } else {
-                        throw new ClientException(String.format(
+                        throw new NuxeoException(String.format(
                                 LIST_ITEM_TYPE_ERROR_MESSAGE, fieldType,
                                 user.getClass().getName()));
                     }
@@ -278,13 +278,13 @@ public class AdvancedSendEmail {
             return result;
         }
 
-        throw new ClientException(String.format(TYPE_ERROR_MESSAGE, fieldType,
+        throw new NuxeoException(String.format(TYPE_ERROR_MESSAGE, fieldType,
                 value.getClass().getName()));
 
     }
 
     protected List<String> getEmailFromString(String value)
-            throws ClientException {
+            throws NuxeoException {
         List<String> result = null;
 
         if (value.startsWith("user:")) {
@@ -326,7 +326,7 @@ public class AdvancedSendEmail {
         }
 
         if (isStrict) {
-            throw new ClientException(
+            throw new NuxeoException(
                     "User or group not found and not an email " + value);
         }
 
@@ -336,7 +336,7 @@ public class AdvancedSendEmail {
     }
 
     private List<String> getEmailUserFromUserId(String userId)
-            throws ClientException, PropertyException {
+            throws NuxeoException, PropertyException {
         DocumentModel user = umgr.getUserModel(userId);
         if (user != null && user.getPropertyValue("email") != null
                 && ((String) user.getPropertyValue("email")).contains("@")) {
@@ -347,7 +347,7 @@ public class AdvancedSendEmail {
     }
 
     private List<String> getEmailsFromGroupId(String groupId)
-            throws ClientException, PropertyException {
+            throws NuxeoException, PropertyException {
         if (umgr.getGroup(groupId) == null) {
             return null;
         }

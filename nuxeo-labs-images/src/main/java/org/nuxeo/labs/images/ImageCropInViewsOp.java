@@ -31,7 +31,7 @@ import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.collectors.DocumentModelCollector;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
@@ -88,7 +88,7 @@ public class ImageCropInViewsOp {
         }
 
         if (!inDoc.hasFacet("Picture")) {
-            throw new ClientException(
+            throw new NuxeoException(
                     String.format(
                             "The document (id:'%s') with title '%s' doesn't have the 'Picture' facet",
                             inDoc.getId(), inDoc.getTitle()));

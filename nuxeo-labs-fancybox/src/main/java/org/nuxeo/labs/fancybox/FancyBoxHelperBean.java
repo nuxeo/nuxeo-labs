@@ -30,7 +30,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationContext;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.impl.SimpleDocumentModel;
@@ -66,7 +66,7 @@ public class FancyBoxHelperBean implements Serializable {
         return fictiveDocumentModel;
     }
 
-    public String process(String automationChain) throws ClientException {
+    public String process(String automationChain) throws NuxeoException {
         if (fictiveDocumentModel != null) {
 
             // Input setting

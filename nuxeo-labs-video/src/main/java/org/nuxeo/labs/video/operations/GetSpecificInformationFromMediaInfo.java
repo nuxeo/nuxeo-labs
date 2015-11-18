@@ -24,7 +24,7 @@ import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.collectors.BlobCollector;
 import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.labs.video.mediainfo.MediaInfoHelper;
 
 /**
@@ -52,7 +52,7 @@ public class GetSpecificInformationFromMediaInfo {
     protected String resultContextVariable;
 
     @OperationMethod(collector = BlobCollector.class)
-    public Blob run(Blob input) throws ClientException {
+    public Blob run(Blob input) throws NuxeoException {
         if (input == null) {
             return null;
         }

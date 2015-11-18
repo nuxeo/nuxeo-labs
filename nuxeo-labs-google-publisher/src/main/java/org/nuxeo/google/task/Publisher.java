@@ -6,7 +6,6 @@ package org.nuxeo.google.task;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import org.nuxeo.ecm.automation.OperationContext;
@@ -16,7 +15,7 @@ import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.automation.core.collectors.DocumentModelCollector;
-import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.oauth2.providers.OAuth2ServiceProvider;
 import org.nuxeo.ecm.platform.oauth2.providers.OAuth2ServiceProviderRegistry;
@@ -59,7 +58,6 @@ public class Publisher {
     public DocumentModel run(DocumentModel input) {
 		JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 		HttpTransport httpTransport;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			
@@ -84,7 +82,7 @@ public class Publisher {
 			
     		task = service.tasks().insert("@default", task).execute();	    	
 		} catch (GeneralSecurityException | IOException e) {
-			 throw new ClientException(e);
+			 throw new NuxeoException(e);
 		}		    	
       return input; 
     }  
