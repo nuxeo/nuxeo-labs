@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 1
+Bundle-Name: Nuxeo Labs Automation Helpers Test
+Bundle-SymbolicName: nuxeo-labs-automation-helpers-test;singleton:=true
+Bundle-Vendor: Nuxeo
+Bundle-Version: 1.0.0
+Nuxeo-Component: OSGI-INF/automation-scripting-contrib.xml

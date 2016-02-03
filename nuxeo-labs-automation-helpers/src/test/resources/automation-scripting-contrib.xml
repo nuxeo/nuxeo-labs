@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<component name="nuxeo-labs-automation-helpers-test-tot">
+
+  <extension target="org.nuxeo.automation.scripting.internals.AutomationScriptingComponent" point="operation">
+
+    <scriptedOperation id="TestHelpers.readFileToText">
+       <inputType>void</inputType>
+       <outputType>string</outputType>
+       <category>Scripting</category>
+       <param name="path" type="string"/>
+
+       <script>
+         function run(input, params) {
+           return FileUtils.readFileToText(params.path);
+         }
+       </script>
+    </scriptedOperation>
+    
+    <scriptedOperation id="TestHelpers.readFileToBlob">
+       <inputType>void</inputType>
+       <outputType>string</outputType>
+       <category>Scripting</category>
+       <param name="path" type="string"/>
+
+       <script>
+         function run(input, params) {
+           return FileUtils.readFileToBlob(params.path);
+         }
+       </script>
+    </scriptedOperation>
+    
+    <scriptedOperation id="TestHelpers.createWriteDelete">
+       <inputType>void</inputType>
+       <outputType>string</outputType>
+       <category>Scripting</category>
+       <param name="path" type="string"/>
+       <param name="toAppend" type="string"/>
+
+       <script>
+         function run(input, params) {
+           var f, result;
+           
+           result = "";
+           f = FileUtils.createFile(params.path);
+           f = FileUtils.appendToFile(f, params.toAppend);
+           result = FileUtils.readFileToText(params.path);
+           
+           FileUtils.deleteFile(f);
+           
+           return result;
+           
+         }
+       </script>
+    </scriptedOperation>
+    
+    <scriptedOperation id="TestHelpers.geFiles">
+       <inputType>void</inputType>
+       <outputType>string</outputType>
+       <category>Scripting</category>
+       <param name="path" type="string"/>
+
+       <script>
+         function run(input, params) {
+           var result, files;
+           
+           result = "";
+           files = FileUtils.getFiles(params.path);
+           files.forEach(function(onePath) {
+             result += onePath.replace(params.path, "") + "\n";
+           });
+           
+           return result;
+         }
+       </script>
+    </scriptedOperation>
+    
+    <scriptedOperation id="TestHelpers.geFolders">
+       <inputType>void</inputType>
+       <outputType>string</outputType>
+       <category>Scripting</category>
+       <param name="path" type="string"/>
+
+       <script>
+         function run(input, params) {
+           var result, files;
+                      
+           result = "";
+           files = FileUtils.getFolders(params.path);
+           files.forEach(function(onePath) {
+             result += onePath.replace(params.path, "") + "\n";
+           });
+           
+           return result;
+         }
+       </script>
+    </scriptedOperation>
+    
+    <scriptedOperation id="TestHelpers.createFolder">
+       <inputType>void</inputType>
+       <outputType>string</outputType>
+       <category>Scripting</category>
+       <param name="path" type="string"/>
+       <param name="name" type="string"/>
+
+       <script>
+         function run(input, params) {
+           var result;
+           
+           result = FileUtils.createFolder(params.path, params.name);
+           
+           return result;
+         }
+       </script>
+    </scriptedOperation>
+    
+    <scriptedOperation id="TestHelpers.jsToJava_Array">
+       <inputType>void</inputType>
+       <outputType>array</outputType>
+       <category>Scripting</category>
+
+       <script>
+         function run(input, params) {
+           // IMPORTANT: Caller MUST have created the 3 documents (jsArrayTest-1 to 3) at /test-jshelper/
+           var result;
+           var docArray = [];
+           var i;
+           for (i = 1; i &lt; 4; ++i) {
+             docArray.push( Repository.GetDocument(null, {'value': "/test-jshelper/jsArrayTest-" + i }) );
+           }
+           
+           result = JSToJava.arrayToArrayList(docArray);
+           
+           return result;
+         }
+       </script>
+    </scriptedOperation>
+
+  </extension>
+
+</component>

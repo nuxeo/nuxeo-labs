@@ -1,0 +1,10 @@
+<component name="org.nuxeo.labs.automation.helpers">
+
+	<extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
+		point="contextHelpers">
+		<contextHelper id="JSToJava" class="org.nuxeo.labs.automation.helpers.JSToJava" />
+		<contextHelper id="FileUtils" class="org.nuxeo.labs.automation.helpers.FileUtils" />
+	</extension>
+
+</component>
+

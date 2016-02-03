@@ -21,9 +21,10 @@
     <module>nuxeo-labs-video</module>
     <module>nuxeo-labs-fancybox</module>
     <module>nuxeo-labs-google-publisher</module>
-    <module>nuxeo-labs-mp</module>
     <module>nuxeo-labs-crop-ui</module>
     <module>nuxeo-labs-more-like-ui</module>
+    <module>nuxeo-labs-automation-helpers</module>
+    <module>nuxeo-labs-mp</module>
   </modules>
   <properties>
     <nuxeo.labs.version>8.1-SNAPSHOT</nuxeo.labs.version>
@@ -74,6 +75,11 @@
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-google-publisher</artifactId>
+        <version>${nuxeo.labs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-automation-helpers</artifactId>
         <version>${nuxeo.labs.version}</version>
       </dependency>
       <dependency>

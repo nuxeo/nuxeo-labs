@@ -21,3 +21,4 @@ target
 *.gpd.*
 *cpJar*
 dependency-tree.log
+nashorn_code_cache
