@@ -77,7 +77,7 @@ Sometime, a JavaScript a-boject is not mapped by default by Nuxeo. The helpers h
   * SO for example, as for Nuxeo 8.1, if you build a JavaScript array of `DocumentModel` and pass it to an operaiton expecting `Documents` (hence, a `DocumentModel` list), you will have an error. Instead, convert your JavaScript array to the Java expected `ArrayList<DocumentModel>`. Here is an example of JavaScript:
   
   ```
-  var i, docArray.push = [];
+  var i, docArray = [];
   // Say we have doc-1 to doc-3 existing at /default-domain/folder/
   for(i = 1; i < 4; ++i) {
   	  docArray.push( Repository.GetDocument(null, {'value': "/default-domain/folder/doc-" + i }) );
