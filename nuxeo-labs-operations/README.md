@@ -135,6 +135,7 @@ function run(ctx, input, params) {
     * `headersAsJSON`: A string containing a JSON object with the headers.
   * Returns a `FileBlob`
   * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a file from a distant nuxeo server, saving the file to current document:
+  
   ```
 // Here, input is a File for example
 function run(ctx, input, params) {
@@ -158,5 +159,10 @@ function run(ctx, input, params) {
 }
   ```
 
+* `Document > Document Exists` (id: `Document.Exists`)
+  * Check if the document exists, returns a `boolean`
+  * ()No error is thrown if the document does not exist)
+  * Parameters:
+    * idOrPath: An ID or path (starting with "/") to test
 
 
