@@ -161,8 +161,14 @@ function run(ctx, input, params) {
 
 * `Document > Document Exists` (id: `Document.Exists`)
   * Check if the document exists, returns a `boolean`
-  * ()No error is thrown if the document does not exist)
+  * (No error is thrown if the document does not exist)
   * Parameters:
     * idOrPath: An ID or path (starting with "/") to test
+
+* `Document > Get Tags` (id: `Document.GetTags`)
+  * Accepts a Document/Documents
+  * Returns all the tags of the document as a _sorted_ `List` of `String`. If the input is a list of documents, the duplicated tags (if any) are removed.
+  * Parameters:
+    * `currentUserOnly`: Optionnal If `true`, returns only the tags created by the current user. Default value is `false`.
 
 

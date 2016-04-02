@@ -14,6 +14,7 @@
       <operation class="org.nuxeo.labs.operations.services.VocabularyAddEntryOp" />
       <operation class="org.nuxeo.labs.operations.ui.NavigateToUrl" />
       <operation class="org.nuxeo.labs.operations.document.DocumentExistsOp" />
+      <operation class="org.nuxeo.labs.operations.document.DocumentGetTagsOp" />
    </extension>
     
 </component>
