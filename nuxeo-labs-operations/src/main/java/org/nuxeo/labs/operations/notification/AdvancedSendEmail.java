@@ -1,15 +1,17 @@
 /*
- * (C) Copyright 2014 Nuxeo SA (http://nuxeo.com/) and others.
+ * (C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Benjamin JALON <bjalon@nuxeo.com>
@@ -167,13 +169,11 @@ public class AdvancedSendEmail {
                     }
                 }
             }
-            return COMPOSER.newMixedMessage(content, ctx, asHtml ? "html"
-                    : "plain", blobs);
+            return COMPOSER.newMixedMessage(content, ctx, asHtml ? "html" : "plain", blobs);
         }
     }
 
-    private Map<String, Object> createContext(DocumentModel doc)
-            throws Exception {
+    private Map<String, Object> createContext(DocumentModel doc) throws Exception {
         Map<String, Object> map = Scripting.initBindings(ctx);
         map.put("Document", doc);
         map.put("docUrl", MailTemplateHelper.getDocumentUrl(doc, viewId));
@@ -184,42 +184,36 @@ public class AdvancedSendEmail {
         map.put("bcc", bcc);
         map.put("replyTo", replyto);
         map.put("viewId", viewId);
-        map.put("baseUrl",
-                NotificationServiceHelper.getNotificationService().getServerUrlPrefix());
+        map.put("baseUrl", NotificationServiceHelper.getNotificationService().getServerUrlPrefix());
         map.put("Runtime", Framework.getRuntime());
         return map;
     }
 
-    protected void addToEmails(Message msg) throws NuxeoException,
-            MessagingException {
+    protected void addToEmails(Message msg) throws NuxeoException, MessagingException {
         for (String email : getEmails(to, "TO")) {
             msg.addTo(email);
         }
     }
 
-    protected void addFromEmails(Message msg) throws NuxeoException,
-            MessagingException {
+    protected void addFromEmails(Message msg) throws NuxeoException, MessagingException {
         for (String email : getEmails(from, "FROM")) {
             msg.addFrom(email);
         }
     }
 
-    protected void addCcEmails(Message msg) throws NuxeoException,
-            MessagingException {
+    protected void addCcEmails(Message msg) throws NuxeoException, MessagingException {
         for (String email : getEmails(cc, "CC")) {
             msg.addCc(email);
         }
     }
 
-    protected void addBccEmails(Message msg) throws NuxeoException,
-            MessagingException {
+    protected void addBccEmails(Message msg) throws NuxeoException, MessagingException {
         for (String email : getEmails(bcc, "BCC")) {
             msg.addBcc(email);
         }
     }
 
-    protected void addReplyToEmails(Message msg) throws NuxeoException,
-            MessagingException {
+    protected void addReplyToEmails(Message msg) throws NuxeoException, MessagingException {
 
         if (replyto == null) {
             return;
@@ -238,8 +232,7 @@ public class AdvancedSendEmail {
     }
 
     @SuppressWarnings("unchecked")
-    protected List<String> getEmails(Object value, String fieldType)
-            throws NuxeoException {
+    protected List<String> getEmails(Object value, String fieldType) throws NuxeoException {
         List<String> result = new ArrayList<String>();
 
         if (value == null) {
@@ -263,9 +256,8 @@ public class AdvancedSendEmail {
                     if (user instanceof NuxeoPrincipal) {
                         result.add(((NuxeoPrincipal) user).getEmail());
                     } else {
-                        throw new NuxeoException(String.format(
-                                LIST_ITEM_TYPE_ERROR_MESSAGE, fieldType,
-                                user.getClass().getName()));
+                        throw new NuxeoException(String.format(LIST_ITEM_TYPE_ERROR_MESSAGE, fieldType, user.getClass()
+                                                                                                            .getName()));
                     }
 
                 }
@@ -278,65 +270,55 @@ public class AdvancedSendEmail {
             return result;
         }
 
-        throw new NuxeoException(String.format(TYPE_ERROR_MESSAGE, fieldType,
-                value.getClass().getName()));
+        throw new NuxeoException(String.format(TYPE_ERROR_MESSAGE, fieldType, value.getClass().getName()));
 
     }
 
-    protected List<String> getEmailFromString(String value)
-            throws NuxeoException {
+    protected List<String> getEmailFromString(String value) throws NuxeoException {
         List<String> result = null;
 
         if (value.startsWith("user:")) {
             String userId = value.substring("user:".length());
             result = getEmailUserFromUserId(userId);
-            log.debug("User email found from (username) " + value + " was "
-                    + result.get(0));
+            log.debug("User email found from (username) " + value + " was " + result.get(0));
             return result;
         }
 
         if (value.startsWith("group:")) {
             String groupId = value.substring("group:".length());
             result = getEmailsFromGroupId(groupId);
-            log.debug("User emails found from (groupId) " + value + " was ["
-                    + StringUtils.join(result, ",") + "]");
+            log.debug("User emails found from (groupId) " + value + " was [" + StringUtils.join(result, ",") + "]");
             return result;
         }
 
         if (!isStrict) {
             result = getEmailUserFromUserId(value);
             if (result != null && !result.isEmpty()) {
-                log.debug("User email found from (username) " + value + " was "
-                        + result.get(0));
+                log.debug("User email found from (username) " + value + " was " + result.get(0));
                 return result;
             }
 
             result = getEmailsFromGroupId(value);
             if (result != null && !result.isEmpty()) {
-                log.debug("User emails found from (groupId) " + value
-                        + " was [" + StringUtils.join(result, ",") + "]");
+                log.debug("User emails found from (groupId) " + value + " was [" + StringUtils.join(result, ",") + "]");
                 return result;
             }
         }
 
         if (value.contains("@")) {
-            log.debug("User email (esasily) found from (email) " + value
-                    + " was " + value);
+            log.debug("User email (esasily) found from (email) " + value + " was " + value);
             return Collections.singletonList(value);
         }
 
         if (isStrict) {
-            throw new NuxeoException(
-                    "User or group not found and not an email " + value);
+            throw new NuxeoException("User or group not found and not an email " + value);
         }
 
-        log.debug("User emails found from (groupId) " + value + " was ["
-                + StringUtils.join(result, ",") + "]");
+        log.debug("User emails found from (groupId) " + value + " was [" + StringUtils.join(result, ",") + "]");
         return null;
     }
 
-    private List<String> getEmailUserFromUserId(String userId)
-            throws NuxeoException, PropertyException {
+    private List<String> getEmailUserFromUserId(String userId) throws NuxeoException, PropertyException {
         DocumentModel user = umgr.getUserModel(userId);
         if (user != null && user.getPropertyValue("email") != null
                 && ((String) user.getPropertyValue("email")).contains("@")) {
@@ -346,8 +328,7 @@ public class AdvancedSendEmail {
         return null;
     }
 
-    private List<String> getEmailsFromGroupId(String groupId)
-            throws NuxeoException, PropertyException {
+    private List<String> getEmailsFromGroupId(String groupId) throws NuxeoException, PropertyException {
         if (umgr.getGroup(groupId) == null) {
             return null;
         }
@@ -357,8 +338,7 @@ public class AdvancedSendEmail {
             List<String> result = new ArrayList<String>();
             for (String userId : users) {
                 DocumentModel user = umgr.getUserModel(userId);
-                if (user != null
-                        && user.getPropertyValue("email") != null
+                if (user != null && user.getPropertyValue("email") != null
                         && ((String) user.getPropertyValue("email")).contains("@")) {
                     result.add((String) user.getPropertyValue("email"));
                 }

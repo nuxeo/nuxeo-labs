@@ -1,18 +1,20 @@
 /*
- * (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and contributors.
+ * (C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
- *     thibaud
+ *     Thibaud Arguillere
  */
 
 package org.nuxeo.labs.operations.services;
@@ -101,16 +103,13 @@ public class HTTPDownloadFile {
                     }
                 } else {
                     // extracts file name from URL
-                    fileName = url.substring(url.lastIndexOf("/") + 1,
-                            url.length());
+                    fileName = url.substring(url.lastIndexOf("/") + 1, url.length());
                 }
                 if (StringUtils.isEmpty(fileName)) {
-                    fileName = "DownloadedFile-"
-                            + java.util.UUID.randomUUID().toString();
+                    fileName = "DownloadedFile-" + java.util.UUID.randomUUID().toString();
                 }
 
-                File tempFile = new File(getTempFolderPath() + File.separator
-                        + java.util.UUID.randomUUID().toString());
+                File tempFile = new File(getTempFolderPath() + File.separator + java.util.UUID.randomUUID().toString());
 
                 FileOutputStream outputStream = new FileOutputStream(tempFile);
                 InputStream inputStream = http.getInputStream();
@@ -152,17 +151,17 @@ public class HTTPDownloadFile {
                 }
 
             }
-            
+
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode resultObj = mapper.createObjectNode();
             resultObj.put("status", status);
             resultObj.put("statusMessage", statusMessage);
             resultObj.put("error", error);
-            
+
             ObjectWriter ow = mapper.writer();// .withDefaultPrettyPrinter();
             resultStatus = ow.writeValueAsString(resultObj);
         }
-        
+
         ctx.put("httpDownloadFileStatus", resultStatus);
 
         return result;
@@ -173,8 +172,7 @@ public class HTTPDownloadFile {
         if (tempFolderPath == null) {
             synchronized (MUTEX) {
                 if (tempFolderPath == null) {
-                    tempFolderPath = Files.createTempDirectory(
-                            "HTTPDownloadFile").toString();
+                    tempFolderPath = Files.createTempDirectory("HTTPDownloadFile").toString();
                 }
             }
         }

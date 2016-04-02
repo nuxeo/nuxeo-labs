@@ -1,15 +1,17 @@
 /*
- * (C) Copyright ${year} Nuxeo SA (http://nuxeo.com/) and contributors.
+ * (C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * Contributors:
  *     Thibaud Arguillere
@@ -50,8 +52,8 @@ public class HTTPCall {
     @Context
     protected OperationContext ctx;
 
-    @Param(name = "method", required = true, widget = Constants.W_OPTION, values = {
-            "GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE" })
+    @Param(name = "method", required = true, widget = Constants.W_OPTION, values = { "GET", "POST", "PUT", "DELETE",
+            "HEAD", "OPTIONS", "TRACE" })
     String method;
 
     @Param(name = "url", required = true)
@@ -82,7 +84,7 @@ public class HTTPCall {
             http = (HttpURLConnection) theURL.openConnection();
 
             HTTPUtils.addHeaders(http, headers, headersAsJSON);
-            
+
             method = method.toUpperCase();
             http.setRequestMethod(method);
 
@@ -91,8 +93,7 @@ public class HTTPCall {
                 http.setDoInput(true);
                 http.setDoOutput(true);
 
-                OutputStreamWriter writer = new OutputStreamWriter(
-                        http.getOutputStream());
+                OutputStreamWriter writer = new OutputStreamWriter(http.getOutputStream());
                 writer.write(body);
                 writer.flush();
             }
@@ -159,5 +160,5 @@ public class HTTPCall {
 
         return new StringBlob(result, "text/plain", "UTF-8");
     }
-   
+
 }
