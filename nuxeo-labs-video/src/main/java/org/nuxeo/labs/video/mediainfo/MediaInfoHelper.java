@@ -42,25 +42,21 @@ public class MediaInfoHelper {
 
     // Calls media info on the input video and returns the output processed in a
     // map of maps (following mediaInfo output pattern).
-    public static Map<String, Map<String, String>> getProcessedMediaInfo(
-            Blob video) throws NuxeoException {
+    public static Map<String, Map<String, String>> getProcessedMediaInfo(Blob video) throws NuxeoException {
         return processMediaInfo(getRawMediaInfo(video));
     }
 
     /*
-     * Get one specific information on the input blob video using mediaInfo. a
-     * call to getSpecificMediaInfo("Video","Width",MyVideo) will get something
-     * like 512 pixels
+     * Get one specific information on the input blob video using mediaInfo. a call to
+     * getSpecificMediaInfo("Video","Width",MyVideo) will get something like 512 pixels
      */
 
-    public static String getSpecificMediaInfo(String key1, String key2,
-            Blob video) throws NuxeoException {
+    public static String getSpecificMediaInfo(String key1, String key2, Blob video) throws NuxeoException {
         return getProcessedMediaInfo(video).get(key1).get(key2);
     }
 
     // Get the String List from mediainfo without any processing
-    public static List<String> getRawMediaInfo(Blob video)
-            throws NuxeoException {
+    public static List<String> getRawMediaInfo(Blob video) throws NuxeoException {
         if (video == null) {
             return null;
         }
@@ -69,16 +65,14 @@ public class MediaInfoHelper {
         try {
             CommandLineExecutorService cleService = Framework.getLocalService(CommandLineExecutorService.class);
 
-            file = File.createTempFile("mediainfoInfo",
-                    "." + FilenameUtils.getExtension(video.getFilename()));
+            file = File.createTempFile("mediainfoInfo", "." + FilenameUtils.getExtension(video.getFilename()));
             video.transferTo(file);
 
             CmdParameters params = new CmdParameters();
             params.addNamedParameter("inFilePath", file.getAbsolutePath());
 
             // read the duration with a first command to adjust the best rate:
-            ExecResult result = cleService.execCommand(
-                    MEDIAINFO_INFO_COMMAND_LINE, params);
+            ExecResult result = cleService.execCommand(MEDIAINFO_INFO_COMMAND_LINE, params);
             return result.getOutput();
         } catch (Exception e) {
             throw new NuxeoException(e);
@@ -90,17 +84,12 @@ public class MediaInfoHelper {
     }
 
     /*
-     * Processes the raw String List from media info and returns a map of maps.
-     * Result of media info is a list of String that follows a specific pattern:
-     * The result of mediainfo looks like : General Format : AVI Codec ID : ISOM
-     * Video FORMAT/INFO : AVC Codexc ID : avc1
-     * 
-     * This method returns a map of maps that follow this pattern for example
-     * General is the first Key and references a map with Format as a key and
-     * AVI as a value.
+     * Processes the raw String List from media info and returns a map of maps. Result of media info is a list of String
+     * that follows a specific pattern: The result of mediainfo looks like : General Format : AVI Codec ID : ISOM Video
+     * FORMAT/INFO : AVC Codexc ID : avc1 This method returns a map of maps that follow this pattern for example General
+     * is the first Key and references a map with Format as a key and AVI as a value.
      */
-    public static Map<String, Map<String, String>> processMediaInfo(
-            List<String> input) {
+    public static Map<String, Map<String, String>> processMediaInfo(List<String> input) {
 
         Map<String, Map<String, String>> output = new HashMap<String, Map<String, String>>();
         int nextIndex = input.indexOf("");
@@ -112,8 +101,7 @@ public class MediaInfoHelper {
             output.put(remainingList.get(0), processSubList(subList));
             if (nextIndex == remainingList.size() - 1)
                 break;
-            remainingList = remainingList.subList(nextIndex + 1,
-                    remainingList.size());
+            remainingList = remainingList.subList(nextIndex + 1, remainingList.size());
             nextIndex = remainingList.indexOf("");
         }
         return output;
@@ -127,8 +115,7 @@ public class MediaInfoHelper {
         String singleInfoLine;
         while (subListIterator.hasNext()) {
             singleInfoLine = subListIterator.next();
-            subMap.put(getSingleInfoKey(singleInfoLine),
-                    getSingleInfoValue(singleInfoLine));
+            subMap.put(getSingleInfoKey(singleInfoLine), getSingleInfoValue(singleInfoLine));
         }
         return subMap;
     }
