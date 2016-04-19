@@ -2,6 +2,24 @@
 This plugin contains miscellaneous operations. It was better to group them in this generic "nuxeo-labs-operation" plug-in, instead of creating one dedicated plug-in/operation
 
 # List of Operations 
+* `Document > Copy Schema` (id `Document.CopySchema`)
+  * Copies the `schema` of a `source` document into the input Document/Documents
+  * Parameters
+    * `source`: The source document. ID or path
+    * `schema`: The name of the schema (not the prefix)
+  * **Important**:
+    * `schema` must exist in both documents
+    * If the `schema` does not exist (typo for example), nothing happens (no error)
+    * The input document is not saved
+
+* `Document > Reset Schema` (id `Document.ResetSchema`)
+  * Reset the `schema` of the input document, clearing all values
+  * Parameters
+    * `schema`: The name of the schema (not the prefix) to reset
+  * **Important**:
+    * If the `schema` does not exist (typo for example), nothing happens (no error)
+    * The input document is not saved
+
 * `Document > Add Complex Property From Json String` (id `AddComplexProperty`)
   * This operation can add new fields to a multivalued complex metadata. The `value` parameter is a String containing the JSON list of new values for the metadata given in `xpath`
   
@@ -67,7 +85,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
   * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a document from a distant nuxeo server:
 
   ```javascript
-function run(ctx, input, params) {
+function run(input, params) {
   
   var resultStringBlob, headers, resultTxt, resultObj, msg, serverAndPort;
 
@@ -138,7 +156,7 @@ function run(ctx, input, params) {
   
   ```
 // Here, input is a File for example
-function run(ctx, input, params) {
+function run(input, params) {
   var headers, blob;
 
   headers = {
