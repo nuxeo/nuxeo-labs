@@ -18,9 +18,10 @@
   <supported>false</supported>
   <platforms>
     <platform>cap-@VERSION@</platform>
-    <platform>cap-7.4</platform>
     <platform>cap-7.10</platform>
+    <platform>cap-7.10-HF*</platform>
     <platform>cap-8.1</platform>
+    <platform>cap-8.2</platform>
   </platforms>
   <!-- Dependencies on other packages -->
   <!-- <dependencies> -->
