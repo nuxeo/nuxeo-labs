@@ -1,7 +1,7 @@
 # Description
 This plugin contains miscellaneous operations. It was better to group them in this generic "nuxeo-labs-operation" plug-in, instead of creating one dedicated plug-in/operation
 
-# List of Operations 
+# List of Operations
 * `Document > Copy Schema` (id `Document.CopySchema`)
   * Copies the `schema` of a `source` document into the input Document/Documents
   * Parameters
@@ -22,7 +22,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
 
 * `Document > Add Complex Property From Json String` (id `AddComplexProperty`)
   * This operation can add new fields to a multivalued complex metadata. The `value` parameter is a String containing the JSON list of new values for the metadata given in `xpath`
-  
+
 * `Services > Vocabulary: Add Entry` (id `Vocabulary.AddEntry`)
   * Add a new entry to a vocabulary.
   * The operation only handles Nuxeo Vocabularies, which are specific types of Directories. It assumes the directory has the following fields `id`, `label`, `obsolete` and `ordering`. It it is a hierarchical vocabulary, it also assumes there is a `parent` field.
@@ -33,7 +33,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * `obsolete`: Integer/long, 0 or 1,  optional
     * `ordering`: Integer/long, optional
     * `parent`: The parent of of the new entry, in case the vocabulary is hierarchical (not use if it is not hierarchical)
-    
+
 * `Notification > AdvancedSendEmail` (id `AdvancedSendEmail`)
   * Send Email according parameters set.
   * EMail Address resolution is as following if you check `strict` :
@@ -51,12 +51,12 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Or a list of mixed value
   * If `rollbackOnError` is checked, then error will be catch if one is thrown.
   * For the file value just put the `xpath` value of field that stores the file (`file:content`, `files:/files/0/content`, `myschema:myfield`, `myschema:/myfield/0/content`)
-  
+
 * `Document > Add Facet` (id: `Document.AddFacet`)
   * Dynamically adds a facet to the current document, returns the document with its new facet.
   * Parameter: `facet`, the name of the facet to add.
   * NOTICE: The facet must already be declared in the system, typically using the `doctype` end point of the `org.nuxeo.ecm.core.schema.TypeService` component.
-  
+
 * `Document > Get Last version` (id: `Document.GetLastVersion`)
   * Returns the last version of the input document.
   * If the document has no version:
@@ -64,11 +64,11 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Else, creates a version, using `increment` ("Minor" or "Major") and returns this version.
     * IMPORTANT: If a version is created, the document is saved.
   * Returns `null` if the document has no version at all.
-  
+
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
-  
+
 * `Services > HTTP: Call` (id: `HTTP.Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
   * Parameters:
@@ -86,11 +86,11 @@ This plugin contains miscellaneous operations. It was better to group them in th
 
   ```javascript
 function run(input, params) {
-  
+
   var resultStringBlob, headers, resultTxt, resultObj, msg, serverAndPort;
 
   try {
-    
+
     headers = {
        "Authorization": "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
        "Accept": "application/json",
@@ -102,18 +102,18 @@ function run(input, params) {
       'url': "http://YOUR_NUXEO_SERVER/nuxeo/api/v1//path//",
       'headersAsJSON': JSON.stringify(headers)
     });
-  
+
     // If we are here, the call itself was succesful, lets get the results as an object
     resultTxt = resultStringBlob.getString();
     resultObj = JSON.parse(resultTxt);
-    
+
     // Check the status. Here, we are expecting 200
     if(resultObj.status == 200) {
       Log(input, {
 	'level': "warn",
 	'message': "All good, the doc uid is: " + resultObj.result.uid,
       });
-      
+
     } else {
       // The server returned an error
       msg = "Status: " + resultObj.status;
@@ -124,13 +124,13 @@ function run(input, params) {
          'message': "Some error occured: " + msg
       });
     }
-    
+
   } catch(e) {
     // An error occured when reaching the server or parsing the result
     if(typeof resultStringBlob !== "undefined" && resultStringBlob != null) {
       resultTxt = resultStringBlob.getString();
       resultObj = JSON.parse(resultTxt);
-    
+
       msg = "Status: " + resultObj.status;
       msg += ", message: " + resultObj.statusMessage;
       msg += ", error: " + resultObj.error;
@@ -153,7 +153,7 @@ function run(input, params) {
     * `headersAsJSON`: A string containing a JSON object with the headers.
   * Returns a `FileBlob`
   * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a file from a distant nuxeo server, saving the file to current document:
-  
+
   ```
 // Here, input is a File for example
 function run(input, params) {
@@ -189,4 +189,8 @@ function run(input, params) {
   * Parameters:
     * `currentUserOnly`: Optionnal If `true`, returns only the tags created by the current user. Default value is `false`.
 
-
+    * `User Interface > Reset Content View` (id: `ResetContentView`)
+      * Uses conentViewActions.reset() to reset a Content View.
+      * Can be used to restore the default sort, for example.
+      * Parameters:
+        * `Content View Name`: The name of the Content View, required
