@@ -8,10 +8,5 @@ Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Nuxeo
 Nuxeo-Component: OSGI-INF/extensions/conversions.xml,OSGI-INF/extensio
- ns/org.nuxeo.labs.images.GenericConverterOp.xml,OSGI-INF/extensions/o
- rg.nuxeo.labs.images.ImageChangeFormatOp.xml,OSGI-INF/extensions/org.
- nuxeo.labs.images.ImageCropInDocumentOp.xml,OSGI-INF/extensions/org.n
- uxeo.labs.images.ImageCropOp.xml,OSGI-INF/extensions/org.nuxeo.labs.i
- mages.ImageWatermarkWithTextOp.xml,OSGI-INF/extensions/org.nuxeo.labs
- .images.ImageCropInViewsOp.xml
+ ns/org.nuxeo.labs.images.operations.xml
 

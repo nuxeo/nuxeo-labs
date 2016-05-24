@@ -4,10 +4,11 @@ A project to manage Image manipulation through automation or action(s).
 This package contains:
 * [Converters](#converters)
   * A generic converter using ImageMagick
-  * Specific opêrations, which use the generic converter: Watermark, Crop, ...
+  * Specific opêrations, which use this converter: Watermark, Crop, ...
+* [Operation](#operations) to build an Images Sheet from a list of documents
 * [A "Crop" Toolbar Button](#crop-toolbar-button), which displays a dialog letting the user to crop the picture embedded in the current document.
 
-# Using the plugin
+## Using the plugin
 
 * **General Information**
 
@@ -22,7 +23,7 @@ This package contains:
 
 
 
-# Converters
+## Converters
 
 All the operations are istalled in the `Conversion` topic. Every conversion operation uses the `GenericConverter`. This `GenericConverter`itself can be easily extended via XML declarations, so you can add your own converters using ImageMagick without the need to write a Java plug-in. All other operaitons are mainly helpers, to make it easier to watermark, crop, or convert an image.
 
@@ -107,8 +108,42 @@ Also, each operation is documented: In Studio, when you select the operation, it
     * **IMPORTANT**: The names of the `sourceFilePath` and `targetFilePath` must not be modified, these names are hard-coded in the converter.
         * `sourceFilePath` is provided by the converter (using the input blob), so you don't have to handle it. Don't use it in the parameters
         * `targetFilePath` is misnamed. It actually should be "targetFileName, because it must be filled with the name of the resulting file, including the extension.
+        
 
-# Crop Toolbar Button
+## Operations
+
+* `Images Sheet from Documents` (ID `ImagesSheet.Build`)
+  * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
+  * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for hez `geometry` parameter for example`
+  * `input`:
+    * A list of Documents. The operation loops in the document and handles only the ones that have the "Picture" facet.
+    * For each such document, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
+    * If a document in the list does not have the "Picture" facet, or does not have a valid blob, it is ignored
+  * `output`: A `Blob`, holding a JPEG image
+  * **Parameters**
+    * `tile`: Number of thumbs/row or columns. defauit value is "0" (ImageMagick organizes the sheet). If you want 4 thumbs per row, just pass "4"
+    * `label`: A pattern as expected by ImageMagick. Typically, you would pass "%f" (default value)n with sers the label of each thumb to the filename. Notice that is `useDocTitle` is `true`, it is the Document’s title that is used.
+    * `backgroundColor`
+      * Default value: "white"
+    * `fillColor`: Color used to draw the labels.
+      * Default value: "black"
+    * `font`
+      * Default value:s "Helvetica"
+    * `fontSize`
+      * Default value: 12
+    * `define`: **important parameter**
+      * When ImageMagick builds the sheet, it keeps all the images in memory. If the list has a lot of big images, it will likely fail
+      * This parameters sets the maximum dimension of an image
+      * It is highly recommended to use this parameter
+      * Default value is "jpeg:size=150x150"
+    * `geometry`: The dimensions of each thumb
+      * Default value: "150x150+20+20", so a rectangle of 150 pixels, with a margin of 20 pixels in each direction
+    * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
+    * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
+
+
+
+## Crop Toolbar Button
 
 This button displays a "Crop" button in the toolbar for documents having the `Picture` facet. A dialog lets the user to crop the picture using a selection rectangle and the cropped image replaces the existing one.
 
@@ -125,12 +160,12 @@ If you don't want to display this button, you can disable it by adding the follo
 ```
 
 
-# Third Party Tools Used
+## Third Party Tools Used
  * **Jcrop**<br/>
   Jcrop (http://deepliquid.com/content/Jcrop.html) is used in the User Interface for cropping an image
 
-# Notes
+## Notes
 This project needs ImageMagick to work
 
-This project is not unit-tested, please use with care
+Only part oif this project is unit-tested, please use with care
 

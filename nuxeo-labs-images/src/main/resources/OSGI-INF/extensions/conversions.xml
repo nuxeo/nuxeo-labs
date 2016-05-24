@@ -90,6 +90,13 @@
       <installationDirective>You need to install ImageMagick.
       </installationDirective>
     </command>
+    
+    <command name="IM-montage" enabled="true">
+      <commandLine>montage</commandLine>
+      <parameterString>-label #{label} -font #{font} -pointSize #{fontSize} -background #{background} -fill #{fill} -define #{define} -geometry #{geometry} -auto-orient -tile #{tile} @#{listFilePath} #{targetFilePath}</parameterString>
+      <installationDirective>You need to install ImageMagick.
+      </installationDirective>
+    </command>
 
   </extension>
 </component>
