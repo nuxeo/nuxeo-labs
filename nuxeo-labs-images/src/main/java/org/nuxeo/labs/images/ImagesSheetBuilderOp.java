@@ -35,6 +35,8 @@ import org.nuxeo.ecm.platform.commandline.executor.api.CommandNotAvailable;
  * <p>
  * The default command uses ImageMagick <code>montage</code> commade: See its documentation for more details on the
  * parameters.
+ * <p>
+ * Special value for label: "NO_LABEL" means, well, no label at all
  * 
  * @since 8.2
  */
@@ -73,6 +75,9 @@ public class ImagesSheetBuilderOp {
     @Param(name = "useDocTitle", required = false, values = { "false" })
     protected boolean useDocTitle = false;
 
+    @Param(name = "commandLine", required = false)
+    protected String commandLine;
+
     @OperationMethod
     public Blob run(DocumentModelList input) throws NuxeoException, IOException, CommandNotAvailable {
 
@@ -87,7 +92,8 @@ public class ImagesSheetBuilderOp {
            .setDefine(define)
            .setGeometry(geometry)
            .setView(imageViewToUse)
-           .setUseDocTitle(useDocTitle);
+           .setUseDocTitle(useDocTitle)
+           .setCommand(commandLine);
 
         Blob result = isb.build();
 

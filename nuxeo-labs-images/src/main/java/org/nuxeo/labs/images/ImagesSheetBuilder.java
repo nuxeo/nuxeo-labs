@@ -83,6 +83,8 @@ public class ImagesSheetBuilder {
 
     public static final String DEFAULT_LABEL = "%f";
 
+    public static final String NO_LABEL = "NO_LABEL";
+
     // Format is "geometry". nbPerRowsxnbPerColumns
     // To just have 4 per rows, pass "4"
     public static final String DEFAULT_TILE = "0";
@@ -130,14 +132,14 @@ public class ImagesSheetBuilder {
     protected DocumentModelList docs;
 
     protected String command = DEFAULT_COMMAND;
-    
+
     protected static ThumbnailService thumbnailService = null;
-    
+
     public ImagesSheetBuilder(DocumentModelList inDocs) {
         docs = inDocs;
-        
-        // Not 1200% threadsafe, but it's ok in this context
-        if(thumbnailService == null) {
+
+        // Not 100% threadsafe, but it's ok in this context
+        if (thumbnailService == null) {
             thumbnailService = Framework.getService(ThumbnailService.class);
         }
     }
@@ -183,9 +185,9 @@ public class ImagesSheetBuilder {
             if (blob == null) {
                 blob = thumbnailService.getThumbnail(doc, doc.getCoreSession());
             }
-            
+
             // Duplicate
-            if(blob != null) {
+            if (blob != null) {
                 if (useDocTitle) {
                     f = new File(tempDir, doc.getTitle());
                 } else {
@@ -208,6 +210,9 @@ public class ImagesSheetBuilder {
 
         // * Setup up the command line parameters (see "IM-montage" in conversions.xlml)
         CmdParameters params = new CmdParameters();
+        if (label != null && label.equals(NO_LABEL)) {
+            label = "";
+        }
         params.addNamedParameter("label", label);
         params.addNamedParameter("font", font);
         params.addNamedParameter("fontSize", "" + fontSize);
@@ -219,7 +224,7 @@ public class ImagesSheetBuilder {
         params.addNamedParameter("listFilePath", listOfFiles);
         params.addNamedParameter("targetFilePath", outputFilePath);
 
-        // + Add optional parameters (when used with another commandline)
+        // * Add optional parameters (when used with another commandline)
         // We accept only String as ParameterValue (not File or String List)
         if (moreParameters != null) {
             Map<String, ParameterValue> more = moreParameters.getParameters();
@@ -256,6 +261,13 @@ public class ImagesSheetBuilder {
         return command;
     }
 
+    /**
+     * Set the contributed command line to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setCommand(String value) {
         command = StringUtils.isBlank(value) ? DEFAULT_COMMAND : value;
         return this;
@@ -265,6 +277,13 @@ public class ImagesSheetBuilder {
         return label;
     }
 
+    /**
+     * Set the label to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setLabel(String value) {
         label = StringUtils.isBlank(value) ? DEFAULT_LABEL : value;
         return this;
@@ -274,6 +293,13 @@ public class ImagesSheetBuilder {
         return font;
     }
 
+    /**
+     * Set the font to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setFont(String value) {
         font = StringUtils.isBlank(value) ? DEFAULT_FONT : value;
         return this;
@@ -283,11 +309,25 @@ public class ImagesSheetBuilder {
         return fontSize;
     }
 
+    /**
+     * Set the font size to use. If null or < 1, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setFontSize(int value) {
         fontSize = value <= 0 ? DEFAULT_FONT_SIZE : value;
         return this;
     }
 
+    /**
+     * Set the font size to use. If null or < 1, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setFontSize(Long value) {
         fontSize = value == null || value.intValue() <= 0 ? DEFAULT_FONT_SIZE : value.intValue();
         return this;
@@ -297,6 +337,13 @@ public class ImagesSheetBuilder {
         return background;
     }
 
+    /**
+     * Set the background color to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setBackground(String value) {
         background = StringUtils.isBlank(value) ? DEFAULT_BACKGROUND : value;
         return this;
@@ -306,6 +353,13 @@ public class ImagesSheetBuilder {
         return fill;
     }
 
+    /**
+     * Set the fill color to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setFill(String value) {
         fill = StringUtils.isBlank(value) ? DEFAULT_FILL : value;
         return this;
@@ -315,6 +369,13 @@ public class ImagesSheetBuilder {
         return define;
     }
 
+    /**
+     * Set the "define" to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setDefine(String value) {
         define = StringUtils.isBlank(value) ? DEFAULT_DEFINE : value;
         return this;
@@ -324,6 +385,13 @@ public class ImagesSheetBuilder {
         return geometry;
     }
 
+    /**
+     * Set the geometry of each thumb. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setGeometry(String value) {
         geometry = StringUtils.isBlank(value) ? DEFAULT_GEOMETRY : value;
         return this;
@@ -333,19 +401,29 @@ public class ImagesSheetBuilder {
         return tile;
     }
 
+    /**
+     * Set the tile (nb colums) to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setTile(String value) {
         tile = StringUtils.isBlank(value) ? DEFAULT_TILE : value;
         return this;
     }
 
-    // public void setResultFileName(String value) {
-    // resultFileName = StringUtils.isBlank(value) ? DEFAULT_RESULT_FILE_NAME : value;
-    // }
-
     public String getView() {
         return view;
     }
-
+    
+    /**
+     * Set the picture view to use. If empty or null, use the default value.
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setView(String value) {
         view = StringUtils.isBlank(value) ? DEFAULT_VIEW : value;
         return this;
@@ -354,7 +432,13 @@ public class ImagesSheetBuilder {
     public boolean useDocTitle() {
         return this.useDocTitle;
     }
-
+    /**
+     * Tell the builder to use the Document titles instead of the file names
+     * 
+     * @param value
+     * @return the <code>this</object>
+     * @since 8.2
+     */
     public ImagesSheetBuilder setUseDocTitle(boolean value) {
         useDocTitle = value;
         return this;

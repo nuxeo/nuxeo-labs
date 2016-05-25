@@ -122,7 +122,7 @@ Also, each operation is documented: In Studio, when you select the operation, it
   * `output`: A `Blob`, holding a JPEG image
   * **Parameters**
     * `tile`: Number of thumbs/row or columns. defauit value is "0" (ImageMagick organizes the sheet). If you want 4 thumbs per row, just pass "4"
-    * `label`: A pattern as expected by ImageMagick. Typically, you would pass "%f" (default value)n with sers the label of each thumb to the filename. Notice that is `useDocTitle` is `true`, it is the Document’s title that is used.
+    * `label`: A pattern as expected by ImageMagick. Typically, you would pass "%f" (default value)n with sers the label of each thumb to the filename. Notice that is `useDocTitle` is `true`, it is the Document’s title that is used. If `label` is set to `"NO_LABEL"` then the lables are not displayed at all
     * `backgroundColor`
       * Default value: "white"
     * `fillColor`: Color used to draw the labels.
@@ -140,6 +140,9 @@ Also, each operation is documented: In Studio, when you select the operation, it
       * Default value: "150x150>+20+20", so a rectangle of 150 pixels, with a margin of 20 pixels in each direction. The ">" character tells ImageMagick to not enlarge the image if it is already smaller than the rectangle.
     * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
     * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
+    * `command`: A commadLine you contributed.
+      * Maybe the default command does not fit all your needs, so you can contribute you own.
+      * **Important** see the "IM-montage" command line contributed in "conversions.xml" two parameters are required, _must be_ the 2 last parameters and _must be_ exactly `@#{listFilePath} #{targetFilePath}` (notice the `@`). Other parameters can be used, just remember they are case sensitive.
 
 
 
