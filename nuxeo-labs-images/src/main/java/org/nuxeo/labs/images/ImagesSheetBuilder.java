@@ -168,7 +168,6 @@ public class ImagesSheetBuilder {
                 }
 
                 if (blob == null) {
-                    System.out.println("NULL NULL NULL NULL NULL NULL");
                     blob = (Blob) doc.getPropertyValue("file:content");
                 }
 
