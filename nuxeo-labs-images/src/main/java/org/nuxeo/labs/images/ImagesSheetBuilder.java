@@ -32,6 +32,7 @@ import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.NuxeoException;
+import org.nuxeo.ecm.core.api.thumbnail.ThumbnailService;
 import org.nuxeo.ecm.platform.commandline.executor.api.CmdParameters;
 import org.nuxeo.ecm.platform.commandline.executor.api.CmdParameters.ParameterValue;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandLineExecutorService;
@@ -94,9 +95,9 @@ public class ImagesSheetBuilder {
 
     public static final String DEFAULT_FILL = "black";
 
-    public static final String DEFAULT_DEFINE = "jpeg:size=150x150";
+    public static final String DEFAULT_DEFINE = "jpeg:size=150x150>";
 
-    public static final String DEFAULT_GEOMETRY = "150x150+20+20";
+    public static final String DEFAULT_GEOMETRY = "150x150>+20+20";
 
     public static final String RESULT_FILE_NAME = "thumbnails-sheet.jpg";
 
@@ -129,9 +130,16 @@ public class ImagesSheetBuilder {
     protected DocumentModelList docs;
 
     protected String command = DEFAULT_COMMAND;
-
+    
+    protected static ThumbnailService thumbnailService = null;
+    
     public ImagesSheetBuilder(DocumentModelList inDocs) {
         docs = inDocs;
+        
+        // Not 1200% threadsafe, but it's ok in this context
+        if(thumbnailService == null) {
+            thumbnailService = Framework.getService(ThumbnailService.class);
+        }
     }
 
     public Blob build() throws IOException, CommandNotAvailable, NuxeoException {
@@ -154,9 +162,9 @@ public class ImagesSheetBuilder {
         String fileList = "";
         boolean useView = StringUtils.isNotBlank(view);
         for (DocumentModel doc : docs) {
+            blob = null;
             if (doc.hasFacet("Picture")) {
                 // Get the blob of the view or the whole content
-                blob = null;
                 if (useView) {
                     MultiviewPicture mvp = doc.getAdapter(MultiviewPicture.class);
                     if (mvp != null) {
@@ -171,7 +179,13 @@ public class ImagesSheetBuilder {
                     blob = (Blob) doc.getPropertyValue("file:content");
                 }
 
-                // Duplicate
+            }
+            if (blob == null) {
+                blob = thumbnailService.getThumbnail(doc, doc.getCoreSession());
+            }
+            
+            // Duplicate
+            if(blob != null) {
                 if (useDocTitle) {
                     f = new File(tempDir, doc.getTitle());
                 } else {
@@ -180,7 +194,6 @@ public class ImagesSheetBuilder {
                 fileList += "\"" + f.getAbsolutePath() + "\"\n";
 
                 blob.transferTo(f);
-
             }
         }
 

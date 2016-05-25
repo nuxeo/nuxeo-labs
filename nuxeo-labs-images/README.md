@@ -116,9 +116,9 @@ Also, each operation is documented: In Studio, when you select the operation, it
   * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
   * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for hez `geometry` parameter for example`
   * `input`:
-    * A list of Documents. The operation loops in the document and handles only the ones that have the "Picture" facet.
-    * For each such document, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
-    * If a document in the list does not have the "Picture" facet, or does not have a valid blob, it is ignored
+    * A list of Documents
+    * For each document with the "Picture" facet, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
+    * If a document in the list does not have the "Picture" facet, or does not have a valid blob, the thumbnail is used
   * `output`: A `Blob`, holding a JPEG image
   * **Parameters**
     * `tile`: Number of thumbs/row or columns. defauit value is "0" (ImageMagick organizes the sheet). If you want 4 thumbs per row, just pass "4"
@@ -135,9 +135,9 @@ Also, each operation is documented: In Studio, when you select the operation, it
       * When ImageMagick builds the sheet, it keeps all the images in memory. If the list has a lot of big images, it will likely fail
       * This parameters sets the maximum dimension of an image
       * It is highly recommended to use this parameter
-      * Default value is "jpeg:size=150x150"
+      * Default value is "jpeg:size=150x150>"
     * `geometry`: The dimensions of each thumb
-      * Default value: "150x150+20+20", so a rectangle of 150 pixels, with a margin of 20 pixels in each direction
+      * Default value: "150x150>+20+20", so a rectangle of 150 pixels, with a margin of 20 pixels in each direction. The ">" character tells ImageMagick to not enlarge the image if it is already smaller than the rectangle.
     * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
     * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
 
