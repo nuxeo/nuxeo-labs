@@ -1,0 +1,18 @@
+<component name="org.nuxeo.labs.images.test.commandline">
+
+  <require>org.nuxeo.ecm.platform.commandline.executor.service.defaultContrib
+  </require>
+  <extension
+    target="org.nuxeo.ecm.platform.commandline.executor.service.CommandLineExecutorComponent"
+    point="command">
+    
+    <command name="test-montage" enabled="true">
+      <commandLine>montage</commandLine>
+      <parameterString>-geometry #{geometry} -auto-orient -tile #{tile} @#{listFilePath} #{targetFilePath}</parameterString>
+      <installationDirective>You need to install ImageMagick.
+      </installationDirective>
+    </command>
+
+  </extension>
+</component>
+

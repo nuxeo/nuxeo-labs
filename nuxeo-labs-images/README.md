@@ -122,6 +122,7 @@ Also, each operation is documented: In Studio, when you select the operation, it
   * `output`: A `Blob`, holding a JPEG image
   * **Parameters**
     * `tile`: Number of thumbs/row or columns. defauit value is "0" (ImageMagick organizes the sheet). If you want 4 thumbs per row, just pass "4"
+      * **WARNING** The `montage` command may return several images. For example, if you ask for 5 thumbnails per row and colums and you have 100 images, it will output 4 images (5 x 5 = 25 thumbnails per image), and this will lead to an error. Make sure to return only one image
     * `label`: A pattern as expected by ImageMagick. Typically, you would pass "%f" (default value)n with sers the label of each thumb to the filename. Notice that is `useDocTitle` is `true`, it is the Document’s title that is used. If `label` is set to `"NO_LABEL"` then the lables are not displayed at all
     * `backgroundColor`
       * Default value: "white"
@@ -144,7 +145,28 @@ Also, each operation is documented: In Studio, when you select the operation, it
       * Maybe the default command does not fit all your needs, so you can contribute you own.
       * **Important** see the "IM-montage" command line contributed in "conversions.xml" two parameters are required, _must be_ the 2 last parameters and _must be_ exactly `@#{listFilePath} #{targetFilePath}` (notice the `@`). Other parameters can be used, just remember they are case sensitive.
 
-
+* `Custom Images Sheet from Documents` (ID `ImagesSheet.CustomBuild`)
+  * Receives a list of documents, outputs a blob, a JPEG Images Sheet.
+  * Uses a custom commandLine contribution (you probably declared it in the "XML Extensions" part of Studio) and the parameters to use. See, in this plug-in, the "IM-montage" in resourse/OSGI-INF/extenions/converters.xml
+  * **Important**: Two parameters are required:
+    * _must be_ the 2 last parameters
+    * and _must be_ exactly `@#{listFilePath} #{targetFilePath}` (notice the `@`).
+    * Do not use them in the list of parameters you pass to the operation
+  * **Parameters**
+    * `commandLine`: The name of the command line you contributed in an XML extension
+    * `parameters`: A `key=value` list in a text (each key-value pair on its single line)
+      * The key must be exactly the same as the parameter you iused in the definition of the commed line
+      * For example, if, in your command, you have the expression `#{font}` and `#{fontSize}`, your `parameters` would look like:
+      
+      ```
+      font=Arial
+      fontSize=14
+      . . . other parameters . . .
+      ```
+    * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
+    * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
+    * **WARNING**: See the warning about the `tile` parameter for the `Images Sheet from Documents` operation.
+    
 
 ## Crop Toolbar Button
 

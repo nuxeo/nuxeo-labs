@@ -8,6 +8,7 @@
       <operation class="org.nuxeo.labs.images.ImageCropInViewsOp" />
     <operation class="org.nuxeo.labs.images.ImageCropOp" />
       <operation class="org.nuxeo.labs.images.ImagesSheetBuilderOp" />
+      <operation class="org.nuxeo.labs.images.ImagesSheetBuilderCustomOp" />
     <operation class="org.nuxeo.labs.images.ImageWatermarkWithTextOp" />
   </extension>
 
