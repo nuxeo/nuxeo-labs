@@ -52,8 +52,8 @@ This is a moving project (no API maintenance, no deprecation process, etc.) If a
         *  *NOTE*: It is not included in the Marketplace Package and its .jar must be installed manually (typically in the `plugins` folder of `nxserver`).
   * [_resources_](https://github.com/nuxeo/nuxeo-labs/tree/master/resources)
       * Free-to-use resources for your Studio project (icons, background image, etc.)
-  * [nuxeo-labs-widgets](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-widgets)
-  	* Widget templates to be used in the platform.
+  * [nuxeo-labs-widgets](https://github.com/nuxeo-sandbox/nuxeo-labs-studio)
+  	* Widget templates to be used in the platform; moved to [https://github.com/nuxeo-sandbox/nuxeo-labs-studio](https://github.com/nuxeo-sandbox/nuxeo-labs-studio)
 
 # About Nuxeo
 

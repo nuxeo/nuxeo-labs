@@ -1,9 +1,0 @@
-<div xmlns:c="http://java.sun.com/jstl/core" xmlns:nxl="http://nuxeo.org/nxforms/layout" xmlns:h="http://java.sun.com/jsf/html" xmlns:nxh="http://nuxeo.org/nxweb/html">
-	<c:if test="#{widget.mode != 'edit'}">
-		<a href="#{field}" target="_blank">#{field}</a>
-	</c:if>	
-	  
-	<c:if test="#{widget.mode == 'edit'}">
-		<h:inputText value="#{field}" />
-	</c:if>	
-</div>
