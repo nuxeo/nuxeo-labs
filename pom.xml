@@ -15,10 +15,7 @@
   <description />
   <modules>
     <module>nuxeo-labs-operations</module>
-    <module>nuxeo-labs-we-publication</module>
     <module>nuxeo-labs-images</module>
-    <module>nuxeo-labs-template-rendition-publisher</module>
-    <module>nuxeo-labs-video</module>
     <module>nuxeo-labs-fancybox</module>
     <module>nuxeo-labs-google-publisher</module>
     <module>nuxeo-labs-crop-ui</module>
@@ -35,21 +32,6 @@
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-operations</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-template-rendition-publisher</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-we-publication</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-video</artifactId>
         <version>${nuxeo.labs.version}</version>
       </dependency>
       <dependency>

@@ -52,19 +52,7 @@
         </dependency>
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
-            <artifactId>nuxeo-labs-we-publication</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.nuxeo.labs</groupId>
-            <artifactId>nuxeo-labs-video</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-images</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.nuxeo.labs</groupId>
-            <artifactId>nuxeo-labs-template-rendition-publisher</artifactId>
         </dependency>
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
