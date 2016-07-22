@@ -2,24 +2,6 @@
 This plugin contains miscellaneous operations. It was better to group them in this generic "nuxeo-labs-operation" plug-in, instead of creating one dedicated plug-in/operation
 
 # List of Operations
-* `Document > Copy Schema` (id `Document.CopySchema`)
-  * Copies the `schema` of a `source` document into the input Document/Documents
-  * Parameters
-    * `source`: The source document. ID or path
-    * `schema`: The name of the schema (not the prefix)
-  * **Important**:
-    * `schema` must exist in both documents
-    * If the `schema` does not exist (typo for example), nothing happens (no error)
-    * The input document is not saved
-
-* `Document > Reset Schema` (id `Document.ResetSchema`)
-  * Reset the `schema` of the input document, clearing all values
-  * Parameters
-    * `schema`: The name of the schema (not the prefix) to reset
-  * **Important**:
-    * If the `schema` does not exist (typo for example), nothing happens (no error)
-    * The input document is not saved
-
 * `Document > Add Complex Property From Json String` (id `AddComplexProperty`)
   * This operation can add new fields to a multivalued complex metadata. The `value` parameter is a String containing the JSON list of new values for the metadata given in `xpath`
 
@@ -51,19 +33,6 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * Or a list of mixed value
   * If `rollbackOnError` is checked, then error will be catch if one is thrown.
   * For the file value just put the `xpath` value of field that stores the file (`file:content`, `files:/files/0/content`, `myschema:myfield`, `myschema:/myfield/0/content`)
-
-* `Document > Add Facet` (id: `Document.AddFacet`)
-  * Dynamically adds a facet to the current document, returns the document with its new facet.
-  * Parameter: `facet`, the name of the facet to add.
-  * NOTICE: The facet must already be declared in the system, typically using the `doctype` end point of the `org.nuxeo.ecm.core.schema.TypeService` component.
-
-* `Document > Get Last version` (id: `Document.GetLastVersion`)
-  * Returns the last version of the input document.
-  * If the document has no version:
-    * Returns `null` if `createIfNeeded` is false (default value)
-    * Else, creates a version, using `increment` ("Minor" or "Major") and returns this version.
-    * IMPORTANT: If a version is created, the document is saved.
-  * Returns `null` if the document has no version at all.
 
 * `User Interface > Navigate To Url` (id: `NavigateToUrl`)
   * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
