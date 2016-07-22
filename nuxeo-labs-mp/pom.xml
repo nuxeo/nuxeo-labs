@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-parent</artifactId>
-        <version>8.2-SNAPSHOT</version>
+        <version>8.3-SNAPSHOT</version>
     </parent>
     <artifactId>nuxeo-labs-mp</artifactId>
     <packaging>zip</packaging>

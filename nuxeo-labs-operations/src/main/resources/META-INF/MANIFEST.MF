@@ -7,6 +7,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Nuxeo
-Nuxeo-Component: OSGI-INF/nuxeo-labs-operations.xml,OSGI-INF/extension
- s/org.nuxeo.labs.operations.ui.ResetContentView.xml
+Nuxeo-Component: OSGI-INF/nuxeo-labs-operations.xml
 

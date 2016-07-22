@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -41,10 +42,11 @@ import com.google.inject.Inject;
  * @author Thibaud Arguillere
  */
 
+@Ignore
 @RunWith(FeaturesRunner.class)
 @Features({ AutomationFeature.class })
 @Deploy({ "nuxeo-labs-images", "org.nuxeo.ecm.platform.picture.core", "org.nuxeo.ecm.platform.picture.convert",
-        "org.nuxeo.ecm.platform.picture.api", "org.nuxeo.ecm.platform.commandline.executor" })
+        "org.nuxeo.ecm.platform.picture.api", "org.nuxeo.ecm.platform.commandline.executor","org.nuxeo.ecm.platform.rendition.core" })
 @LocalDeploy({ "nuxeo-labs-images:test-custom-commandline.xml" })
 public class ImagesSheetTest {
 

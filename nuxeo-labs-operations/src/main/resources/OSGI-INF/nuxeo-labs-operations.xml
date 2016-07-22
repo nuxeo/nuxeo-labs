@@ -7,14 +7,11 @@
       <operation class="org.nuxeo.labs.operations.services.HTTPCall" />
       <operation class="org.nuxeo.labs.operations.notification.AdvancedSendEmail" />
       <operation class="org.nuxeo.labs.operations.document.UnpublishDocument" />
-      <operation class="org.nuxeo.labs.operations.document.CopySchema" />
-      <operation class="org.nuxeo.labs.operations.document.ResetSchema" />
-      <operation class="org.nuxeo.labs.operations.document.AddFacet" />
-      <operation class="org.nuxeo.labs.operations.document.GetLastDocumentVersion" />
       <operation class="org.nuxeo.labs.operations.services.VocabularyAddEntryOp" />
       <operation class="org.nuxeo.labs.operations.ui.NavigateToUrl" />
       <operation class="org.nuxeo.labs.operations.document.DocumentExistsOp" />
       <operation class="org.nuxeo.labs.operations.document.DocumentGetTagsOp" />
+      <operation class="org.nuxeo.labs.operations.ui.ResetContentView" />
    </extension>
     
 </component>
