@@ -1,19 +1,19 @@
 <component name="org.nuxeo.labs.operations">
 
   <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
-    point="operations" >
-      <operation class="org.nuxeo.labs.operations.document.AddEntryToComplexProperties" />
-      <operation class="org.nuxeo.labs.operations.services.HTTPDownloadFile" />
-      <operation class="org.nuxeo.labs.operations.services.HTTPCall" />
-      <operation class="org.nuxeo.labs.operations.notification.AdvancedSendEmail" />
-      <operation class="org.nuxeo.labs.operations.document.UnpublishDocument" />
-      <operation class="org.nuxeo.labs.operations.services.VocabularyAddEntryOp" />
-      <operation class="org.nuxeo.labs.operations.ui.NavigateToUrl" />
-      <operation class="org.nuxeo.labs.operations.document.DocumentExistsOp" />
-      <operation class="org.nuxeo.labs.operations.document.DocumentGetTagsOp" />
-      <operation class="org.nuxeo.labs.operations.ui.ResetContentView" />
-      <operation class="org.nuxeo.labs.operations.document.CopySchemaDM" />
+             point="operations">
+    <operation class="org.nuxeo.labs.operations.document.AddEntryToComplexProperties"/>
+    <operation class="org.nuxeo.labs.operations.services.HTTPDownloadFile"/>
+    <operation class="org.nuxeo.labs.operations.services.HTTPCall"/>
+    <operation class="org.nuxeo.labs.operations.notification.AdvancedSendEmail"/>
+    <operation class="org.nuxeo.labs.operations.document.UnpublishDocument"/>
+    <operation class="org.nuxeo.labs.operations.services.VocabularyAddEntryOp"/>
+    <operation class="org.nuxeo.labs.operations.ui.NavigateToUrl"/>
+    <operation class="org.nuxeo.labs.operations.document.DocumentExistsOp"/>
+    <operation class="org.nuxeo.labs.operations.document.DocumentGetTagsOp"/>
+    <operation class="org.nuxeo.labs.operations.ui.ResetContentView"/>
+    <operation class="org.nuxeo.labs.operations.document.CopySchemaDM"/>
 
   </extension>
-    
+
 </component>
