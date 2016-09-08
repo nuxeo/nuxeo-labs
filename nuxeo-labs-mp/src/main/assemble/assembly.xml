@@ -1,4 +1,4 @@
-<project name="nuxeo-assembly"
+<project name="nuxeo-labs-pack age"
          default="build"
          xmlns:nx="urn:nuxeo-build"
          xmlns:artifact="urn:nuxeo-artifact">
@@ -11,7 +11,7 @@
     <property name="outdir" value="${maven.project.build.directory}" />
     <!-- Include your artifacts in the graph adding your groupId to groupPrefixes -->
     <artifact:nuxeo-expand includeTestScope="true"
-                           groupPrefixes="org.nuxeo,com.nuxeo" />
+                           groupPrefixes="org.nuxeo,labs" />
     <!-- Prints the graph for debugging purpose -->
     <artifact:print output="${outdir}/dependency-tree.log" />
     <tstamp />
@@ -46,14 +46,22 @@
     </copy>
     <!-- Third-party libraries -->
     <copy todir="${outdir}/nxr/lib" overwrite="true">
+
+
+
       <artifact:set>
         <includes>
-          <artifact groupId="!org.nuxeo*" scope="!test" />
-          <artifact groupId="org.nuxeo.lib*" scope="!test" />
+          <artifact groupId="!org.nuxeo*" />
+          <artifact groupId="org.nuxeo.lib*" />
         </includes>
         <excludes>
-          <artifact groupId="org.nuxeo*" />
+          <artifact scope="test" />
+          <artifact scope="provided" />
+          <artifact type="pom" />
           <artifact groupId="nuxeo-studio" />
+          <!-- Filter out your artifacts using their groupId for instance -->
+          <artifact groupId="org.nuxeo.labs*"/>
+          <artifact artifactId="mongo-java-driver*"/>
         </excludes>
       </artifact:set>
     </copy>

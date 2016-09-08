@@ -38,7 +38,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
   * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
   * The url must be a URL in the current server can't redirect to another website for example)
 
-* `Services > HTTP: Call` (id: `HTTP.Call`)
+* `Services > HTTPlabs: Call` (id: `HTTP.Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
   * Parameters:
     * `method`: Required. The HTTP method to use: "GET", "POST", "PUT3, "DELETE", "OPTIONS" or "TRACE"
@@ -66,7 +66,7 @@ function run(input, params) {
        "Content-Type": "application/json"
     };
 
-    resultStringBlob = HTTP.Call(input, {
+    resultStringBlob = HTTPlabs.Call(input, {
       'method': "GET",
       'url': "http://YOUR_NUXEO_SERVER/nuxeo/api/v1//path//",
       'headersAsJSON': JSON.stringify(headers)
@@ -114,7 +114,7 @@ function run(input, params) {
 }
 ```
 
-* `Services > HTTP: Download File` (id: `HTTP.DownloadFile`)
+* `Services > HTTPlabs: Download File` (id: `HTTP.DownloadFile`)
   * Sends a GET HTTP request, returns the result as a `FileBlob`
   * Parameters:
     * `url`: Required. The full URL to call, including any queryString, parameters, ... (must be already formated)
@@ -133,7 +133,7 @@ function run(input, params) {
     "Accept": "*/*"
   };
 
-  blob = HTTP.DownloadFile(input, {
+  blob = HTTPlabs.DownloadFile(input, {
     'url': "your-server-url-to-the-file",
     'headersAsJSON': JSON.stringify(headers)
   });

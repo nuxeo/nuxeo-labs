@@ -44,12 +44,12 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 
 /**
- * 
+ *
  */
 @Operation(id = HTTPDownloadFile.ID, category = Constants.CAT_BLOB, label = "HTTP Download File", description = "Download the file referenced by the url (using HTTP GET) and returns a blob")
 public class HTTPDownloadFile {
 
-    public static final String ID = "HTTP.DownloadFile";
+    public static final String ID = "HTTPlabs.DownloadFile";
 
     public static final Log log = LogFactory.getLog(HTTPDownloadFile.class);
 

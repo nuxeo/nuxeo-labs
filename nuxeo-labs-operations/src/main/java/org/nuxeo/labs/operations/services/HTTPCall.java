@@ -42,12 +42,12 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.impl.blob.StringBlob;
 
 /**
- * 
+ *
  */
 @Operation(id = HTTPCall.ID, category = Constants.CAT_SERVICES, label = "HTTP Call", description = "")
 public class HTTPCall {
 
-    public static final String ID = "HTTP.Call";
+    public static final String ID = "HTTPlabs.Call";
 
     @Context
     protected OperationContext ctx;
