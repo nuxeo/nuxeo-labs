@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationChain;
 import org.nuxeo.ecm.automation.OperationContext;
@@ -59,7 +60,7 @@ public class HTTPTest {
 
     private static final Log log = LogFactory.getLog(HTTPTest.class);
 
-    // Maybe we should _not_ use dam.cloud.nuxeo.com. At least, PELAE DO NOT ADD
+    // Maybe we should _not_ use dam.cloud.nuxeo.com. At least, PLEASE DO NOT ADD
     // DOCUMENTS THERE, we're using it for demos
     protected static final String DISTANT_SERVER = "http://dam.cloud.nuxeo.com/nuxeo";
 
@@ -68,6 +69,8 @@ public class HTTPTest {
 
     protected static final String URL_TEST_GET = DISTANT_SERVER_REST_PATTERN
             + "/path//";
+
+    protected static final String URL_TEST_FILE_UPLOAD = DISTANT_SERVER + "/api/v1/upload/";
 
     protected static final String DISTANT_PICTURE_DOC_ID = "ef825f50-c12e-4e13-b3b7-31f95cc500fe";
 
@@ -192,6 +195,56 @@ public class HTTPTest {
             result = null;
             f.delete();
 
+        }
+
+    }
+
+    @Test
+    public void testSendBlob() throws Exception {
+
+        File f = FileUtils.getResourceFileFromContext("Nuxeo-logo.png");
+        FileBlob fileBlob = new FileBlob(f);
+
+        OperationContext ctx;
+        OperationChain chain;
+
+        ctx = new OperationContext(session);
+        assertNotNull(ctx);
+
+        chain = new OperationChain("testChain");
+
+        Properties props = new Properties();
+        props.put("Authorization", "Basic QWRtaW5pc3RyYXRvcjpOdXhlbzIwMTU=");
+        props.put("Accept", "application/json");
+        props.put("Content-Type", "application/json");
+
+        chain.add(HTTPCall.ID).set("method", "POST").set("url", URL_TEST_FILE_UPLOAD).set(
+                "headers", props).set("blobToSend", fileBlob);
+
+        // No input
+
+        Blob result = (Blob) service.run(ctx, chain);
+        assertTrue(result instanceof StringBlob);
+
+        String jsonResult = result.getString();
+        assertNotNull(jsonResult);
+
+        // If dam.cloud.nuxeo.com can't be reached, it's not an error
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(jsonResult);
+        int status = rootNode.get("status").getIntValue();
+
+        if(status == 201) {
+            JsonNode theDoc = rootNode.get("result");
+            JsonNode batchId = theDoc.get("batchId");
+            assertNotNull(batchId);
+        } else {
+
+            String statusMsg = rootNode.get("statusMessage").getTextValue();
+            String error = rootNode.get("error").getTextValue();
+            log.error("PROBLEM REACHING " + URL_TEST_FILE_UPLOAD + ", status: "
+                    + status + ", statusMessage: " + statusMsg + ", error: "
+                    + error);
         }
 
     }

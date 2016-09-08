@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -31,6 +32,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.codehaus.jackson.node.ObjectNode;
+import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -68,6 +70,9 @@ public class HTTPCall {
     @Param(name = "body", required = false)
     protected String body;
 
+    @Param(name = "blobToSend", required = false)
+    protected Blob blobToSend = null;
+
     @OperationMethod
     public Blob run() throws IOException {
 
@@ -76,6 +81,9 @@ public class HTTPCall {
         String restResult = "";
         String error = "";
         boolean isUnknownHost = false;
+
+        InputStream in = null;
+        OutputStream out = null;
 
         try {
 
@@ -96,17 +104,27 @@ public class HTTPCall {
                 OutputStreamWriter writer = new OutputStreamWriter(http.getOutputStream());
                 writer.write(body);
                 writer.flush();
+            } else if(blobToSend != null) {
+
+                http.setDoInput(true);
+                http.setDoOutput(true);
+
+                in = blobToSend.getStream();
+                out = http.getOutputStream();
+
+                FileUtils.copy(in, out);
+                out.flush();
             }
 
             InputStream is = http.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(is));
+            BufferedReader bf = new BufferedReader(new InputStreamReader(is));
 
             StringBuffer sb = new StringBuffer();
             String inputLine;
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = bf.readLine()) != null) {
                 sb.append(inputLine);
             }
-            in.close();
+            bf.close();
 
             restResult = sb.toString();
 
@@ -119,6 +137,23 @@ public class HTTPCall {
 
         } finally {
 
+            //Cleanup
+            if(in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            }
+            if(out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            }
+
+            // Return result
             int status = 0;
             String statusMessage = "";
 

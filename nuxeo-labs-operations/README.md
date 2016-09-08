@@ -46,6 +46,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
     * `headersAsJSON`: A string containing a JSON object with the headers.
 	* `body`: If not empty, `body` is sent along with the request
+	* `blobToSend`: A Blob whose file is sent. *IMPORTANT*: You cannot have both a `body` and a `blobToSend`. The operation first checks `body`. If it is not empry, it is sent. If it is empty, the oprration checks `blobToSend` and sends it if not null
   * Returns a `StringBlob` whose data is a JSON string with the following fields:
     * `status`: The HTTP status code (200, 404, ...). 0 means an error occured during the call itself (before reaching the server)
     * `statusMessage`: The HTTP status message ("OK" for example)
