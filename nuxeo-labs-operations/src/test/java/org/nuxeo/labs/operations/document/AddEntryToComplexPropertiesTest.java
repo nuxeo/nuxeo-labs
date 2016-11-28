@@ -16,10 +16,7 @@
  */
 package org.nuxeo.labs.operations.document;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -39,20 +36,21 @@ import org.nuxeo.ecm.automation.core.operations.document.CreateDocument;
 import org.nuxeo.ecm.automation.core.operations.document.DeleteDocument;
 import org.nuxeo.ecm.automation.core.operations.document.FetchDocument;
 import org.nuxeo.ecm.automation.test.EmbeddedAutomationServerFeature;
-import org.nuxeo.ecm.core.test.annotations.Granularity;
-import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-
-import com.google.inject.Inject;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import org.nuxeo.ecm.core.test.annotations.Granularity;
+import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import org.nuxeo.runtime.test.runner.Jetty;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author fvadon
@@ -178,7 +176,7 @@ public class AddEntryToComplexPropertiesTest {
                 Constants.HEADER_NX_SCHEMAS, "*").setInput(new PathRef("/")).set(
                 "name", "testDoc").execute();
         PropertyList dbFields = testDoc.getProperties().getList("ds:fields");
-        assertEquals(5, dbFields.size());
+        assertEquals(5, dbFields.length());
         */
 
         // Get new fields from json file to String
@@ -206,7 +204,7 @@ public class AddEntryToComplexPropertiesTest {
 
         assertEquals("testDoc", testDoc.getTitle());
         dbFields = testDoc.getProperties().getList("ds:fields");
-        assertEquals(7, dbFields.size());
+        assertEquals(7, dbFields.length());
         */
 
     }

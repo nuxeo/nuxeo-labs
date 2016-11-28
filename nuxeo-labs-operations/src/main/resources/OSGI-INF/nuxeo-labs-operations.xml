@@ -3,6 +3,7 @@
   <extension
           target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
           point="operations" >
+      <operation class="org.nuxeo.labs.operations.blob.GetManagedBlobOp" />
       <operation class="org.nuxeo.labs.operations.document.AddEntryToComplexProperties" />
       <operation class="org.nuxeo.labs.operations.services.HTTPDownloadFile" />
       <operation class="org.nuxeo.labs.operations.services.HTTPCall" />
