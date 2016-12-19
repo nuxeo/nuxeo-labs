@@ -5,37 +5,36 @@
     <parent>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-parent</artifactId>
-        <version>8.3-SNAPSHOT</version>
+        <version>8.10-SNAPSHOT</version>
     </parent>
+
     <artifactId>nuxeo-labs-mp</artifactId>
     <packaging>zip</packaging>
     <name>Market Place Package for Nuxeo Labs</name>
     <description/>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Import Nuxeo BOM -->
-            <dependency>
-                <groupId>org.nuxeo.ecm.distribution</groupId>
-                <artifactId>nuxeo-distribution</artifactId>
-                <version>${nuxeo.distribution.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <!-- Base distribution(s) for the MP -->
         <dependency>
             <groupId>org.nuxeo.ecm.distribution</groupId>
-            <artifactId>nuxeo-distribution-cap</artifactId>
-            <!-- <artifactId>nuxeo-distribution-coreserver</artifactId> -->
-            <!-- <artifactId>nuxeo-distribution-dm</artifactId> -->
-            <!-- <artifactId>nuxeo-distribution-dam</artifactId> -->
-            <!-- <artifactId>nuxeo-distribution-social-collaboration</artifactId> -->
-            <type>pom</type>
+            <artifactId>nuxeo-nxr-server</artifactId>
+            <type>zip</type>
+            <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.nuxeo.ecm.distribution</groupId>
+            <artifactId>nuxeo-nxr-jsf-ui</artifactId>
+            <type>zip</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.nuxeo.marketplace.dam</groupId>
+            <artifactId>marketplace</artifactId>
+            <classifier>nxr-server</classifier>
+            <type>zip</type>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- Additional bundles to be deployed by the MP -->
         <dependency>

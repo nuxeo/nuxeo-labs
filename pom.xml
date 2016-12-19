@@ -3,13 +3,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.nuxeo</groupId>
-    <artifactId>nuxeo-addons-parent</artifactId>
-    <version>8.3</version>
+    <groupId>org.nuxeo.ecm.distribution</groupId>
+    <artifactId>nuxeo-distribution</artifactId>
+    <version>8.10</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
-  <version>8.3-SNAPSHOT</version>
+  <version>8.10-SNAPSHOT</version>
   <name>Parent Project for Nuxeo Labs</name>
   <packaging>pom</packaging>
   <description />
@@ -24,8 +24,9 @@
     <module>nuxeo-labs-mp</module>
   </modules>
   <properties>
-    <nuxeo.labs.version>8.3-SNAPSHOT</nuxeo.labs.version>
-    <nuxeo.distribution.version>8.3</nuxeo.distribution.version>
+    <nuxeo.labs.version>8.10-SNAPSHOT</nuxeo.labs.version>
+    <nuxeo.distribution.version>8.10</nuxeo.distribution.version>
+    <nuxeo.dam.nxr.version>6.2.3</nuxeo.dam.nxr.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -68,6 +69,13 @@
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-mp</artifactId>
         <version>${nuxeo.labs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.marketplace.dam</groupId>
+        <artifactId>marketplace</artifactId>
+        <classifier>nxr-server</classifier>
+        <version>${nuxeo.dam.nxr.version}</version>
+        <type>zip</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
