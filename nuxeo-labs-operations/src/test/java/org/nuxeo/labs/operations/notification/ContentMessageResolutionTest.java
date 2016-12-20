@@ -16,11 +16,9 @@
  */
 package org.nuxeo.labs.operations.notification;
 
-import static org.junit.Assert.*;
-import java.io.File;
-import java.io.InputStream;
-
+import com.google.inject.Inject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.Environment;
@@ -31,17 +29,20 @@ import org.nuxeo.ecm.automation.core.mail.Mailer.Message;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.test.CoreFeature;
-import org.nuxeo.labs.operations.notification.AdvancedSendEmail;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import com.google.inject.Inject;
+import java.io.File;
+import java.io.InputStream;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author <a href="mailto:bjalon@nuxeo.com">Benjamin JALON</a>
  * @since 5.7
  */
+@Ignore
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)
 @Deploy({ "org.nuxeo.ecm.automation.core",

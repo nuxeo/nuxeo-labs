@@ -18,15 +18,6 @@
  */
 package org.nuxeo.labs.operations.notification;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.Address;
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -43,21 +34,27 @@ import org.nuxeo.ecm.automation.core.mail.Mailer.Message;
 import org.nuxeo.ecm.automation.core.operations.notification.MailTemplateHelper;
 import org.nuxeo.ecm.automation.core.scripting.Scripting;
 import org.nuxeo.ecm.automation.core.util.StringList;
-import org.nuxeo.ecm.core.api.Blob;
-import org.nuxeo.ecm.core.api.NuxeoException;
-import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.core.api.*;
 import org.nuxeo.ecm.core.api.model.Property;
-import org.nuxeo.ecm.core.api.PropertyException;
 import org.nuxeo.ecm.core.api.model.impl.ListProperty;
 import org.nuxeo.ecm.platform.ec.notification.service.NotificationServiceHelper;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
+import javax.mail.Address;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author <a href="mailto:bjalon@nuxeo.com">Benjamin JALON</a>
  * @since 5.7
+ * Deprecated since 8.10
  */
+@Deprecated
 @Operation(id = AdvancedSendEmail.ID, category = Constants.CAT_NOTIFICATION, label = "AdvancedSendEmail", description = "Send Email according parameters set. <p> EMail Address resolution is as following if you check strict : <ul><li> if you set a string that starts with 'user:xxxx' will resolve email of username xxxx. </li><li> if you set a string that starts with 'group:xxxx, will resolve all users and add their email. </li><li> if not these 2 conditions, if the value contains an '@' then will concider it as an email directly. </li><li> If there is no match then throw an exception. </li></ul><p> if you uncheck the strict checkbox, you have the same behavior explain above, but the exception is not throw and will try to concider the value as a username <ul><li> if no match then will concider a group </li><li> and if no match again then empty string</li></ul>. <p>You can also put in values : <ul><li>a NuxeoPrincipal </li><li> or a list of NuxeoPrincipal </li><li> or a list of String.</li><li> or a list of mixed value.</li></ul> <p>For list of string, the resolution is the same as explain previously.<p> If you check 'rollbackOnError' then error will be catch if one is thrown. <p>For the file value just put the xpath value of field that stores the file (file:content, files:/files/0/content, myschema:myfield, myschema:/myfield/0/content)")
 public class AdvancedSendEmail {
 
