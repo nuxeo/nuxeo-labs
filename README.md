@@ -1,7 +1,16 @@
 # Nuxeo Labs
-===
 
-The Nuxeo Solution Architects team is constantly producing prototype solutions for our current and future customers. From time to time customers have a problem that is not solved by the core Nuxeo platform, so we build a custom solution to solve it. [Nuxeo Labs](https://github.com/nuxeo/nuxeo-labs) contains those custom solutions we feel may enjoy usage by a wider audience.
+Nuxeo Labs is a collection of features developed by the Nuxeo Solution Engineering team. These features are purpose-built generally in the context of creating prospect demos.  These features are often re-usable and, therefore, collected in this project.
+
+Note that over time certain features may be removed from this project as a) they no longer work or b) they were integrated into Nuxeo proper.
+
+## Support
+
+**These features are not part of the Nuxeo Production platform.**
+
+These solutions are provided for inspiration and we encourage customers to use them as code samples and learning resources.
+
+This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform, not maintained here.
 
 ## Build
 
@@ -17,14 +26,6 @@ QA build status: [![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?
 The MP is in `nuxeo-labs-mp/target`, named `nuxeo-labs-mp-{version}.zip`. It can be [installed from the Admin Center](http://doc.nuxeo.com/display/ADMINDOC/Installing+a+new+package+on+your+instance#InstallingaNewPackageonYourInstance-OfflineInstallation), or from the commandline using `nuxeoctl mp-install`.
 
 We also plan to eventually make it available from the "Package from Nuxeo Marketplace" tab.
-
-## Important Note
-
-**These features are not part of the Nuxeo Production platform.**
-
-These solutions are provided for inspiration and we encourage customers to use them as code samples and learning resources.
-
-This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform, not maintained here.
 
 ## What's Inside?
 

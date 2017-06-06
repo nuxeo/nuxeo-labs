@@ -1,7 +1,7 @@
 <!-- See documentation at http://doc.nuxeo.com/x/HgIz -->
 <package type="addon" name="nuxeo-labs" version="@VERSION@">
   <title>Nuxeo Labs</title>
-  <description></description>
+  <description>Nuxeo Labs is a collection of features developed by the Nuxeo Solution Engineering team. These features are purpose-built generally in the context of creating prospect demos.  These features are often re-usable and, therefore, collected in this project. Please see the readme at Please see https://github.com/nuxeo/nuxeo-labs for a detailed feature list.</description>
   <home-page>https://github.com/nuxeo/nuxeo-labs</home-page>
   <vendor>Nuxeo</vendor>
   <installer restart="true" />
