@@ -54,7 +54,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * `result`: The raw data ans returned by the server.
   * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a document from a distant nuxeo server:
 
-  ```javascript
+```javascript
 function run(input, params) {
 
   var resultStringBlob, headers, resultTxt, resultObj, msg, serverAndPort;
@@ -124,7 +124,7 @@ function run(input, params) {
   * Returns a `FileBlob`
   * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a file from a distant nuxeo server, saving the file to current document:
 
-  ```
+```
 // Here, input is a File for example
 function run(input, params) {
   var headers, blob;
@@ -145,7 +145,7 @@ function run(input, params) {
 
   return input;
 }
-  ```
+```
 
 * `Document > Document Exists` (id: `Document.Exists`)
   * Check if the document exists, returns a `boolean`
