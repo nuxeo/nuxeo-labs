@@ -16,6 +16,7 @@
       <operation class="org.nuxeo.labs.operations.ui.ResetContentView" />
       <operation class="org.nuxeo.labs.operations.usermanagement.CreateOrUpdateGroupOp" />
       <operation class="org.nuxeo.labs.operations.usermanagement.CreateOrUpdateUserOp" />
+      <operation class="org.nuxeo.labs.operations.document.PublishRenditionOp" />
    </extension>
     
 </component>

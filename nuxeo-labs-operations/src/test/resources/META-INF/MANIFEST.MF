@@ -6,4 +6,5 @@ Bundle-Vendor: Nuxeo
 Bundle-Version: 1.0.0
 Nuxeo-Component: OSGI-INF/doc-type-contrib.xml,
     OSGI-INF/core-types-contrib.xml,
-    OSGI-INF/no-field-validation-contrib.xml
+    OSGI-INF/no-field-validation-contrib.xml,
+    OSGI-INF/relations-default-jena-contrib.xml

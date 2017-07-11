@@ -147,6 +147,15 @@ function run(input, params) {
 }
 ```
 
+* `Document > Publish Rendition` (id: `Document.PublishRenditionOp`)
+  * Publishes a rendition of the input document. See the Publicaiton Service for more details. To summarize:
+    * Depending on the `renditionName`, the type of document created in the section will change (render a pdf => create a `File`,  render an image => create a `Picture`, ...)
+    * In all cases, a version of the input document is created if needed
+    *  The published document keeps a relation to its source document
+  * Parameters:
+    * `targetSectionRef`: ID or path (starting with "/") of the target section. **WARNING** Current user must have the permission to publish in this section
+    * `renditionName`: The name of the rendition to use. Renditions are contributed using the RenditionService. Some default renditions exist ("pdf" for example)
+
 * `Document > Document Exists` (id: `Document.Exists`)
   * Check if the document exists, returns a `boolean`
   * (No error is thrown if the document does not exist)

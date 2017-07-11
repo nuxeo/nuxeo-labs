@@ -1,0 +1,15 @@
+<component name="org.nuxeo.labs.utils.pageproviders">
+
+<extension target="org.nuxeo.ecm.platform.query.api.PageProviderService"
+    point="providers">
+
+    <genericPageProvider name="order_for_stringlist" class="org.nuxeo.labs.utils.StringListPageProvider">
+      <property name="coreSession">#{documentManager}</property>
+      <property name="currentDoc">#{currentDocument}</property>
+        <!-- Put the xpath of your String Mulaivalued field here -->
+        <!--  Create as many  -->
+        <property name="xpath"></property>
+    </genericPageProvider>
+</extension>
+    
+</component>

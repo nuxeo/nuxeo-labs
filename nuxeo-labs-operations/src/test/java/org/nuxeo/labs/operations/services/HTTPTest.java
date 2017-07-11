@@ -20,11 +20,13 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,7 +64,9 @@ public class HTTPTest {
 
     // Maybe we should _not_ use dam.cloud.nuxeo.com. At least, PLEASE DO NOT ADD
     // DOCUMENTS THERE, we're using it for demos
-    protected static final String DISTANT_SERVER = "http://dam.cloud.nuxeo.com/nuxeo";
+    // 2017-07-11: dam.cloud?nuxeo.com ius not running anymore. Deactivating the test until we find another server
+    // (using Assume.assumeTrue testing this value)
+    protected static final String DISTANT_SERVER = null;//"http://dam.cloud.nuxeo.com/nuxeo";
 
     protected static final String DISTANT_SERVER_REST_PATTERN = DISTANT_SERVER
             + "/api/v1";
@@ -92,6 +96,8 @@ public class HTTPTest {
 
     @Test
     public void testRESTGet() throws Exception {
+
+    	Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         OperationContext ctx;
         OperationChain chain;
@@ -139,6 +145,8 @@ public class HTTPTest {
 
     @Test
     public void testDownloadFile() throws Exception {
+
+    	Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         OperationContext ctx;
         OperationChain chain;
@@ -201,6 +209,8 @@ public class HTTPTest {
 
     @Test
     public void testSendBlob() throws Exception {
+
+    	Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         File f = FileUtils.getResourceFileFromContext("Nuxeo-logo.png");
         FileBlob fileBlob = new FileBlob(f);
