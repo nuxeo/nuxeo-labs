@@ -8,6 +8,7 @@ import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.blob.BlobInfo;
 import org.nuxeo.ecm.core.blob.BlobManager;
 import org.nuxeo.ecm.core.blob.BlobProvider;
 
@@ -49,7 +50,7 @@ public class GetManagedBlobOp {
     @OperationMethod
     public Blob run() throws IOException {
         BlobProvider myProvider = blobManager.getBlobProvider(providerName);
-        BlobManager.BlobInfo blobInfo = new BlobManager.BlobInfo();
+        BlobInfo blobInfo = new BlobInfo();
         blobInfo.key = key;
         blobInfo.mimeType = mimetype;
         blobInfo.filename = filename;
