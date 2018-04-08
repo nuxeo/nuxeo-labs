@@ -4,7 +4,7 @@ This plug-in adds [Scripting Automation Helpers](https://doc.nuxeo.com/x/RIB4AQ)
 
 Because they are custom helpers, you will not have autocompletion in Nuxeo Studio, this is normal. You must type the whole ID ot the helper (`FileUtils.saveBlob` for example), case sentitive.
 
-**Security Concerns**: These are _helpers_, they can't be called directly from a REST call for example. Still, you should pay a lot of attention to avoid publishing an Automation Chain which, for example, accepts a dynamic parameter used as a full path server side. This would be very bad practice.
+**Security Concerns**: These are _helpers_, they can't be called directly from a REST call for example. Still, you should pay a lot of attention to avoid publishing an Automation Chain which, for example, accepts a dynamic parameter used as a full path server side. This is very bad practice and major security issue.
 
 ## Helpers
 
@@ -16,9 +16,9 @@ The original purpose of the `FileUtils` helpers was to be able to quickly create
 #### VERY IMPORTANT WARNINGS ABOUT SECURITY
 * _The helpers_, by essence, _run server side_ of course. And some helpers here can create/write/delete files and/or folders<br/>=> **MAKE SURE YOU DON't ALLOW EXTERNAL CALLS TO ACCESS FILES/FOLDERS OF YOUR SERVER**.
 * A helper cannot be called directly by itself, it must be used inside an operation, inside an Automation Chain.
-* So: please BE VERY CAREFUL, and hard code your values, and/or make sure the paths cannot be get/set from a REST call.
+* So: please **BE VERY CAREFUL, and hard code your values, and/or make sure the paths cannot be get/set from a REST call**.
 
-A typical example of very, very wrong way of using these helpers would be a chain that accepts a "path" parameter, and call FileUtils.deleteFile() with this path for example. Don't do that.
+A typical example of very, very wrong way of using these helpers would be a chain that accepts a "path" parameter, and call FileUtils.deleteFile() with this path for example. Just don't do that please.
 
 Here is the list of `FileUtils` helpers:
 

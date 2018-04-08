@@ -4,10 +4,10 @@ This plugin contains miscellaneous utilities.
 # List of Utilities
 
 ## StringList PageProvider
-This PageProvider will return a DocumentModelList ordered in the same order as a StringList field.
+This PageProvider will return a `DocumentModelList` ordered in the same order as a StringList field.
 
 ### Usage
-To use it, copy the definition in a Studio XML Extension, and set the `xpath` parameter to the StringList field you want to use. For example, here we named the page provider "pp_mystringlistfield" and used the `myshcema:mystringlistfield` field:
+To use it, copy the definition in a Studio XML Extension, and set the `xpath` parameter to the StringList field you want to use. For example, here we named the page provider "pp_mystringlistfield" and used the `mysschema:myStringListField` field:
 
 ```
 <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService"
@@ -18,12 +18,15 @@ To use it, copy the definition in a Studio XML Extension, and set the `xpath` pa
       <property name="currentDoc">#{currentDocument}</property>
         <!-- Put the xpath of your String Multivalued field here -->
         <!--  Create as many  -->
-        <property name="xpath">myschema:mystringlistfield </property>
+        <property name="xpath">myschema:myStringListField </property>
     </genericPageProvider>
 </extension>
 ```
 
 ### Usage in a Content View
+
+**WARNING: This topic is for JSF UI only**
+
 Now, if you want to use it in a content view, how would you do it? This cannot be done in the "Content-Views" part of Studio, but is easy to do:
 
 1. Create your content view in Studio as usual, just ignore the NXQL filer, it will not be used anyway. Say you named it "MyContentView"

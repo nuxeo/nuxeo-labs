@@ -20,6 +20,7 @@ This package contains:
 * **Crop Toolbar Button**
   * Automatically displayed when the current document has an image
   * If you don't want to display this button, you can just add an XML extension in you project (see below)
+  * **WARNING: This button is for the JSF UI only**
 
 
 
@@ -169,6 +170,9 @@ Also, each operation is documented: In Studio, when you select the operation, it
     
 
 ## Crop Toolbar Button
+
+**WARNING: This is for JSF UI only**
+
 
 This button displays a "Crop" button in the toolbar for documents having the `Picture` facet. A dialog lets the user to crop the picture using a selection rectangle and the cropped image replaces the existing one.
 

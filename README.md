@@ -30,7 +30,8 @@ We also plan to eventually make it available from the "Package from Nuxeo Market
 ## What's Inside?
 
 * [_nuxeo-labs-fancybox_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-fancybox)
-    * In Studio define a layout, a callback Automation Chain and an XML Extension. You now have a [Fancybox](http://fancybox.net/) dialog, and in the automation chain, you get the values enetered by the user.
+    * In Studio define a layout, a callback Automation Chain and an XML Extension. You now have a [Fancybox](http://fancybox.net/) dialog, and in the automation chain, you get the values entered by the user.
+    * **WARNING: This is a feature for the JSF UI**
 * [_nuxeo-labs-google-publisher_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-google-publisher)
       * This plugin enables you to publish on Google Calendar and Tasks through a nuxeo automation operation.
 * [_nuxeo-labs-images_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-images)
@@ -51,10 +52,12 @@ We also plan to eventually make it available from the "Package from Nuxeo Market
   * [_nuxeo-labs-dam-default-tab_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-dam-default-tab)
     *  Overrides the default startup helper to select the DAM view when a user logs in to the application
         *  *NOTE*: It is not included in the Marketplace Package and its .jar must be installed manually (typically in the `plugins` folder of `nxserver`).
+    *  **WARNING: This is a feature for the JSF UI**
   * [_resources_](https://github.com/nuxeo/nuxeo-labs/tree/master/resources)
       * Free-to-use resources for your Studio project (icons, background image, etc.)
   * [nuxeo-labs-widgets](https://github.com/nuxeo-sandbox/nuxeo-labs-studio)
   	* Widget templates to be used in the platform; moved to [https://github.com/nuxeo-sandbox/nuxeo-labs-studio](https://github.com/nuxeo-sandbox/nuxeo-labs-studio)
+  	* **WARNING: Most, if not all, widgets areto be used within the JSF UI**
 
 # About Nuxeo
 
