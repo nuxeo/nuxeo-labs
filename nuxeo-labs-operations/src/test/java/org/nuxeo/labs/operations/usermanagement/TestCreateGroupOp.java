@@ -24,7 +24,7 @@ import java.util.Map;
 @RunWith(FeaturesRunner.class)
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
-@Deploy("org.nuxeo.labs.operation")
+@Deploy("org.nuxeo.labs.operations")
 public class TestCreateGroupOp {
 
     public static final String GROUPNAME = "groupname";

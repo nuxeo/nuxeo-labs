@@ -1,0 +1,21 @@
+<component name="org.nuxeo.labs.operations.conversions">
+
+  <!-- Please, do not format this file to nuxeo formating convention. On Windows, 
+    for example, we can't have line breaks in the command -->
+
+  <require>org.nuxeo.ecm.platform.commandline.executor.service.defaultContrib
+  </require>
+  <extension
+    target="org.nuxeo.ecm.platform.commandline.executor.service.CommandLineExecutorComponent"
+    point="command">
+    
+    <command name="IM-montage" enabled="true">
+      <commandLine>montage</commandLine>
+      <parameterString>-label #{label} -font #{font} -pointSize #{fontSize} -background #{background} -fill #{fill} -define #{define} -geometry #{geometry} -auto-orient -tile #{tile} @#{listFilePath} #{targetFilePath}</parameterString>
+      <installationDirective>You need to install ImageMagick.
+      </installationDirective>
+    </command>
+
+  </extension>
+</component>
+

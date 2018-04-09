@@ -22,6 +22,7 @@
     <module>nuxeo-labs-more-like-ui</module>
     <module>nuxeo-labs-automation-helpers</module>
     <module>nuxeo-labs-mp</module>
+    <module>nuxeo-labs-operations-mp</module>
   </modules>
   <properties>
     <nuxeo.labs.version>9.10-SNAPSHOT</nuxeo.labs.version>

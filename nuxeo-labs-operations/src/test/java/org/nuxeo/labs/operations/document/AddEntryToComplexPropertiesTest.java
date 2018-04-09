@@ -62,8 +62,8 @@ import static org.junit.Assert.assertNotNull;
         "org.nuxeo.ecm.platform.url.core",
         "org.nuxeo.ecm.platform.types.api",
         "org.nuxeo.ecm.platform.notification.core:OSGI-INF/NotificationService.xml",
-        "org.nuxeo.ecm.automation.test", "org.nuxeo.labs.operation.test",
-        "org.nuxeo.labs.operation" })
+        "org.nuxeo.ecm.automation.test", "org.nuxeo.labs.operations.test",
+        "org.nuxeo.labs.operations" })
 @Features(EmbeddedAutomationServerFeature.class)
 @Jetty(port = 18080)
 @RepositoryConfig(cleanup = Granularity.METHOD)

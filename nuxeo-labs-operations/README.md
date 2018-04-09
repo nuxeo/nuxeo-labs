@@ -173,3 +173,58 @@ function run(input, params) {
       * Can be used to restore the default sort, for example.
       * Parameters:
         * `Content View Name`: The name of the Content View, required
+
+* `Images Sheet from Documents` (ID `ImagesSheet.Build`)
+  * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
+  * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for hez `geometry` parameter for example`
+  * `input`:
+    * A list of Documents
+    * For each document with the "Picture" facet, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
+    * If a document in the list does not have the "Picture" facet, or does not have a valid blob, the thumbnail is used
+  * `output`: A `Blob`, holding a JPEG image
+  * **Parameters**
+    * `tile`: Number of thumbs/row or columns. defauit value is "0" (ImageMagick organizes the sheet). If you want 4 thumbs per row, just pass "4"
+      * **WARNING** The `montage` command may return several images. For example, if you ask for 5 thumbnails per row and colums and you have 100 images, it will output 4 images (5 x 5 = 25 thumbnails per image), and this will lead to an error. Make sure to return only one image
+    * `label`: A pattern as expected by ImageMagick. Typically, you would pass "%f" (default value)n with sers the label of each thumb to the filename. Notice that is `useDocTitle` is `true`, it is the Document’s title that is used. If `label` is set to `"NO_LABEL"` then the lables are not displayed at all
+    * `backgroundColor`
+      * Default value: "white"
+    * `fillColor`: Color used to draw the labels.
+      * Default value: "black"
+    * `font`
+      * Default value:s "Helvetica"
+    * `fontSize`
+      * Default value: 12
+    * `define`: **important parameter**
+      * When ImageMagick builds the sheet, it keeps all the images in memory. If the list has a lot of big images, it will likely fail
+      * This parameters sets the maximum dimension of an image
+      * It is highly recommended to use this parameter
+      * Default value is "jpeg:size=150x150>"
+    * `geometry`: The dimensions of each thumb
+      * Default value: "150x150>+20+20", so a rectangle of 150 pixels, with a margin of 20 pixels in each direction. The ">" character tells ImageMagick to not enlarge the image if it is already smaller than the rectangle.
+    * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
+    * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
+    * `command`: A commadLine you contributed.
+      * Maybe the default command does not fit all your needs, so you can contribute you own.
+      * **Important** see the "IM-montage" command line contributed in "conversions.xml" two parameters are required, _must be_ the 2 last parameters and _must be_ exactly `@#{listFilePath} #{targetFilePath}` (notice the `@`). Other parameters can be used, just remember they are case sensitive.
+
+* `Custom Images Sheet from Documents` (ID `ImagesSheet.CustomBuild`)
+  * Receives a list of documents, outputs a blob, a JPEG Images Sheet.
+  * Uses a custom commandLine contribution (you probably declared it in the "XML Extensions" part of Studio) and the parameters to use. See, in this plug-in, the "IM-montage" in resourse/OSGI-INF/extenions/converters.xml
+  * **Important**: Two parameters are required:
+    * _must be_ the 2 last parameters
+    * and _must be_ exactly `@#{listFilePath} #{targetFilePath}` (notice the `@`).
+    * Do not use them in the list of parameters you pass to the operation
+  * **Parameters**
+    * `commandLine`: The name of the command line you contributed in an XML extension
+    * `parameters`: A `key=value` list in a text (each key-value pair on its single line)
+      * The key must be exactly the same as the parameter you iused in the definition of the commed line
+      * For example, if, in your command, you have the expression `#{font}` and `#{fontSize}`, your `parameters` would look like:
+      
+      ```
+      font=Arial
+      fontSize=14
+      . . . other parameters . . .
+      ```
+    * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
+    * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
+    * **WARNING**: See the warning about the `tile` parameter for the `Images Sheet from Documents` operation.

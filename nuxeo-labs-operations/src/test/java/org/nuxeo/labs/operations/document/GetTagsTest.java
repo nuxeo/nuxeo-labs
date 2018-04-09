@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features({ CoreFeature.class, AutomationFeature.class })
-@Deploy({ "org.nuxeo.ecm.platform.tag.api", "org.nuxeo.ecm.platform.tag", "org.nuxeo.labs.operation" })
+@Deploy({ "org.nuxeo.ecm.platform.tag.api", "org.nuxeo.ecm.platform.tag", "org.nuxeo.labs.operations" })
 public class GetTagsTest {
 
     @Inject
@@ -42,7 +42,7 @@ public class GetTagsTest {
 
     @Inject
     AutomationService service;
-    
+
     @Inject
     TagService tagService;
 
@@ -67,7 +67,7 @@ public class GetTagsTest {
         session.save();
         theDoc = session.getDocument(theDoc.getRef());
     }
-    
+
     @After
     public void cleanup() {
         session.removeChildren(session.getRootDocument().getRef());
@@ -76,20 +76,20 @@ public class GetTagsTest {
 
     @Test
     public void testGetTags() throws Exception {
-        
+
         final int COUNT_TAGS = 5;
-        
+
         NuxeoPrincipal nxPcipal = (NuxeoPrincipal) session.getPrincipal();
         String userName = nxPcipal.getName();
         for(int i = 1; i <= COUNT_TAGS; ++i) {
             tagService.tag(session, theDoc.getId(), "tag" + i, userName);
         }
-        
+
         OperationContext ctx = new OperationContext(session);
         ctx.setInput(theDoc);
         OperationChain chain = new OperationChain("testGetTags");
         chain.add(DocumentGetTagsOp.ID);
-        
+
         @SuppressWarnings("unchecked")
         ArrayList<String> tags = (ArrayList<String>) service.run(ctx, chain);
 
@@ -106,39 +106,39 @@ public class GetTagsTest {
 
     @Test
     public void testGetTags_DocList() throws Exception {
-        
+
         final int COUNT_TAGS = 5;
-        
+
         NuxeoPrincipal nxPcipal = (NuxeoPrincipal) session.getPrincipal();
         String userName = nxPcipal.getName();
         for(int i = 1; i <= COUNT_TAGS; ++i) {
             tagService.tag(session, theDoc.getId(), "tag" + i, userName);
         }
-        
+
         DocumentModelListImpl list = new DocumentModelListImpl();
         list.add(theDoc);
-        
+
         DocumentModel doc = session.createDocumentModel("/Folder", "TheDoc2", "File");
         doc.setPropertyValue("dc:title", "TheDoc2");
         doc = session.createDocument(doc);
         tagService.tag(session, doc.getId(), "tag2", userName);
         tagService.tag(session, doc.getId(), "tag20", userName);
         list.add(doc);
-        
+
         doc = session.createDocumentModel("/Folder", "TheDoc3", "File");
         doc.setPropertyValue("dc:title", "TheDoc2");
         doc = session.createDocument(doc);
         tagService.tag(session, doc.getId(), "tag3", userName);
         tagService.tag(session, doc.getId(), "tag30", userName);
         list.add(doc);
-        
+
         session.save();
-        
+
         OperationContext ctx = new OperationContext(session);
         ctx.setInput(list);
         OperationChain chain = new OperationChain("testGetTags");
         chain.add(DocumentGetTagsOp.ID);
-        
+
         @SuppressWarnings("unchecked")
         ArrayList<String> tags = (ArrayList<String>) service.run(ctx, chain);
 

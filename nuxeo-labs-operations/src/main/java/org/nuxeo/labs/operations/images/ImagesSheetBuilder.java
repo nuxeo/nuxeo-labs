@@ -16,7 +16,7 @@
  * Contributors:
  *     Thibaud Arguillere
  */
-package org.nuxeo.labs.images;
+package org.nuxeo.labs.operations.images;
 
 import java.io.File;
 import java.io.IOException;

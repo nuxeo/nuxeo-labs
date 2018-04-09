@@ -17,7 +17,7 @@
  *     Thibaud Arguillere
  */
 
-package org.nuxeo.labs.images;
+package org.nuxeo.labs.operations.images;
 
 import java.io.IOException;
 import java.util.Map.Entry;

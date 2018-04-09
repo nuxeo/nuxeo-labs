@@ -49,88 +49,87 @@ import org.nuxeo.runtime.test.runner.LocalDeploy;
 import com.google.inject.Inject;
 
 /**
- *
  * @since TODO
  */
 @RunWith(FeaturesRunner.class)
 @Features({ CoreFeature.class, AutomationFeature.class })
 @Deploy({ "org.nuxeo.ecm.core.convert.api", "org.nuxeo.ecm.core.convert", "org.nuxeo.ecm.core.convert.plugins",
-		"org.nuxeo.ecm.platform.convert", "org.nuxeo.ecm.platform.query.api", "org.nuxeo.ecm.platform.rendition.api",
-		"org.nuxeo.ecm.platform.rendition.core", "org.nuxeo.ecm.automation.core",
-		"org.nuxeo.ecm.platform.versioning.api", "org.nuxeo.ecm.platform.versioning", "org.nuxeo.ecm.relations",
-		"org.nuxeo.ecm.relations.jena", "org.nuxeo.ecm.platform.publisher.core.contrib",
-		"org.nuxeo.ecm.platform.publisher.core", "org.nuxeo.ecm.platform.publisher.task",
-		"org.nuxeo.ecm.platform.task.core", "org.nuxeo.ecm.platform.task.testing",
-		"org.nuxeo.ecm.platform.rendition.publisher", "org.nuxeo.ecm.actions", "org.nuxeo.labs.operation" })
+        "org.nuxeo.ecm.platform.convert", "org.nuxeo.ecm.platform.query.api", "org.nuxeo.ecm.platform.rendition.api",
+        "org.nuxeo.ecm.platform.rendition.core", "org.nuxeo.ecm.automation.core",
+        "org.nuxeo.ecm.platform.versioning.api", "org.nuxeo.ecm.platform.versioning", "org.nuxeo.ecm.relations",
+        "org.nuxeo.ecm.relations.jena", "org.nuxeo.ecm.platform.publisher.core.contrib",
+        "org.nuxeo.ecm.platform.publisher.core", "org.nuxeo.ecm.platform.publisher.task",
+        "org.nuxeo.ecm.platform.task.core", "org.nuxeo.ecm.platform.task.testing",
+        "org.nuxeo.ecm.platform.rendition.publisher", "org.nuxeo.ecm.actions", "org.nuxeo.labs.operations" })
 @LocalDeploy({ "org.nuxeo.ecm.platform.rendition.publisher:OSGI-INF/relations-default-jena-contrib.xml"/*
-																										 * ,
-																										 * "org.nuxeo.labs.operation.test:OSGI-INF/directory-config.xml"
-																										 */ })
+                                                                                                        * ,
+                                                                                                        * "org.nuxeo.labs.operations.test:OSGI-INF/directory-config.xml"
+                                                                                                        */ })
 @RepositoryConfig(init = DefaultRepositoryInit.class)
 public class PublishRenditionTest {
 
-	// Because we used @RepositoryConfig(init = DefaultRepositoryInit.class), we
-	// know we have the "correct" structure
-	public static final String SECTIONS_ROOT_PATH = "/default-domain/sections";
+    // Because we used @RepositoryConfig(init = DefaultRepositoryInit.class), we
+    // know we have the "correct" structure
+    public static final String SECTIONS_ROOT_PATH = "/default-domain/sections";
 
-	@Inject
-	protected CoreSession coreSession;
+    @Inject
+    protected CoreSession coreSession;
 
-	@Inject
-	protected AutomationService automationService;
+    @Inject
+    protected AutomationService automationService;
 
-	protected DocumentModel doc;
+    protected DocumentModel doc;
 
-	protected DocumentModel sectionDest;
+    protected DocumentModel sectionDest;
 
-	@Before
-	public void initRepo() throws Exception {
+    @Before
+    public void initRepo() throws Exception {
 
-		DocumentModel folder, sectionRoot;
+        DocumentModel folder, sectionRoot;
 
-		folder = coreSession.createDocumentModel("/", "Folder", "Folder");
-		folder.setPropertyValue("dc:title", "Folder");
-		folder = coreSession.createDocument(folder);
+        folder = coreSession.createDocumentModel("/", "Folder", "Folder");
+        folder.setPropertyValue("dc:title", "Folder");
+        folder = coreSession.createDocument(folder);
 
-		File f = FileUtils.getResourceFileFromContext("lorem-ipsum.txt");
-		FileBlob fileBlob = new FileBlob(f);
-		MimetypeRegistry mimetypeRegistry = Framework.getLocalService(MimetypeRegistry.class);
-		String mimeType = mimetypeRegistry.getMimetypeFromFile(f);
-		fileBlob.setMimeType(mimeType);
+        File f = FileUtils.getResourceFileFromContext("lorem-ipsum.txt");
+        FileBlob fileBlob = new FileBlob(f);
+        MimetypeRegistry mimetypeRegistry = Framework.getLocalService(MimetypeRegistry.class);
+        String mimeType = mimetypeRegistry.getMimetypeFromFile(f);
+        fileBlob.setMimeType(mimeType);
 
-		doc = coreSession.createDocumentModel("/Folder", "TheDoc", "File");
-		doc.setPropertyValue("dc:title", "TheDoc");
-		doc.setPropertyValue("file:content", fileBlob);
-		doc = coreSession.createDocument(doc);
+        doc = coreSession.createDocumentModel("/Folder", "TheDoc", "File");
+        doc.setPropertyValue("dc:title", "TheDoc");
+        doc.setPropertyValue("file:content", fileBlob);
+        doc = coreSession.createDocument(doc);
 
-		sectionRoot = coreSession.getDocument(new PathRef(SECTIONS_ROOT_PATH));
+        sectionRoot = coreSession.getDocument(new PathRef(SECTIONS_ROOT_PATH));
 
-		sectionDest = coreSession.createDocumentModel(sectionRoot.getPathAsString(), "Publication", "Section");
-		sectionDest.setPropertyValue("dc:title", "TheSection");
-		sectionDest = coreSession.createDocument(sectionDest);
+        sectionDest = coreSession.createDocumentModel(sectionRoot.getPathAsString(), "Publication", "Section");
+        sectionDest.setPropertyValue("dc:title", "TheSection");
+        sectionDest = coreSession.createDocument(sectionDest);
 
-		coreSession.save();
-	}
+        coreSession.save();
+    }
 
-	@Test
-	public void shouldPublishPDFRendition() throws Exception {
+    @Test
+    public void shouldPublishPDFRendition() throws Exception {
 
-		assertNotNull(doc);
-		assertNotNull(sectionDest);
+        assertNotNull(doc);
+        assertNotNull(sectionDest);
 
-		OperationContext ctx = new OperationContext(coreSession);
-		ctx.setInput(doc);
-		OperationChain chain = new OperationChain("testPublishRendition");
-		chain.add(PublishRenditionOp.ID).set("targetSectionRef", sectionDest.getPathAsString()).set("renditionName",
-				"pdf");
+        OperationContext ctx = new OperationContext(coreSession);
+        ctx.setInput(doc);
+        OperationChain chain = new OperationChain("testPublishRendition");
+        chain.add(PublishRenditionOp.ID).set("targetSectionRef", sectionDest.getPathAsString()).set("renditionName",
+                "pdf");
 
-		DocumentModel publishedDoc = (DocumentModel) automationService.run(ctx, chain);
+        DocumentModel publishedDoc = (DocumentModel) automationService.run(ctx, chain);
 
-		assertNotNull(publishedDoc);
+        assertNotNull(publishedDoc);
 
-		BlobHolder bh = publishedDoc.getAdapter(BlobHolder.class);
-		Blob renditionBlob = bh.getBlob();
-		assertEquals("application/pdf", renditionBlob.getMimeType());
-	}
+        BlobHolder bh = publishedDoc.getAdapter(BlobHolder.class);
+        Blob renditionBlob = bh.getBlob();
+        assertEquals("application/pdf", renditionBlob.getMimeType());
+    }
 
 }

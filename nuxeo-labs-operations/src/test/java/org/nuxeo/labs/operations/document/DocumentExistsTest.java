@@ -39,7 +39,7 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features({ AutomationFeature.class })
-@Deploy({ "org.nuxeo.labs.operation", "org.nuxeo.labs.operation.test" })
+@Deploy({ "org.nuxeo.labs.operations", "org.nuxeo.labs.operations.test" })
 public class DocumentExistsTest {
 
     @Inject
@@ -47,17 +47,17 @@ public class DocumentExistsTest {
 
     @Inject
     AutomationService service;
-    
+
     protected String ID;
-    
+
     protected String PATH;
 
     @Before
     public void initRepo() throws Exception {
-        
+
         DocumentModel folder;
         DocumentModel doc;
-        
+
         session.removeChildren(session.getRootDocument().getRef());
         session.save();
 
@@ -70,11 +70,11 @@ public class DocumentExistsTest {
         doc.setPropertyValue("dc:title", "TheDoc");
         doc = session.createDocument(doc);
         session.save();
-        
+
         ID = doc.getId();
         PATH = doc.getPathAsString();
     }
-    
+
     @After
     public void cleanup() {
         session.removeChildren(session.getRootDocument().getRef());
@@ -83,37 +83,37 @@ public class DocumentExistsTest {
 
     @Test
     public void testShouldExist_id() throws Exception {
-        
+
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("idShouldExist");
         chain.add(DocumentExistsOp.ID).set("idOrPath", ID);
         boolean exists = (boolean) service.run(ctx, chain);
 
-        assertTrue(exists);      
+        assertTrue(exists);
 
     }
 
     @Test
     public void testShouldExist_path() throws Exception {
-        
+
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("pathShouldExist");
         chain.add(DocumentExistsOp.ID).set("idOrPath", PATH);
         boolean exists = (boolean) service.run(ctx, chain);
 
-        assertTrue(exists);      
+        assertTrue(exists);
 
     }
 
     @Test
     public void testShouldNotExist() throws Exception {
-        
+
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("shouldNotExist");
         chain.add(DocumentExistsOp.ID).set("idOrPath", UUID.randomUUID().toString());
         boolean exists = (boolean) service.run(ctx, chain);
 
-        assertFalse(exists);      
+        assertFalse(exists);
 
     }
 

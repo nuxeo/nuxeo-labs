@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 @RunWith(FeaturesRunner.class)
 @Features({ PlatformFeature.class, CoreFeature.class,
         EmbeddedAutomationServerFeature.class })
-@Deploy({ "org.nuxeo.labs.operation" })
+@Deploy({ "org.nuxeo.labs.operations" })
 public class UnpublishDocumentTest {
 
     @Inject

@@ -54,13 +54,13 @@ import java.util.Map;
         "org.nuxeo.ecm.platform.notification.core",
         "org.nuxeo.ecm.platform.notification.api",
         "org.nuxeo.ecm.platform.url.api", "org.nuxeo.ecm.platform.url.core",
-        "org.nuxeo.labs.operation", "org.nuxeo.ecm.directory",
+        "org.nuxeo.labs.operations", "org.nuxeo.ecm.directory",
         "org.nuxeo.ecm.directory.sql", "org.nuxeo.ecm.directory.types.contrib",
         "org.nuxeo.ecm.platform.usermanager.api",
         "org.nuxeo.ecm.platform.usermanager",
-        "org.nuxeo.labs.operation.test:OSGI-INF/doc-type-contrib.xml",
-        "org.nuxeo.labs.operation.test:OSGI-INF/directory-config.xml",
-        "org.nuxeo.labs.operation.test:OSGI-INF/userservice-config.xml" })
+        "org.nuxeo.labs.operations.test:OSGI-INF/doc-type-contrib.xml",
+        "org.nuxeo.labs.operations.test:OSGI-INF/directory-config.xml",
+        "org.nuxeo.labs.operations.test:OSGI-INF/userservice-config.xml" })
 public class AdvancedSendEmailTest {
 
     private static final String MAIL_EXAMPLE = "<h3>Current doc: ${Document.path}</h3> title: ${Document['dc:title']}<p>Doc link: <a href=\"${docUrl}\">${Document.title}</a>";

@@ -51,9 +51,9 @@ import static org.junit.Assert.fail;
         "org.nuxeo.ecm.directory.types.contrib",
         "org.nuxeo.ecm.platform.usermanager.api",
         "org.nuxeo.ecm.platform.usermanager",
-        "org.nuxeo.labs.operation.test:OSGI-INF/doc-type-contrib.xml",
-        "org.nuxeo.labs.operation.test:OSGI-INF/directory-config.xml",
-        "org.nuxeo.labs.operation.test:OSGI-INF/userservice-config.xml" })
+        "org.nuxeo.labs.operations.test:OSGI-INF/doc-type-contrib.xml",
+        "org.nuxeo.labs.operations.test:OSGI-INF/directory-config.xml",
+        "org.nuxeo.labs.operations.test:OSGI-INF/userservice-config.xml" })
 public class EmailResolutionTest {
 
     @Inject

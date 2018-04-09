@@ -49,7 +49,7 @@ import static org.junit.Assert.assertEquals;
         "org.nuxeo.ecm.platform.notification.core",
         "org.nuxeo.ecm.platform.notification.api",
         "org.nuxeo.ecm.platform.url.api", "org.nuxeo.ecm.platform.url.core",
-        "org.nuxeo.labs.operation" })
+        "org.nuxeo.labs.operations" })
 public class ContentMessageResolutionTest {
 
     private static final String MAIL_EXAMPLE = "Current doc: ${Document.path} title: ${Document['dc:title']}";
