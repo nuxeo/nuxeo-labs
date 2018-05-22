@@ -16,7 +16,15 @@
  */
 package org.nuxeo.labs.operations.document;
 
-import com.google.inject.Inject;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.File;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -45,12 +53,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import org.nuxeo.runtime.test.runner.Jetty;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.google.inject.Inject;
 
 /**
  * @author fvadon
@@ -156,7 +159,7 @@ public class AddEntryToComplexPropertiesTest {
         // Get new fields from json file to String
         File fieldsAsJsonFile = FileUtils.getResourceFileFromContext("creationFields.json");
         assertNotNull(fieldsAsJsonFile);
-        String fieldsDataAsJSon = FileUtils.readFile(fieldsAsJsonFile);
+        String fieldsDataAsJSon = IOUtils.toString(new FileReader(fieldsAsJsonFile));
         fieldsDataAsJSon = fieldsDataAsJSon.replaceAll("\n", "");
         fieldsDataAsJSon = fieldsDataAsJSon.replaceAll("\r", "");
 
@@ -182,7 +185,7 @@ public class AddEntryToComplexPropertiesTest {
         // Get new fields from json file to String
         fieldsAsJsonFile = FileUtils.getResourceFileFromContext("newField.json");
         assertNotNull(fieldsAsJsonFile);
-        fieldsDataAsJSon = FileUtils.readFile(fieldsAsJsonFile);
+        fieldsDataAsJSon = IOUtils.toString(new FileReader(fieldsAsJsonFile));
         fieldsDataAsJSon = fieldsDataAsJSon.replaceAll("\n", "");
         fieldsDataAsJSon = fieldsDataAsJSon.replaceAll("\r", "");
 

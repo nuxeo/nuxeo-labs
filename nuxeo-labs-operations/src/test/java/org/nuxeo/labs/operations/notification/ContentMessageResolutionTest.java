@@ -16,13 +16,18 @@
  */
 package org.nuxeo.labs.operations.notification;
 
-import com.google.inject.Inject;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import org.apache.poi.util.IOUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.Environment;
-import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.mail.Mailer.Message;
@@ -33,10 +38,7 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import java.io.File;
-import java.io.InputStream;
-
-import static org.junit.Assert.assertEquals;
+import com.google.inject.Inject;
 
 /**
  * @author <a href="mailto:bjalon@nuxeo.com">Benjamin JALON</a>
@@ -80,7 +82,7 @@ public class ContentMessageResolutionTest {
         File file = new File(Environment.getDefault().getConfig(),
                 "mail.properties");
         file.getParentFile().mkdirs();
-        FileUtils.copyToFile(in, file);
+        IOUtils.copy(in, new FileOutputStream(file));
         in.close();
 
         operation = new AdvancedSendEmail();
