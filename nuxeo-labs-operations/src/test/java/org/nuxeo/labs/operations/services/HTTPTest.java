@@ -16,15 +16,15 @@
  */
 package org.nuxeo.labs.operations.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -46,6 +46,8 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 /**
@@ -123,19 +125,19 @@ public class HTTPTest {
         // If dam.cloud.nuxeo.com can't be reached, it's not an error
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(jsonResult);
-        int status = rootNode.get("status").getIntValue();
+        int status = rootNode.get("status").intValue();
         if (status == 200) {
 
             JsonNode theDoc = rootNode.get("result");
             String str;
 
-            str = theDoc.get("type").getTextValue();
+            str = theDoc.get("type").textValue();
             assertEquals("Root", str);
 
         } else {
 
-            String statusMsg = rootNode.get("statusMessage").getTextValue();
-            String error = rootNode.get("error").getTextValue();
+            String statusMsg = rootNode.get("statusMessage").textValue();
+            String error = rootNode.get("error").textValue();
             log.error("PROBLEM REACHING " + URL_TEST_GET + ", status: "
                     + status + ", statusMessage: " + statusMsg + ", error: "
                     + error);
@@ -173,12 +175,12 @@ public class HTTPTest {
         String jsonResult = result.getString();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(jsonResult);
-        int status = rootNode.get("status").getIntValue();
+        int status = rootNode.get("status").intValue();
         if (status == 200) {
             JsonNode theDoc = rootNode.get("result");
             String str;
 
-            str = theDoc.get("type").getTextValue();
+            str = theDoc.get("type").textValue();
             assertEquals("Picture", str);
 
             // OK, now, download it
@@ -242,7 +244,7 @@ public class HTTPTest {
         // If dam.cloud.nuxeo.com can't be reached, it's not an error
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(jsonResult);
-        int status = rootNode.get("status").getIntValue();
+        int status = rootNode.get("status").intValue();
 
         if(status == 201) {
             JsonNode theDoc = rootNode.get("result");
@@ -250,8 +252,8 @@ public class HTTPTest {
             assertNotNull(batchId);
         } else {
 
-            String statusMsg = rootNode.get("statusMessage").getTextValue();
-            String error = rootNode.get("error").getTextValue();
+            String statusMsg = rootNode.get("statusMessage").textValue();
+            String error = rootNode.get("error").textValue();
             log.error("PROBLEM REACHING " + URL_TEST_FILE_UPLOAD + ", status: "
                     + status + ", statusMessage: " + statusMsg + ", error: "
                     + error);

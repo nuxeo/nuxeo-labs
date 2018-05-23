@@ -23,10 +23,11 @@ import java.net.HttpURLConnection;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.nuxeo.ecm.automation.core.util.Properties;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @since 7.2
@@ -55,10 +56,10 @@ public class HTTPUtils {
         if (StringUtils.isNotBlank(inJsonStr)) {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(inJsonStr);
-            Iterator<String> it = rootNode.getFieldNames();
+            Iterator<String> it = rootNode.fieldNames();
             while (it.hasNext()) {
                 String oneHeader = it.next();
-                inHttp.setRequestProperty(oneHeader, rootNode.get(oneHeader).getTextValue());
+                inHttp.setRequestProperty(oneHeader, rootNode.get(oneHeader).textValue());
             }
         }
     }
