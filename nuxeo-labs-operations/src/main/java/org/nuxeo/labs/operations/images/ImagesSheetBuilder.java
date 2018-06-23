@@ -27,6 +27,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.automation.core.util.BlobList;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -72,7 +73,7 @@ import com.google.common.io.Files;
  * <li>They must be the last two parameters</li>
  * <li>They must exactly be: <code> @#{listFilePath} #{targetFilePath}</code> (plesae notice the @ sign)</li>
  * </ul>
- * 
+ *
  * @since 8.2
  */
 public class ImagesSheetBuilder {
@@ -129,7 +130,9 @@ public class ImagesSheetBuilder {
 
     protected String tile = DEFAULT_TILE;
 
-    protected DocumentModelList docs;
+    protected DocumentModelList docs = null;
+
+    protected BlobList blobs = null;
 
     protected String command = DEFAULT_COMMAND;
 
@@ -137,11 +140,19 @@ public class ImagesSheetBuilder {
 
     public ImagesSheetBuilder(DocumentModelList inDocs) {
         docs = inDocs;
+    }
 
+    public ImagesSheetBuilder(BlobList inBlobs) {
+        blobs = inBlobs;
+    }
+
+    protected ThumbnailService getThumbnailService() {
         // Not 100% threadsafe, but it's ok in this context
         if (thumbnailService == null) {
             thumbnailService = Framework.getService(ThumbnailService.class);
         }
+
+        return thumbnailService;
     }
 
     public Blob build() throws IOException, CommandNotAvailable, NuxeoException {
@@ -152,56 +163,74 @@ public class ImagesSheetBuilder {
 
         Blob result = null;
 
-        if (docs.size() < 1) {
+        // Error check
+        if (docs == null && blobs == null) {
+            return null;
+        }
+        if (docs != null && docs.size() < 1) {
+            return null;
+        }
+        if (blobs != null && blobs.size() < 1) {
             return null;
         }
 
+        // Priority to docs for compatibility
+        if (docs != null) {
+            blobs = new BlobList();;
+            Blob blob;
+            boolean useView = StringUtils.isNotBlank(view);
+            for (DocumentModel doc : docs) {
+                blob = null;
+                if (doc.hasFacet("Picture")) {
+                    // Get the blob of the view or the whole content
+                    if (useView) {
+                        MultiviewPicture mvp = doc.getAdapter(MultiviewPicture.class);
+                        if (mvp != null) {
+                            PictureView pv = mvp.getView(view);
+                            if (pv != null) {
+                                blob = pv.getBlob();
+                            }
+                        }
+                    }
+
+                    if (blob == null) {
+                        blob = (Blob) doc.getPropertyValue("file:content");
+                    }
+
+                }
+                if (blob == null) {
+                    blob = getThumbnailService().getThumbnail(doc, doc.getCoreSession());
+                }
+
+                if (useDocTitle) {
+                    blob.setFilename(doc.getTitle());
+                }
+
+                blobs.add(blob);
+
+            }
+        } // if (docs != null)
+
+        // Prepare each blob
         // Duplicate the images in a temp folder
         // and build a list of path, ordered as the doc list
         File tempDir = Files.createTempDir();
         File f;
-        Blob blob;
         String fileList = "";
-        boolean useView = StringUtils.isNotBlank(view);
-        for (DocumentModel doc : docs) {
-            blob = null;
-            if (doc.hasFacet("Picture")) {
-                // Get the blob of the view or the whole content
-                if (useView) {
-                    MultiviewPicture mvp = doc.getAdapter(MultiviewPicture.class);
-                    if (mvp != null) {
-                        PictureView pv = mvp.getView(view);
-                        if (pv != null) {
-                            blob = pv.getBlob();
-                        }
-                    }
-                }
-
-                if (blob == null) {
-                    blob = (Blob) doc.getPropertyValue("file:content");
-                }
-
-            }
-            if (blob == null) {
-                blob = thumbnailService.getThumbnail(doc, doc.getCoreSession());
-            }
-
+        for(Blob b : blobs) {
             // Duplicate
-            if (blob != null) {
-                if (useDocTitle) {
-                    f = new File(tempDir, doc.getTitle());
-                } else {
-                    f = new File(tempDir, blob.getFilename());
-                }
+            if (b != null) {
+                f = new File(tempDir, b.getFilename());
                 fileList += "\"" + f.getAbsolutePath() + "\"\n";
 
-                blob.transferTo(f);
+                b.transferTo(f);
             }
         }
 
+
         // Create the file to be used by ImageMagic to get the files
         File listOfFiles = new File(tempDir, "list.txt");
-        FileUtils.writeStringToFile(listOfFiles, fileList);
+        FileUtils.writeStringToFile(listOfFiles, fileList, "UTF-8");
 
         // Call the command line
         // * Create a temp blob, handled by Nuxeo
@@ -263,7 +292,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the contributed command line to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -279,7 +308,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the label to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -295,7 +324,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the font to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -311,7 +340,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the font size to use. If null or < 1, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -323,7 +352,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the font size to use. If null or < 1, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -339,7 +368,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the background color to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -355,7 +384,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the fill color to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -371,7 +400,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the "define" to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -387,7 +416,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the geometry of each thumb. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -403,7 +432,7 @@ public class ImagesSheetBuilder {
 
     /**
      * Set the tile (nb colums) to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -416,10 +445,10 @@ public class ImagesSheetBuilder {
     public String getView() {
         return view;
     }
-    
+
     /**
      * Set the picture view to use. If empty or null, use the default value.
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2
@@ -430,11 +459,12 @@ public class ImagesSheetBuilder {
     }
 
     public boolean useDocTitle() {
-        return this.useDocTitle;
+        return useDocTitle;
     }
+
     /**
      * Tell the builder to use the Document titles instead of the file names
-     * 
+     *
      * @param value
      * @return the <code>this</object>
      * @since 8.2

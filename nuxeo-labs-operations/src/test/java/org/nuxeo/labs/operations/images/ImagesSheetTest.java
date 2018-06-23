@@ -8,18 +8,19 @@ import static org.junit.Assert.*;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationChain;
 import org.nuxeo.ecm.automation.OperationContext;
+import org.nuxeo.ecm.automation.core.util.BlobList;
 import org.nuxeo.ecm.automation.test.AutomationFeature;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -45,9 +46,9 @@ import com.google.inject.Inject;
  * @author Thibaud Arguillere
  */
 
-// Ignoring because I am failing deploying the Pictre document. And have no idea why.
+// Ignoring because I am failing deploying the Picture document. And have no idea why.
 // And need to move on. Sorry. 2018-04-08, Thibaud.
-@Ignore
+//@Ignore
 @RunWith(FeaturesRunner.class)
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
@@ -55,6 +56,7 @@ import com.google.inject.Inject;
     "org.nuxeo.ecm.platform.picture.api",
     "org.nuxeo.ecm.platform.picture.core",
     "org.nuxeo.ecm.platform.picture.convert",
+    "org.nuxeo.ecm.platform.tag",
     "org.nuxeo.ecm.platform.commandline.executor",
     "org.nuxeo.ecm.platform.rendition.core",
     "org.nuxeo.labs.operations"})
@@ -74,6 +76,8 @@ public class ImagesSheetTest {
 
     protected DocumentModel folder;
 
+    protected BlobList testBlobs = null;
+
     @Before
     public void initRepo() throws Exception {
         session.removeChildren(session.getRootDocument().getRef());
@@ -85,8 +89,13 @@ public class ImagesSheetTest {
         session.save();
         folder = session.getDocument(folder.getRef());
 
+        testBlobs = new BlobList();
         for (int i = 1; i <= NUMBER_OF_TEST_IMAGES; ++i) {
-            createPictureDocument("test-" + i + ".jpg", "Example #" + i);
+            String testFileName = "test-" + i + ".jpg";
+            File f = FileUtils.getResourceFileFromContext(testFileName);
+            Blob blob = new FileBlob(f);
+            testBlobs.add(blob);
+            createPictureDocument(blob, "Example #" + i);
         }
 
         session.save();
@@ -103,13 +112,12 @@ public class ImagesSheetTest {
         session.save();
     }
 
-    protected void createPictureDocument(String fileName, String docTitle) {
+    protected void createPictureDocument(Blob blob, String docTitle) {
 
         String title = docTitle;
-        DocumentModel pict = session.createDocumentModel("/Folder", fileName, "Picture");
+        DocumentModel pict = session.createDocumentModel("/Folder", blob.getFilename(), "Picture");
         pict.setPropertyValue("dc:title", title);
-        File f = FileUtils.getResourceFileFromContext(fileName);
-        pict.setPropertyValue("file:content", new FileBlob(f));
+        pict.setPropertyValue("file:content", (Serializable) blob);
         pict = session.createDocument(pict);
     }
 
@@ -122,9 +130,7 @@ public class ImagesSheetTest {
     }
 
     @Test
-    public void testBuildSheet() throws Exception {
-
-        System.out.print("\n\n\ntestBuildSheet - COUCOU OCUOC LJK JLKJLM?JKL?JKLM\n\n\n");
+    public void testBuildSheetWithDocuments() throws Exception {
 
         DocumentModelList docs = session.query("SELECT * FROM Picture");
         assertEquals(NUMBER_OF_TEST_IMAGES, docs.size());
@@ -146,9 +152,28 @@ public class ImagesSheetTest {
     }
 
     @Test
-    public void testOperation() throws Exception {
+    public void testBuildSheetWithBlobs() throws Exception {
 
-        System.out.print("\n\n\ntestOperation - COUCOU OCUOC LJK JLKJLM?JKL?JKLM\n\n\n");
+        assertEquals(NUMBER_OF_TEST_IMAGES, testBlobs.size());
+
+        // Using default values
+        ImagesSheetBuilder isb = new ImagesSheetBuilder(testBlobs);
+        Blob result1 = isb.build();
+        assertNotNull(result1);
+
+        // Test with some custom parameters. For example, 2 tiles/row
+        // Must have a smaller width and a bigger height than previous one
+        isb = new ImagesSheetBuilder(testBlobs);
+        isb.setTile("2");
+        Blob result2 = isb.build();
+
+        assertNotNull(result2);
+        checkImage1WiderImage2Higher(result1, result2);
+
+    }
+
+    @Test
+    public void testOperationWithDocupments() throws Exception {
 
         DocumentModelList docs = session.query("SELECT * FROM Picture");
         assertEquals(NUMBER_OF_TEST_IMAGES, docs.size());
@@ -176,9 +201,34 @@ public class ImagesSheetTest {
     }
 
     @Test
-    public void testOperationCustomCommandline() throws Exception {
+    public void testOperationWithBlobs() throws Exception {
 
-        System.out.print("\n\n\ntestOperationCustomCommandline - COUCOU OCUOC LJK JLKJLM?JKL?JKLM\n\n\n");
+        assertEquals(NUMBER_OF_TEST_IMAGES, testBlobs.size());
+
+        OperationChain chain;
+        OperationContext ctx = new OperationContext(session);
+
+        ctx.setInput(testBlobs);
+        chain = new OperationChain("testChain1");
+
+        // Default parameters
+        chain.add(ImagesSheetBuilderOp.ID);
+
+        Blob result1 = (Blob) automationService.run(ctx, chain);
+        assertNotNull(result1);
+
+        // Customize the tile
+        ctx.setInput(testBlobs);
+        chain = new OperationChain("testChain2");
+        chain.add(ImagesSheetBuilderOp.ID).set("tile", "2").set("useDocTitle", true);
+        Blob result2 = (Blob) automationService.run(ctx, chain);
+        assertNotNull(result1);
+        checkImage1WiderImage2Higher(result1, result2);
+
+    }
+
+    @Test
+    public void testOperationCustomCommandline() throws Exception {
 
         DocumentModelList docs = session.query("SELECT * FROM Picture");
         assertEquals(NUMBER_OF_TEST_IMAGES, docs.size());

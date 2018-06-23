@@ -25,6 +25,7 @@ import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Operation;
 import org.nuxeo.ecm.automation.core.annotations.OperationMethod;
 import org.nuxeo.ecm.automation.core.annotations.Param;
+import org.nuxeo.ecm.automation.core.util.BlobList;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.NuxeoException;
@@ -33,11 +34,11 @@ import org.nuxeo.ecm.platform.commandline.executor.api.CommandNotAvailable;
 /**
  * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
  * <p>
- * The default command uses ImageMagick <code>montage</code> commade: See its documentation for more details on the
+ * The default command uses ImageMagick <code>montage</code> command: See its documentation for more details on the
  * parameters.
  * <p>
  * Special value for label: "NO_LABEL" means, well, no label at all
- * 
+ *
  * @since 8.2
  */
 @Operation(id = ImagesSheetBuilderOp.ID, category = Constants.CAT_CONVERSION, label = "Images Sheet from Documents", description = "Build an image sheet from the input documents. Use the thumbnails for documents that do not have the Picture facet. Outputs the resulting image (always a jpeg). See ImageMagick montage command line for details about the parameters")
@@ -78,7 +79,26 @@ public class ImagesSheetBuilderOp {
     @OperationMethod
     public Blob run(DocumentModelList input) throws NuxeoException, IOException, CommandNotAvailable {
 
-        ImagesSheetBuilder isb = new ImagesSheetBuilder(input);
+        return run(input, null);
+    }
+
+    @OperationMethod
+    public Blob run(BlobList input) throws NuxeoException, IOException, CommandNotAvailable {
+
+        return run(null, input);
+    }
+
+    protected Blob run(DocumentModelList docs, BlobList blobs) throws NuxeoException, IOException, CommandNotAvailable {
+
+        ImagesSheetBuilder isb = null;
+
+        if (docs != null) {
+            isb = new ImagesSheetBuilder(docs);
+        } else if (blobs != null) {
+            isb = new ImagesSheetBuilder(blobs);
+        } else {
+            return null;
+        }
 
         isb.setTile(tile)
            .setLabel(labelPattern)
