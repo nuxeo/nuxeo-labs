@@ -174,13 +174,14 @@ function run(input, params) {
       * Parameters:
         * `Content View Name`: The name of the Content View, required
 
-* `Images Sheet from Documents` (ID `ImagesSheet.Build`)
-  * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
+* `Images Sheet Builder` (ID `ImagesSheet.Build`)
+  * Receives a list of documents or a list of Blobs, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
   * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for hez `geometry` parameter for example`
   * `input`:
-    * A list of Documents
-    * For each document with the "Picture" facet, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
+    * A list of Documents or a list of Blobs
+    * When input is a list of Documents, then, for each document with the "Picture" facet, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
     * If a document in the list does not have the "Picture" facet, or does not have a valid blob, the thumbnail is used
+    * When input is a list o Blobs, it assumes they are images and will be handled by ImageMagick: Make sure you don't pass an incompatible blob.
   * `output`: A `Blob`, holding a JPEG image
   * **Parameters**
     * `tile`: Number of thumbs/row or columns. defauit value is "0" (ImageMagick organizes the sheet). If you want 4 thumbs per row, just pass "4"
@@ -207,8 +208,9 @@ function run(input, params) {
       * Maybe the default command does not fit all your needs, so you can contribute you own.
       * **Important** see the "IM-montage" command line contributed in "conversions.xml" two parameters are required, _must be_ the 2 last parameters and _must be_ exactly `@#{listFilePath} #{targetFilePath}` (notice the `@`). Other parameters can be used, just remember they are case sensitive.
 
-* `Custom Images Sheet from Documents` (ID `ImagesSheet.CustomBuild`)
-  * Receives a list of documents, outputs a blob, a JPEG Images Sheet.
+* `Custom Images Sheet Builder` (ID `ImagesSheet.CustomBuild`)
+  * Receives a list of documents or a list of Blobs, outputs a blob, a JPEG Images Sheet.
+  * See "`Images Sheet Builder` (ID `ImagesSheet.Build`)" for a description of the input
   * Uses a custom commandLine contribution (you probably declared it in the "XML Extensions" part of Studio) and the parameters to use. See, in this plug-in, the "IM-montage" in resourse/OSGI-INF/extenions/converters.xml
   * **Important**: Two parameters are required:
     * _must be_ the 2 last parameters

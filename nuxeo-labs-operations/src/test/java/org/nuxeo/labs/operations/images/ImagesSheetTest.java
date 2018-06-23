@@ -45,10 +45,6 @@ import com.google.inject.Inject;
 /**
  * @author Thibaud Arguillere
  */
-
-// Ignoring because I am failing deploying the Picture document. And have no idea why.
-// And need to move on. Sorry. 2018-04-08, Thibaud.
-//@Ignore
 @RunWith(FeaturesRunner.class)
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
@@ -60,7 +56,8 @@ import com.google.inject.Inject;
     "org.nuxeo.ecm.platform.commandline.executor",
     "org.nuxeo.ecm.platform.rendition.core",
     "org.nuxeo.labs.operations"})
-@LocalDeploy({ "org.nuxeo.labs.operations.test:OSGI-INF/test-custom-commandline.xml" })
+@LocalDeploy({ "org.nuxeo.labs.operations.test:OSGI-INF/test-custom-commandline.xml",
+    "org.nuxeo.labs.operations.test:OSGI-INF/disable-default-picture-generation-contrib.xml"})
 public class ImagesSheetTest {
 
     protected static final int NUMBER_OF_TEST_IMAGES = 10;

@@ -41,7 +41,7 @@ import org.nuxeo.ecm.platform.commandline.executor.api.CommandNotAvailable;
  *
  * @since 8.2
  */
-@Operation(id = ImagesSheetBuilderOp.ID, category = Constants.CAT_CONVERSION, label = "Images Sheet from Documents", description = "Build an image sheet from the input documents. Use the thumbnails for documents that do not have the Picture facet. Outputs the resulting image (always a jpeg). See ImageMagick montage command line for details about the parameters")
+@Operation(id = ImagesSheetBuilderOp.ID, category = Constants.CAT_CONVERSION, label = "Images Sheet Builder", description = "Build an image sheet from the input documents. Use the thumbnails for documents that do not have the Picture facet. Outputs the resulting image (always a jpeg). See ImageMagick montage command line for details about the parameters")
 public class ImagesSheetBuilderOp {
 
     public static final String ID = "ImagesSheet.Build";
