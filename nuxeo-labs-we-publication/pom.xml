@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.nuxeo.labs</groupId>
 		<artifactId>nuxeo-labs-parent</artifactId>
-    	<version>10.1-SNAPSHOT</version>
+    	<version>10.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>nuxeo-labs-we-publication</artifactId>
-	<name>WebEngine publication web site Project for Nuxeo Labs</name>
+	<name>Nuxeo Labs: WebEngine Publication</name>
 
 	<dependencies>
 		<dependency>

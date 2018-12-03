@@ -18,7 +18,8 @@
  */
 package org.nuxeo.labs.operations.document;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
@@ -44,7 +45,6 @@ import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.LocalDeploy;
 
 import com.google.inject.Inject;
 
@@ -60,8 +60,8 @@ import com.google.inject.Inject;
         "org.nuxeo.ecm.relations.jena", "org.nuxeo.ecm.platform.publisher.core.contrib",
         "org.nuxeo.ecm.platform.publisher.core", "org.nuxeo.ecm.platform.publisher.task",
         "org.nuxeo.ecm.platform.task.core", "org.nuxeo.ecm.platform.task.testing",
-        "org.nuxeo.ecm.platform.rendition.publisher", "org.nuxeo.ecm.actions", "org.nuxeo.labs.operations" })
-@LocalDeploy({ "org.nuxeo.ecm.platform.rendition.publisher:OSGI-INF/relations-default-jena-contrib.xml"/*
+        "org.nuxeo.ecm.platform.rendition.publisher", "org.nuxeo.ecm.actions", "org.nuxeo.labs.operations",
+        "org.nuxeo.ecm.platform.rendition.publisher:OSGI-INF/relations-default-jena-contrib.xml"/*
                                                                                                         * ,
                                                                                                         * "org.nuxeo.labs.operations.test:OSGI-INF/directory-config.xml"
                                                                                                         */ })
@@ -93,7 +93,7 @@ public class PublishRenditionTest {
 
         File f = FileUtils.getResourceFileFromContext("lorem-ipsum.txt");
         FileBlob fileBlob = new FileBlob(f);
-        MimetypeRegistry mimetypeRegistry = Framework.getLocalService(MimetypeRegistry.class);
+        MimetypeRegistry mimetypeRegistry = Framework.getService(MimetypeRegistry.class);
         String mimeType = mimetypeRegistry.getMimetypeFromFile(f);
         fileBlob.setMimeType(mimeType);
 

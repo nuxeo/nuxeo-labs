@@ -51,7 +51,7 @@ import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.Jetty;
+import org.nuxeo.runtime.test.runner.ServletContainer;
 
 import com.google.inject.Inject;
 
@@ -68,7 +68,7 @@ import com.google.inject.Inject;
         "org.nuxeo.ecm.automation.test", "org.nuxeo.labs.operations.test",
         "org.nuxeo.labs.operations" })
 @Features(EmbeddedAutomationServerFeature.class)
-@Jetty(port = 18080)
+@ServletContainer(port = 18080)
 @RepositoryConfig(cleanup = Granularity.METHOD)
 public class AddEntryToComplexPropertiesTest {
 

@@ -1,6 +1,9 @@
 package org.nuxeo.labs.automation.helpers.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.HashMap;
@@ -24,14 +27,13 @@ import org.nuxeo.labs.automation.helpers.FileUtils;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.LocalDeploy;
 
 import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features({ AutomationFeature.class })
-@Deploy({ "nuxeo-labs-automation-helpers", "org.nuxeo.ecm.automation.scripting" })
-@LocalDeploy({ "nuxeo-labs-automation-helpers-test:automation-scripting-contrib.xml" })
+@Deploy({ "nuxeo-labs-automation-helpers", "org.nuxeo.ecm.automation.scripting",
+    "nuxeo-labs-automation-helpers-test:automation-scripting-contrib.xml" })
 public class TestFileUtilsHelper {
 
     protected DocumentModel parentOfTestDocs;

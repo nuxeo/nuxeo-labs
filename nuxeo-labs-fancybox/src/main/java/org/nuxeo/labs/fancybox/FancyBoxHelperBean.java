@@ -81,7 +81,7 @@ public class FancyBoxHelperBean implements Serializable {
             ctx.put("data", fictiveDocumentModel);
 
             try {
-                AutomationService service = Framework.getLocalService(AutomationService.class);
+                AutomationService service = Framework.getService(AutomationService.class);
                 service.run(ctx, automationChain);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

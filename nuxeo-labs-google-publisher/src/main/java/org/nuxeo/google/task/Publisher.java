@@ -76,7 +76,7 @@ public class Publisher {
 		try {
 			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			
-			OAuth2ServiceProvider serviceProvider = Framework.getLocalService(OAuth2ServiceProviderRegistry.class).getProvider("googledrive");
+			OAuth2ServiceProvider serviceProvider = Framework.getService(OAuth2ServiceProviderRegistry.class).getProvider("googledrive");
 	        Credential storedCredential = serviceProvider.loadCredential(userEmailAddress);
 			
 			Credential credential = new GoogleCredential.Builder()

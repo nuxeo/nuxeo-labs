@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-parent</artifactId>
-        <version>10.1-SNAPSHOT</version>
+        <version>10.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>nuxeo-labs-operations-mp</artifactId>
     <packaging>zip</packaging>
-    <name>Market Place Package for Nuxeo Labs Operations</name>
+    <name>Nuxeo Labs: Operations Marketplace Package</name>
     <description/>
 
     <dependencies>

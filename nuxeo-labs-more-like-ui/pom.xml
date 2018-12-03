@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-labs-parent</artifactId>
-    <version>10.1-SNAPSHOT</version>
+    <version>10.2-SNAPSHOT</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-more-like-ui</artifactId>
-  <name>nuxeo-labs-more-like-ui</name>
+  <name>Nuxeo Labs: More Like This... UI</name>
   <description/>
   <dependencies>
     <dependency>

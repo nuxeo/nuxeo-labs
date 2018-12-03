@@ -184,7 +184,7 @@ public class HTTPCall {
             try {
                 ObjectMapper resultAsObj = new ObjectMapper();
                 JsonNode rootNode = resultAsObj.readTree(restResult);
-                resultObj.put("result", rootNode);
+                resultObj.set("result", rootNode);
             } catch (Exception e) {
                 resultObj.put("result", restResult);
             }

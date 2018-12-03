@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-labs-parent</artifactId>
-    <version>10.1-SNAPSHOT</version>
+    <version>10.2-SNAPSHOT</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-template-rendition-publisher</artifactId>
-  <name>nuxeo-labs-publish-template-operation</name>
+  <name>Nuxeo Labs: Template Rendition Publisher</name>
   <description />
   <dependencies>
     <dependency>

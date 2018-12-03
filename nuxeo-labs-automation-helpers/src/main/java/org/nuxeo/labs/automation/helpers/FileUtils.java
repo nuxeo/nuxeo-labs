@@ -20,6 +20,7 @@ package org.nuxeo.labs.automation.helpers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
@@ -125,7 +126,7 @@ public class FileUtils implements ContextHelper {
      */
     public File appendToFile(File inFile, String inWhat) throws IOException {
 
-        org.apache.commons.io.FileUtils.writeStringToFile(inFile, inWhat, true);
+        org.apache.commons.io.FileUtils.writeStringToFile(inFile, inWhat, Charset.defaultCharset(), true);
         return inFile;
     }
 

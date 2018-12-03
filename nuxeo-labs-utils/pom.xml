@@ -5,10 +5,10 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-labs-parent</artifactId>
-    <version>10.1-SNAPSHOT</version>
+    <version>10.2-SNAPSHOT</version>
   </parent>
   <artifactId>nuxeo-labs-utils</artifactId>
-  <name>Misc. Utilities for Nuxeo Labs</name>
+  <name>Nuxeo Labs: Misc. Utilities</name>
   <description/>
   <dependencies>
     <dependency>

@@ -1,6 +1,8 @@
 package org.nuxeo.labs.automation.helpers.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,19 +18,17 @@ import org.nuxeo.ecm.automation.context.ContextService;
 import org.nuxeo.ecm.automation.test.AutomationFeature;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.labs.automation.helpers.FileUtils;
 import org.nuxeo.labs.automation.helpers.JSToJava;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.LocalDeploy;
 
 import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features({ AutomationFeature.class })
-@Deploy({ "nuxeo-labs-automation-helpers", "org.nuxeo.ecm.automation.scripting" })
-@LocalDeploy({ "nuxeo-labs-automation-helpers-test:automation-scripting-contrib.xml" })
+@Deploy({ "nuxeo-labs-automation-helpers", "org.nuxeo.ecm.automation.scripting",
+    "nuxeo-labs-automation-helpers-test:automation-scripting-contrib.xml" })
 public class TestJSToJavaHelper {
 
     protected DocumentModel parentOfTestDocs;

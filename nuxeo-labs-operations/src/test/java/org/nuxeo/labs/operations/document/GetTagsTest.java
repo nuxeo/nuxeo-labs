@@ -4,9 +4,11 @@
 
 package org.nuxeo.labs.operations.document;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +20,6 @@ import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.test.AutomationFeature;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.platform.tag.TagService;
@@ -79,10 +80,8 @@ public class GetTagsTest {
 
         final int COUNT_TAGS = 5;
 
-        NuxeoPrincipal nxPcipal = (NuxeoPrincipal) session.getPrincipal();
-        String userName = nxPcipal.getName();
         for(int i = 1; i <= COUNT_TAGS; ++i) {
-            tagService.tag(session, theDoc.getId(), "tag" + i, userName);
+            tagService.tag(session, theDoc.getId(), "tag" + i);
         }
 
         OperationContext ctx = new OperationContext(session);
@@ -91,15 +90,13 @@ public class GetTagsTest {
         chain.add(DocumentGetTagsOp.ID);
 
         @SuppressWarnings("unchecked")
-        ArrayList<String> tags = (ArrayList<String>) service.run(ctx, chain);
+        Set<String> tags = (Set<String>) service.run(ctx, chain);
 
         assertNotNull(tags);
         assertEquals(COUNT_TAGS, tags.size());
         // The list is sorted. So we must have "tag1", "tag2", "tag3", ...
-        String label;
-        for(int i = 0; i < COUNT_TAGS; ++i) {
-            label = tags.get(i);
-            assertEquals("tag" + (i + 1), label);
+        for(int i = 1; i <= COUNT_TAGS; ++i) {
+            assertTrue(tags.contains("tag" + i));
         }
 
     }
@@ -109,10 +106,8 @@ public class GetTagsTest {
 
         final int COUNT_TAGS = 5;
 
-        NuxeoPrincipal nxPcipal = (NuxeoPrincipal) session.getPrincipal();
-        String userName = nxPcipal.getName();
         for(int i = 1; i <= COUNT_TAGS; ++i) {
-            tagService.tag(session, theDoc.getId(), "tag" + i, userName);
+            tagService.tag(session, theDoc.getId(), "tag" + i);
         }
 
         DocumentModelListImpl list = new DocumentModelListImpl();
@@ -121,15 +116,15 @@ public class GetTagsTest {
         DocumentModel doc = session.createDocumentModel("/Folder", "TheDoc2", "File");
         doc.setPropertyValue("dc:title", "TheDoc2");
         doc = session.createDocument(doc);
-        tagService.tag(session, doc.getId(), "tag2", userName);
-        tagService.tag(session, doc.getId(), "tag20", userName);
+        tagService.tag(session, doc.getId(), "tag2");
+        tagService.tag(session, doc.getId(), "tag20");
         list.add(doc);
 
         doc = session.createDocumentModel("/Folder", "TheDoc3", "File");
         doc.setPropertyValue("dc:title", "TheDoc2");
         doc = session.createDocument(doc);
-        tagService.tag(session, doc.getId(), "tag3", userName);
-        tagService.tag(session, doc.getId(), "tag30", userName);
+        tagService.tag(session, doc.getId(), "tag3");
+        tagService.tag(session, doc.getId(), "tag30");
         list.add(doc);
 
         session.save();
@@ -140,7 +135,7 @@ public class GetTagsTest {
         chain.add(DocumentGetTagsOp.ID);
 
         @SuppressWarnings("unchecked")
-        ArrayList<String> tags = (ArrayList<String>) service.run(ctx, chain);
+        Set<String> tags = (Set<String>) service.run(ctx, chain);
 
         assertNotNull(tags);
         // Must have the 5 original tags + tag20 and tag30

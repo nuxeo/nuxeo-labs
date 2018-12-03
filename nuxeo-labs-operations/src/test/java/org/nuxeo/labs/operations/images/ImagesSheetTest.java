@@ -4,7 +4,9 @@
 
 package org.nuxeo.labs.operations.images;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -31,13 +33,9 @@ import org.nuxeo.ecm.core.event.EventService;
 import org.nuxeo.ecm.core.test.DefaultRepositoryInit;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
-import org.nuxeo.labs.operations.images.ImagesSheetBuilder;
-import org.nuxeo.labs.operations.images.ImagesSheetBuilderCustomOp;
-import org.nuxeo.labs.operations.images.ImagesSheetBuilderOp;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.LocalDeploy;
 import org.nuxeo.runtime.transaction.TransactionHelper;
 
 import com.google.inject.Inject;
@@ -55,8 +53,8 @@ import com.google.inject.Inject;
     "org.nuxeo.ecm.platform.tag",
     "org.nuxeo.ecm.platform.commandline.executor",
     "org.nuxeo.ecm.platform.rendition.core",
-    "org.nuxeo.labs.operations"})
-@LocalDeploy({ "org.nuxeo.labs.operations.test:OSGI-INF/test-custom-commandline.xml",
+    "org.nuxeo.labs.operations",
+    "org.nuxeo.labs.operations.test:OSGI-INF/test-custom-commandline.xml",
     "org.nuxeo.labs.operations.test:OSGI-INF/disable-default-picture-generation-contrib.xml"})
 public class ImagesSheetTest {
 

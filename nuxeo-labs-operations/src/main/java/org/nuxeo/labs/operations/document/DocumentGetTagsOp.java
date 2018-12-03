@@ -18,9 +18,8 @@
  */
 package org.nuxeo.labs.operations.document;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -30,8 +29,6 @@ import org.nuxeo.ecm.automation.core.annotations.Param;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.NuxeoPrincipal;
-import org.nuxeo.ecm.platform.tag.Tag;
 import org.nuxeo.ecm.platform.tag.TagService;
 
 /**
@@ -53,63 +50,26 @@ public class DocumentGetTagsOp {
     protected boolean currentUserOnly = false;
 
     @OperationMethod
-    public ArrayList<String> run(DocumentModel input) {
+    public Set<String> run(DocumentModel input) {
         
-        String userName = null;
-        
-        if(currentUserOnly) {
-            userName = getOriginatingUserOrCurrentUser(session);
-        }
-        
-        List<Tag> tags = tagService.getDocumentTags(session, input.getId(), userName);
-        ArrayList<String> result = new ArrayList<String>();
-        for(Tag tag : tags) {
-            result.add(tag.getLabel());
-        }
-        Collections.sort(result);
-        
+        Set<String> result = tagService.getTags(session, input.getId());        
         return result;
         
     }
     
     @OperationMethod
-    public ArrayList<String> run(DocumentModelList input) {
+    public Set<String> run(DocumentModelList input) {
         
-        String userName = null;
-        
-        if(currentUserOnly) {
-            userName = getOriginatingUserOrCurrentUser(session);
-        }
-        
-        List<Tag> tags = new ArrayList<Tag>();
-        List<Tag> tempTags;
+        Set<String> tags = new TreeSet<>();
+        Set<String> tempTags;
         for(DocumentModel doc : input) {
-            tempTags = tagService.getDocumentTags(session, doc.getId(), userName);
+            tempTags = tagService.getTags(session, doc.getId());
             // Merge while removing duplicates
-            tags.removeAll(tempTags);
             tags.addAll(tempTags);
         }
         
-        ArrayList<String> result = new ArrayList<String>();
-        for(Tag tag : tags) {
-            result.add(tag.getLabel());
-        }
-        Collections.sort(result);
+        return tags;
         
-        return result;
-        
-    }
-    
-    protected String getOriginatingUserOrCurrentUser(CoreSession inSession) {
-        String userName = null;
-        NuxeoPrincipal nxPcipal = (NuxeoPrincipal) inSession.getPrincipal();
-        if (nxPcipal != null && nxPcipal.getOriginatingUser() != null) {
-            userName = nxPcipal.getOriginatingUser();
-        } else {
-            userName = inSession.getPrincipal().getName();
-        }
-
-        return userName;
     }
 
 }
