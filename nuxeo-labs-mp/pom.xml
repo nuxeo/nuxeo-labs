@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-parent</artifactId>
-        <version>10.2-SNAPSHOT</version>
+        <version>10.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>nuxeo-labs-mp</artifactId>
@@ -37,10 +37,12 @@
 
 
         <!-- Additional bundles to be deployed by the MP -->
+        <!--
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-crop-ui</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-more-like-ui</artifactId>
@@ -53,10 +55,12 @@
             <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-images</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-fancybox</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-google-publisher</artifactId>
