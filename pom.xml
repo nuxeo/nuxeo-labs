@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.nuxeo.ecm.distribution</groupId>
     <artifactId>nuxeo-distribution</artifactId>
-    <version>10.2</version>
+    <version>10.3</version>
   </parent>
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
-  <version>10.2-SNAPSHOT</version>
+  <version>10.3-SNAPSHOT</version>
   <name>Nuxeo Labs</name>
   <packaging>pom</packaging>
   <description />
@@ -25,9 +25,9 @@
     <module>nuxeo-labs-operations-mp</module>
   </modules>
   <properties>
-    <nuxeo.labs.version>10.2-SNAPSHOT</nuxeo.labs.version>
-    <nuxeo.distribution.version>10.2</nuxeo.distribution.version>
-    <nuxeo.dam.nxr.version>6.3.3</nuxeo.dam.nxr.version>
+    <nuxeo.labs.version>10.3-SNAPSHOT</nuxeo.labs.version>
+    <nuxeo.distribution.version>10.3</nuxeo.distribution.version>
+    <nuxeo.dam.nxr.version>6.4.2</nuxeo.dam.nxr.version>
   </properties>
   <dependencyManagement>
     <dependencies>
