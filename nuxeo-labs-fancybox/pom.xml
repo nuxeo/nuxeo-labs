@@ -5,9 +5,8 @@
   <parent>
     <groupId>org.nuxeo.labs</groupId>
     <artifactId>nuxeo-labs-parent</artifactId>
-    <version>10.3-SNAPSHOT</version>
+    <version>10.10-SNAPSHOT</version>
   </parent>
-  <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-fancybox</artifactId>
   <name>Nuxeo Labs: FancyBox</name>
   <description/>
