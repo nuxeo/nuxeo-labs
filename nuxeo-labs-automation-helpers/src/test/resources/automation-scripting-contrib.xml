@@ -112,28 +112,6 @@
          }
        </script>
     </scriptedOperation>
-    
-    <scriptedOperation id="TestHelpers.jsToJava_Array">
-       <inputType>void</inputType>
-       <outputType>array</outputType>
-       <category>Scripting</category>
-
-       <script>
-         function run(input, params) {
-           // IMPORTANT: Caller MUST have created the 3 documents (jsArrayTest-1 to 3) at /test-jshelper/
-           var result;
-           var docArray = [];
-           var i;
-           for (i = 1; i &lt; 4; ++i) {
-             docArray.push( Repository.GetDocument(null, {'value': "/test-jshelper/jsArrayTest-" + i }) );
-           }
-           
-           result = JSToJava.arrayToArrayList(docArray);
-           
-           return result;
-         }
-       </script>
-    </scriptedOperation>
 
   </extension>
 

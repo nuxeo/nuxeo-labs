@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.automation.core.util.BlobList;
@@ -176,7 +176,8 @@ public class ImagesSheetBuilder {
 
         // Priority to docs for compatibility
         if (docs != null) {
-            blobs = new BlobList();;
+            blobs = new BlobList();
+            ;
             Blob blob;
             boolean useView = StringUtils.isNotBlank(view);
             for (DocumentModel doc : docs) {
@@ -217,7 +218,7 @@ public class ImagesSheetBuilder {
         File tempDir = Files.createTempDir();
         File f;
         String fileList = "";
-        for(Blob b : blobs) {
+        for (Blob b : blobs) {
             // Duplicate
             if (b != null) {
                 f = new File(tempDir, b.getFilename());
@@ -226,7 +227,6 @@ public class ImagesSheetBuilder {
                 b.transferTo(f);
             }
         }
-
 
         // Create the file to be used by ImageMagic to get the files
         File listOfFiles = new File(tempDir, "list.txt");

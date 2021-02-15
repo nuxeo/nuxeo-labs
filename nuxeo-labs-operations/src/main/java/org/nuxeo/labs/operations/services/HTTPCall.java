@@ -105,7 +105,7 @@ public class HTTPCall {
                 OutputStreamWriter writer = new OutputStreamWriter(http.getOutputStream());
                 writer.write(body);
                 writer.flush();
-            } else if(blobToSend != null) {
+            } else if (blobToSend != null) {
 
                 http.setDoInput(true);
                 http.setDoOutput(true);
@@ -138,15 +138,15 @@ public class HTTPCall {
 
         } finally {
 
-            //Cleanup
-            if(in != null) {
+            // Cleanup
+            if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
                     // Ignore
                 }
             }
-            if(out != null) {
+            if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {

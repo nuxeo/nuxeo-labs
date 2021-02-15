@@ -33,7 +33,7 @@ import com.google.inject.Inject;
 @RunWith(FeaturesRunner.class)
 @Features({ AutomationFeature.class })
 @Deploy({ "nuxeo-labs-automation-helpers", "org.nuxeo.ecm.automation.scripting",
-    "nuxeo-labs-automation-helpers-test:automation-scripting-contrib.xml" })
+        "nuxeo-labs-automation-helpers-test:automation-scripting-contrib.xml" })
 public class TestFileUtilsHelper {
 
     protected DocumentModel parentOfTestDocs;

@@ -3,99 +3,85 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.nuxeo.ecm.distribution</groupId>
-    <artifactId>nuxeo-distribution</artifactId>
-    <version>10.10</version>
+    <groupId>org.nuxeo</groupId>
+    <artifactId>nuxeo-parent</artifactId>
+    <version>11.4</version>
   </parent>
+  
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
-  <version>10.10-SNAPSHOT</version>
+  <version>11.4-SNAPSHOT</version>
   <name>Nuxeo Labs</name>
   <packaging>pom</packaging>
   <description />
+
+  <properties>
+    <nuxeo.skip.enforcer>true</nuxeo.skip.enforcer>
+    <nuxeo.target.version>11.*</nuxeo.target.version>
+  </properties>
+
   <modules>
     <module>nuxeo-labs-operations</module>
-    <module>nuxeo-labs-images</module>
-    <module>nuxeo-labs-fancybox</module>
-    <module>nuxeo-labs-google-publisher</module>
-    <module>nuxeo-labs-crop-ui</module>
-    <module>nuxeo-labs-more-like-ui</module>
     <module>nuxeo-labs-automation-helpers</module>
+    <module>nuxeo-labs-utils</module>
     <module>nuxeo-labs-mp</module>
+    <!--
     <module>nuxeo-labs-operations-mp</module>
+  -->
   </modules>
-  <properties>
-    <nuxeo.labs.version>10.10-SNAPSHOT</nuxeo.labs.version>
-    <nuxeo.distribution.version>10.10</nuxeo.distribution.version>
-    <nuxeo.dam.nxr.version>6.4.2</nuxeo.dam.nxr.version>
-  </properties>
+
+  <scm />
+  <licenses />
+  <mailingLists />
+  <issueManagement />
+  <ciManagement />
+  <developers />
+  <distributionManagement />
+
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-operations</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-images</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-fancybox</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-crop-ui</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-more-like-ui</artifactId>
-        <version>${nuxeo.labs.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-google-publisher</artifactId>
-        <version>${nuxeo.labs.version}</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-automation-helpers</artifactId>
-        <version>${nuxeo.labs.version}</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.nuxeo.labs</groupId>
-        <artifactId>nuxeo-labs-mp</artifactId>
-        <version>${nuxeo.labs.version}</version>
+        <artifactId>nuxeo-labs-utils</artifactId>
+        <version>${project.version}</version>
       </dependency>
+      
       <dependency>
-        <groupId>org.nuxeo.marketplace.dam</groupId>
-        <artifactId>marketplace</artifactId>
-        <classifier>nxr-server</classifier>
-        <version>${nuxeo.dam.nxr.version}</version>
-        <type>zip</type>
+        <groupId>org.nuxeo.labs</groupId>
+        <artifactId>nuxeo-labs-mp</artifactId>
+        <version>${project.version}</version>
       </dependency>
+    
     </dependencies>
   </dependencyManagement>
+
   <repositories>
     <repository>
-      <id>public</id>
-      <url>http://maven.nuxeo.org/nexus/content/groups/public</url>
+      <id>maven-public</id>
+      <url>https://packages.nuxeo.com/repository/maven-public/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <updatePolicy>always</updatePolicy>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>public-snapshot</id>
-      <url>http://maven.nuxeo.org/nexus/content/groups/public-snapshot</url>
+      <id>maven-internal</id>
+      <url>https://packages.nuxeo.com/repository/maven-internal/</url>
       <releases>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </releases>
       <snapshots>
         <updatePolicy>always</updatePolicy>
@@ -109,32 +95,21 @@
         <enabled>true</enabled>
       </releases>
       <snapshots>
+        <updatePolicy>always</updatePolicy>
         <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
+
   <pluginRepositories>
     <pluginRepository>
-      <id>public</id>
-      <url>http://maven.nuxeo.org/nexus/content/groups/public</url>
-      <name>Nuxeo virtual release repository</name>
+      <id>maven-public</id>
+      <url>https://packages.nuxeo.com/repository/maven-public/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
       <snapshots>
         <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>public-snapshot</id>
-      <url>http://maven.nuxeo.org/nexus/content/groups/public-snapshot</url>
-      <name>Nuxeo virtual snapshot repository</name>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-        <enabled>true</enabled>
       </snapshots>
     </pluginRepository>
   </pluginRepositories>

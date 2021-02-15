@@ -57,27 +57,24 @@ import com.google.inject.Inject;
  * @since 7.2
  */
 @RunWith(FeaturesRunner.class)
-@Features({ PlatformFeature.class, CoreFeature.class,
-        EmbeddedAutomationServerFeature.class })
+@Features({ PlatformFeature.class, CoreFeature.class, EmbeddedAutomationServerFeature.class })
 @Deploy({ "org.nuxeo.labs.operations" })
 public class HTTPTest {
 
     private static final Log log = LogFactory.getLog(HTTPTest.class);
 
-    // Maybe we should _not_ use dam.cloud.nuxeo.com. At least, PLEASE DO NOT ADD
-    // DOCUMENTS THERE, we're using it for demos
-    // 2017-07-11: dam.cloud?nuxeo.com ius not running anymore. Deactivating the test until we find another server
-    // (using Assume.assumeTrue testing this value)
-    protected static final String DISTANT_SERVER = null;//"http://dam.cloud.nuxeo.com/nuxeo";
+    // This shouyld be set with a test config file/env variable
+    // The test assumes the default passwords are set while it's never the case
+    // TODO Add configuration of a server, password file to download etc. for unit testing
+    protected static final String DISTANT_SERVER = null;// "http://dam.cloud.nuxeo.com/nuxeo";
 
-    protected static final String DISTANT_SERVER_REST_PATTERN = DISTANT_SERVER
-            + "/api/v1";
+    protected static final String DISTANT_SERVER_REST_PATTERN = DISTANT_SERVER + "/api/v1";
 
-    protected static final String URL_TEST_GET = DISTANT_SERVER_REST_PATTERN
-            + "/path//";
+    protected static final String URL_TEST_GET = DISTANT_SERVER_REST_PATTERN + "/path//";
 
     protected static final String URL_TEST_FILE_UPLOAD = DISTANT_SERVER + "/api/v1/upload/";
 
+    // Should be set via test configuration file/env. variables.
     protected static final String DISTANT_PICTURE_DOC_ID = "ef825f50-c12e-4e13-b3b7-31f95cc500fe";
 
     @Inject
@@ -99,7 +96,7 @@ public class HTTPTest {
     @Test
     public void testRESTGet() throws Exception {
 
-    	Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
+        Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         OperationContext ctx;
         OperationChain chain;
@@ -114,8 +111,7 @@ public class HTTPTest {
         props.put("Accept", "application/json");
         props.put("Content-Type", "application/json");
 
-        chain.add(HTTPCall.ID).set("method", "GET").set("url", URL_TEST_GET).set(
-                "headers", props);
+        chain.add(HTTPCall.ID).set("method", "GET").set("url", URL_TEST_GET).set("headers", props);
         // No input
 
         Blob result = (Blob) service.run(ctx, chain);
@@ -138,9 +134,8 @@ public class HTTPTest {
 
             String statusMsg = rootNode.get("statusMessage").textValue();
             String error = rootNode.get("error").textValue();
-            log.error("PROBLEM REACHING " + URL_TEST_GET + ", status: "
-                    + status + ", statusMessage: " + statusMsg + ", error: "
-                    + error);
+            log.error("PROBLEM REACHING " + URL_TEST_GET + ", status: " + status + ", statusMessage: " + statusMsg
+                    + ", error: " + error);
         }
 
     }
@@ -148,7 +143,7 @@ public class HTTPTest {
     @Test
     public void testDownloadFile() throws Exception {
 
-    	Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
+        Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         OperationContext ctx;
         OperationChain chain;
@@ -164,10 +159,8 @@ public class HTTPTest {
         props.put("Accept", "application/json");
         props.put("Content-Type", "application/json");
 
-        String url = DISTANT_SERVER_REST_PATTERN + "/id/"
-                + DISTANT_PICTURE_DOC_ID;
-        chain.add(HTTPCall.ID).set("method", "GET").set("url", url).set(
-                "headers", props);
+        String url = DISTANT_SERVER_REST_PATTERN + "/id/" + DISTANT_PICTURE_DOC_ID;
+        chain.add(HTTPCall.ID).set("method", "GET").set("url", url).set("headers", props);
 
         Blob result = (Blob) service.run(ctx, chain);
         assertTrue(result instanceof StringBlob);
@@ -185,20 +178,17 @@ public class HTTPTest {
 
             // OK, now, download it
             // http://dam.cloud.nuxeo.com/nuxeo/nxpicsfile/default/ef825f50-c12e-4e13-b3b7-31f95cc500fe/Medium:content/Thu%20Mar%2019%2008%3A58%3A31%20UTC%202015
-            url = DISTANT_SERVER + "/nxpicsfile/default/"
-                    + DISTANT_PICTURE_DOC_ID + "/Medium:content/whatever";
+            url = DISTANT_SERVER + "/nxpicsfile/default/" + DISTANT_PICTURE_DOC_ID + "/Medium:content/whatever";
             chain = new OperationChain("testChain2");
             props = new Properties();
-            props.put("Authorization",
-                    "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y");
+            props.put("Authorization", "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y");
             props.put("Accept", "*/*");
 
             chain.add(HTTPDownloadFile.ID).set("url", url).set("headers", props);
             result = (Blob) service.run(ctx, chain);
             assertTrue(result instanceof FileBlob);
 
-            assertEquals("Medium_wallpaper-nuxeo-X-noir-1600.jpg",
-                    result.getFilename());
+            assertEquals("Medium_wallpaper-nuxeo-X-noir-1600.jpg", result.getFilename());
             assertEquals("image/jpeg", result.getMimeType());
 
             File f = result.getFile();
@@ -212,7 +202,7 @@ public class HTTPTest {
     @Test
     public void testSendBlob() throws Exception {
 
-    	Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
+        Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         File f = FileUtils.getResourceFileFromContext("Nuxeo-logo.png");
         FileBlob fileBlob = new FileBlob(f);
@@ -230,8 +220,11 @@ public class HTTPTest {
         props.put("Accept", "application/json");
         props.put("Content-Type", "application/json");
 
-        chain.add(HTTPCall.ID).set("method", "POST").set("url", URL_TEST_FILE_UPLOAD).set(
-                "headers", props).set("blobToSend", fileBlob);
+        chain.add(HTTPCall.ID)
+             .set("method", "POST")
+             .set("url", URL_TEST_FILE_UPLOAD)
+             .set("headers", props)
+             .set("blobToSend", fileBlob);
 
         // No input
 
@@ -246,7 +239,7 @@ public class HTTPTest {
         JsonNode rootNode = mapper.readTree(jsonResult);
         int status = rootNode.get("status").intValue();
 
-        if(status == 201) {
+        if (status == 201) {
             JsonNode theDoc = rootNode.get("result");
             JsonNode batchId = theDoc.get("batchId");
             assertNotNull(batchId);
@@ -254,9 +247,8 @@ public class HTTPTest {
 
             String statusMsg = rootNode.get("statusMessage").textValue();
             String error = rootNode.get("error").textValue();
-            log.error("PROBLEM REACHING " + URL_TEST_FILE_UPLOAD + ", status: "
-                    + status + ", statusMessage: " + statusMsg + ", error: "
-                    + error);
+            log.error("PROBLEM REACHING " + URL_TEST_FILE_UPLOAD + ", status: " + status + ", statusMessage: "
+                    + statusMsg + ", error: " + error);
         }
 
     }

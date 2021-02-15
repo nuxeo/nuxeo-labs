@@ -46,16 +46,9 @@ import com.google.inject.Inject;
 @RunWith(FeaturesRunner.class)
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
-@Deploy({
-    "org.nuxeo.ecm.platform.picture.api",
-    "org.nuxeo.ecm.platform.picture.core",
-    "org.nuxeo.ecm.platform.picture.convert",
-    "org.nuxeo.ecm.platform.tag",
-    "org.nuxeo.ecm.platform.commandline.executor",
-    "org.nuxeo.ecm.platform.rendition.core",
-    "org.nuxeo.labs.operations",
-    "org.nuxeo.labs.operations.test:OSGI-INF/test-custom-commandline.xml",
-    "org.nuxeo.labs.operations.test:OSGI-INF/disable-default-picture-generation-contrib.xml"})
+@Deploy({ "org.nuxeo.ecm.platform.picture.core", "org.nuxeo.ecm.platform.tag", "org.nuxeo.labs.operations",
+        "org.nuxeo.labs.operations.test:OSGI-INF/test-custom-commandline.xml",
+        "org.nuxeo.labs.operations.test:OSGI-INF/disable-default-picture-generation-contrib.xml" })
 public class ImagesSheetTest {
 
     protected static final int NUMBER_OF_TEST_IMAGES = 10;
@@ -234,8 +227,9 @@ public class ImagesSheetTest {
         ctx.setInput(docs);
         chain = new OperationChain("testChain3");
 
-        chain.add(ImagesSheetBuilderCustomOp.ID).set("commandLine", "test-montage").set("parameters",
-                "tile=5\ngeometry=" + ImagesSheetBuilder.DEFAULT_GEOMETRY);
+        chain.add(ImagesSheetBuilderCustomOp.ID)
+             .set("commandLine", "test-montage")
+             .set("parameters", "tile=5\ngeometry=" + ImagesSheetBuilder.DEFAULT_GEOMETRY);
 
         Blob result1 = (Blob) automationService.run(ctx, chain);
         assertNotNull(result1);
@@ -243,8 +237,9 @@ public class ImagesSheetTest {
         // DIfferent tile
         ctx.setInput(docs);
         chain = new OperationChain("testChain4");
-        chain.add(ImagesSheetBuilderCustomOp.ID).set("commandLine", "test-montage").set("parameters",
-                "tile=2\ngeometry=" + ImagesSheetBuilder.DEFAULT_GEOMETRY);
+        chain.add(ImagesSheetBuilderCustomOp.ID)
+             .set("commandLine", "test-montage")
+             .set("parameters", "tile=2\ngeometry=" + ImagesSheetBuilder.DEFAULT_GEOMETRY);
         Blob result2 = (Blob) automationService.run(ctx, chain);
         assertNotNull(result1);
         checkImage1WiderImage2Higher(result1, result2);

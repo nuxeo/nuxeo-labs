@@ -14,11 +14,7 @@ import org.nuxeo.ecm.core.blob.BlobProvider;
 
 import java.io.IOException;
 
-@Operation(
-        id = GetManagedBlobOp.ID,
-        category = Constants.CAT_BLOB,
-        label = "Get Managed Blob",
-        description = "Returns a managed blob corresponding to the provided key")
+@Operation(id = GetManagedBlobOp.ID, category = Constants.CAT_BLOB, label = "Get Managed Blob", description = "Returns a managed blob corresponding to the provided key")
 public class GetManagedBlobOp {
 
     public static final String ID = "GetManagedBlob";

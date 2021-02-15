@@ -1,8 +1,0 @@
-<component name="org.nuxeo.google.task.Publisher">
-
-  <extension target="org.nuxeo.ecm.core.operation.OperationServiceComponent"
-    point="operations" >
-      <operation class="org.nuxeo.google.task.Publisher" />
-   </extension>
-    
-</component>

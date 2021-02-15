@@ -1,6 +1,6 @@
 # nuxeo-labs-automation-helpers
 
-This plug-in adds [Scripting Automation Helpers](https://doc.nuxeo.com/x/RIB4AQ). Useful (hopefully) functions that can be used in your Automation Chains. They have been written and tested with Auromation _Scripting_ (hence, JavaScript) in mind.
+This plug-in adds [Scripting Automation Helpers](https://doc.nuxeo.com/x/RIB4AQ). Useful (hopefully) functions that can be used in your Automation Chains. They have been written and tested with Automation _Scripting_ (hence, JavaScript) in mind.
 
 Because they are custom helpers, you will not have autocompletion in Nuxeo Studio, this is normal. You must type the whole ID ot the helper (`FileUtils.saveBlob` for example), case sentitive.
 
@@ -9,7 +9,7 @@ Because they are custom helpers, you will not have autocompletion in Nuxeo Studi
 ## Helpers
 
 ### FileUtils
-A set of helpers to handle files on disk (server side, we are in Automation): Create, load, write, delete. In all cases, you must make sure you have enough right to access the file syste server side (helpers are ran server-side, as a "nuxeo" user on Linux, typically, for example).
+A set of helpers to handle files on disk (server side, we are in Automation): Create, load, write, delete. In all cases, you must make sure you have enough right to access the file system server side (helpers are ran server-side, as a "nuxeo" user on Linux, typically, for example).
 
 The original purpose of the `FileUtils` helpers was to be able to quickly create/handle demo data from JavaScript Automation, just creating a few hundred of documents and avoiding creating a Java plug-in, the marketplace package, installing in the test server, etc.
 
@@ -67,46 +67,20 @@ FileUtils.saveBlob(blob, "/tmp/something/" + blob.getFilename());
 ```
 
 
-###JSToJava
-Sometime, a JavaScript a-boject is not mapped by default by Nuxeo. The helpers here (actually just one as of "today", Feb. 2016) provide some missing conversions.
+# Support
 
-#### Helpers
+**These features are not part of the Nuxeo Production platform.**
 
-* `arrayToArrayList(javaScriptArray)`
-  * Converts `javaScriptArray` to a Java `ÀrrayList<Object>`
-  * SO for example, as for Nuxeo 8.1, if you build a JavaScript array of `DocumentModel` and pass it to an operaiton expecting `Documents` (hence, a `DocumentModel` list), you will have an error. Instead, convert your JavaScript array to the Java expected `ArrayList<DocumentModel>`. Here is an example of JavaScript:
-  
-  ```
-  var i, docArray = [];
-  // Say we have doc-1 to doc-3 existing at /default-domain/folder/
-  for(i = 1; i < 4; ++i) {
-  	  docArray.push( Repository.GetDocument(null, {'value': "/default-domain/folder/doc-" + i }) );
-  }
-  // docArray now is a JavaScript array filled with DocumentModel
-  // Say we call an operation that expects one doc or a list of documents
-  // We convert the js array with a call to JSToJava.arrayToArrayList(docArray)
-  Document.FollowLifecycleTransition(JSToJava.arrayToArrayList(docArray), {'value': "approve"});
+These solutions are provided for inspiration and we encourage customers to use them as code samples and learning resources.
 
-  ```
+This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform, not maintained here.
 
 
+# Licensing
 
-## License
-(C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and others.
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-All rights reserved. This program and the accompanying materials
-are made available under the terms of the GNU Lesser General Public License
-(LGPL) version 2.1 which accompanies this distribution, and is available at
-http://www.gnu.org/licenses/lgpl-2.1.html
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-Lesser General Public License for more details.
+# About Nuxeo
 
-Contributors:
-Thibaud Arguillere (https://github.com/ThibArg)
-
-## About Nuxeo
-
-Nuxeo provides a modular, extensible Java-based [open source software platform for enterprise content management](http://www.nuxeo.com) and packaged applications for Document Management, Digital Asset Management and Case Management. Designed by developers for developers, the Nuxeo platform offers a modern architecture, a powerful plug-in model and extensive packaging capabilities for building content applications.
+[Nuxeo](www.nuxeo.com), developer of the leading Content Services Platform, is reinventing enterprise content management (ECM) and digital asset management (DAM). Nuxeo is fundamentally changing how people work with data and content to realize new value from digital information. Its cloud-native platform has been deployed by large enterprises, mid-sized businesses and government agencies worldwide. Customers like Verizon, Electronic Arts, ABN Amro, and the Department of Defense have used Nuxeo's technology to transform the way they do business. Founded in 2008, the company is based in New York with offices across the United States, Europe, and Asia.

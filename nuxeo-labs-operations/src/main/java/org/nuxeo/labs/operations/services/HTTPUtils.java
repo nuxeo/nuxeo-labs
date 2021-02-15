@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.nuxeo.ecm.automation.core.util.Properties;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

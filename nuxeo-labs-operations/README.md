@@ -2,41 +2,6 @@
 This plugin contains miscellaneous operations. It was better to group them in this generic "nuxeo-labs-operation" plug-in, instead of creating one dedicated plug-in/operation
 
 # List of Operations
-* `Document > Add Complex Property From Json String` (id `AddComplexProperty`)
-  * This operation can add new fields to a multivalued complex metadata. The `value` parameter is a String containing the JSON list of new values for the metadata given in `xpath`
-
-* `Services > Vocabulary: Add Entry` (id `Vocabulary.AddEntry`)
-  * Add a new entry to a vocabulary.
-  * The operation only handles Nuxeo Vocabularies, which are specific types of Directories. It assumes the directory has the following fields `id`, `label`, `obsolete` and `ordering`. It it is a hierarchical vocabulary, it also assumes there is a `parent` field.
-  * Parameters:
-    * `name`: The name of the vocabulary, required
-    * `id`: The id of the new entry, required
-    * `label`: The label of of the new entry. If empty, the label is set to the id
-    * `obsolete`: Integer/long, 0 or 1,  optional
-    * `ordering`: Integer/long, optional
-    * `parent`: The parent of of the new entry, in case the vocabulary is hierarchical (not use if it is not hierarchical)
-
-* `Notification > AdvancedSendEmail` (id `AdvancedSendEmail`)
-  * Send Email according parameters set.
-  * EMail Address resolution is as following if you check `strict` :
-    * If you set a string that starts with 'user:xxxx', will resolve email of username xxxx.
-    * I you set a string that starts with 'group:xxxx, will resolve all users and add their email.
-    * If none these 2, if the value contains an '@' it is handle as a full eMail address already formated.
-    * If there is no match, then throw an exception.
-  * If you uncheck the `strict box, you have the same behavior explainèd above, but the exception is not thrown and the plug-in handles the value as a username:
-    * If no match then handles it as a group
-    * and if no match again, then empty string
-  * You can also put in values:
-    * A NuxeoPrincipal
-    * Or a list of NuxeoPrincipal
-    * Or a list of Strings (resolution is the same as explain previously)
-    * Or a list of mixed value
-  * If `rollbackOnError` is checked, then error will be catch if one is thrown.
-  * For the file value just put the `xpath` value of field that stores the file (`file:content`, `files:/files/0/content`, `myschema:myfield`, `myschema:/myfield/0/content`)
-
-* `User Interface > Navigate To Url` (id: `NavigateToUrl`)
-  * Redirects to the a nuxeo URL passed as a parameter, for instance the parameter can be: /nuxeo/site/automation/doc
-  * The url must be a URL in the current server can't redirect to another website for example)
 
 * `Services > HTTPlabs: Call` (id: `HTTP.Call`)
   * Sends a HTTP request, returns the result as a `StringBlob`
@@ -147,33 +112,6 @@ function run(input, params) {
 }
 ```
 
-* `Document > Publish Rendition` (id: `Document.PublishRenditionOp`)
-  * Publishes a rendition of the input document. See the Publicaiton Service for more details. To summarize:
-    * Depending on the `renditionName`, the type of document created in the section will change (render a pdf => create a `File`,  render an image => create a `Picture`, ...)
-    * In all cases, a version of the input document is created if needed
-    *  The published document keeps a relation to its source document
-  * Parameters:
-    * `targetSectionRef`: ID or path (starting with "/") of the target section. **WARNING** Current user must have the permission to publish in this section
-    * `renditionName`: The name of the rendition to use. Renditions are contributed using the RenditionService. Some default renditions exist ("pdf" for example)
-
-* `Document > Document Exists` (id: `Document.Exists`)
-  * Check if the document exists, returns a `boolean`
-  * (No error is thrown if the document does not exist)
-  * Parameters:
-    * idOrPath: An ID or path (starting with "/") to test
-
-* `Document > Get Tags` (id: `Document.GetTags`)
-  * Accepts a Document/Documents
-  * Returns all the tags of the document as a _sorted_ `List` of `String`. If the input is a list of documents, the duplicated tags (if any) are removed.
-  * Parameters:
-    * `currentUserOnly`: Optionnal If `true`, returns only the tags created by the current user. Default value is `false`.
-
-    * `User Interface > Reset Content View` (id: `ResetContentView`)
-      * Uses conentViewActions.reset() to reset a Content View.
-      * Can be used to restore the default sort, for example.
-      * Parameters:
-        * `Content View Name`: The name of the Content View, required
-
 * `Images Sheet Builder` (ID `ImagesSheet.Build`)
   * Receives a list of documents or a list of Blobs, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
   * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for hez `geometry` parameter for example`
@@ -230,3 +168,21 @@ function run(input, params) {
     * `imageViewToUse`: The `PictureView`to use. "Medium" by default. If the plug-in does not find a blob for this view, it uses the binary stored in "file:content".
     * `useDocTitle`: If `true`, instead of using the filename, the labels will display the title of the Nuxeo Document. Default value is `false`
     * **WARNING**: See the warning about the `tile` parameter for the `Images Sheet from Documents` operation.
+
+# Support
+
+**These features are not part of the Nuxeo Production platform.**
+
+These solutions are provided for inspiration and we encourage customers to use them as code samples and learning resources.
+
+This is a moving project (no API maintenance, no deprecation process, etc.) If any of these solutions are found to be useful for the Nuxeo Platform in general, they will be integrated directly into platform, not maintained here.
+
+
+# Licensing
+
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+
+# About Nuxeo
+
+[Nuxeo](www.nuxeo.com), developer of the leading Content Services Platform, is reinventing enterprise content management (ECM) and digital asset management (DAM). Nuxeo is fundamentally changing how people work with data and content to realize new value from digital information. Its cloud-native platform has been deployed by large enterprises, mid-sized businesses and government agencies worldwide. Customers like Verizon, Electronic Arts, ABN Amro, and the Department of Defense have used Nuxeo's technology to transform the way they do business. Founded in 2008, the company is based in New York with offices across the United States, Europe, and Asia.

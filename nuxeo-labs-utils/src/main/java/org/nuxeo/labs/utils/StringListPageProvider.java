@@ -19,7 +19,7 @@
 package org.nuxeo.labs.utils;
 
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.collections.api.CollectionConstants;
@@ -55,85 +55,85 @@ import org.nuxeo.runtime.api.Framework;
  */
 public class StringListPageProvider extends AbstractPageProvider<DocumentModel> implements PageProvider<DocumentModel> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final String CORE_SESSION_PROPERTY = "coreSession";
+    public static final String CORE_SESSION_PROPERTY = "coreSession";
 
-	public static final String CURRENT_DOCUMENT_PROPERTY = "currentDoc";
+    public static final String CURRENT_DOCUMENT_PROPERTY = "currentDoc";
 
-	public static final String XPATH_PROPERTY = "xpath";
+    public static final String XPATH_PROPERTY = "xpath";
 
-	protected static final Log log = LogFactory.getLog(StringListPageProvider.class);
+    protected static final Log log = LogFactory.getLog(StringListPageProvider.class);
 
-	protected CoreSession getCoreSession() {
-		Object session = getProperties().get(CORE_SESSION_PROPERTY);
-		if (session != null && session instanceof CoreSession) {
-			return (CoreSession) session;
-		}
-		return null;
-	}
+    protected CoreSession getCoreSession() {
+        Object session = getProperties().get(CORE_SESSION_PROPERTY);
+        if (session != null && session instanceof CoreSession) {
+            return (CoreSession) session;
+        }
+        return null;
+    }
 
-	protected DocumentModel getCurrentDocument() {
-		Object docObj = getProperties().get(CURRENT_DOCUMENT_PROPERTY);
-		if (docObj != null && docObj instanceof DocumentModel) {
-			return (DocumentModel) docObj;
-		}
-		return null;
-	}
+    protected DocumentModel getCurrentDocument() {
+        Object docObj = getProperties().get(CURRENT_DOCUMENT_PROPERTY);
+        if (docObj != null && docObj instanceof DocumentModel) {
+            return (DocumentModel) docObj;
+        }
+        return null;
+    }
 
-	protected String getXPath() {
-		Object docObj = getProperties().get(XPATH_PROPERTY);
-		if (docObj != null && docObj instanceof String) {
-			return (String) docObj;
-		}
-		return null;
-	}
+    protected String getXPath() {
+        Object docObj = getProperties().get(XPATH_PROPERTY);
+        if (docObj != null && docObj instanceof String) {
+            return (String) docObj;
+        }
+        return null;
+    }
 
-	@Override
-	public PageSelections<DocumentModel> getCurrentSelectPage() {
-		return super.getCurrentSelectPage();
-	}
+    @Override
+    public PageSelections<DocumentModel> getCurrentSelectPage() {
+        return super.getCurrentSelectPage();
+    }
 
-	@Override
-	public List<DocumentModel> getCurrentPage() {
+    @Override
+    public List<DocumentModel> getCurrentPage() {
 
-		DocumentModelList docs = new DocumentModelListImpl();
+        DocumentModelList docs = new DocumentModelListImpl();
 
-		CoreSession session = getCoreSession();
-		if (session == null) {
-			log.error("No core session available in the context of this PageProvider");
-			return docs;
-		}
+        CoreSession session = getCoreSession();
+        if (session == null) {
+            log.error("No core session available in the context of this PageProvider");
+            return docs;
+        }
 
-		DocumentModel doc = getCurrentDocument();
-		if (doc == null) {
-			log.error("No current document available in the context of this PageProvider");
-			return docs;
-		}
+        DocumentModel doc = getCurrentDocument();
+        if (doc == null) {
+            log.error("No current document available in the context of this PageProvider");
+            return docs;
+        }
 
-		String xpath = getXPath();
-		if (StringUtils.isBlank(xpath)) {
-			if (Framework.getService(CollectionManager.class).isCollection(doc)) {
-				xpath = CollectionConstants.COLLECTION_DOCUMENT_IDS_PROPERTY_NAME;
-			} else {
-				log.error("No xpath provided for this PageProvider, and current document is not a collection");
-				return docs;
-			}
-		}
+        String xpath = getXPath();
+        if (StringUtils.isBlank(xpath)) {
+            if (Framework.getService(CollectionManager.class).isCollection(doc)) {
+                xpath = CollectionConstants.COLLECTION_DOCUMENT_IDS_PROPERTY_NAME;
+            } else {
+                log.error("No xpath provided for this PageProvider, and current document is not a collection");
+                return docs;
+            }
+        }
 
-		doc.refresh();
+        doc.refresh();
 
-		String[] uuids = (String[]) doc.getPropertyValue(xpath);
-		if (uuids != null && uuids.length > 0) {
-			DocumentModel subDoc;
-			for (String uid : uuids) {
-				subDoc = session.getDocument(new IdRef(uid));
-				docs.add(subDoc);
-			}
-		}
+        String[] uuids = (String[]) doc.getPropertyValue(xpath);
+        if (uuids != null && uuids.length > 0) {
+            DocumentModel subDoc;
+            for (String uid : uuids) {
+                subDoc = session.getDocument(new IdRef(uid));
+                docs.add(subDoc);
+            }
+        }
 
-		return docs;
+        return docs;
 
-	}
+    }
 
 }

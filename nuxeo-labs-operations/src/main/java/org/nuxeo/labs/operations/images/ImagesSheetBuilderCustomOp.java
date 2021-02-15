@@ -35,7 +35,8 @@ import org.nuxeo.ecm.platform.commandline.executor.api.CmdParameters;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandNotAvailable;
 
 /**
- * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Uses a contributed custom commandLine where you are responsible of the parameters, passed as key=value text ist.
+ * Receives a list of documents, outputs a blob, a JPEG Images Sheet. Uses a contributed custom commandLine where you
+ * are responsible of the parameters, passed as key=value text ist.
  *
  * @since 8.2
  */
@@ -80,14 +81,12 @@ public class ImagesSheetBuilderCustomOp {
             return null;
         }
 
-        isb.setCommand(commandLine)
-           .setView(imageViewToUse)
-           .setUseDocTitle(useDocTitle);
+        isb.setCommand(commandLine).setView(imageViewToUse).setUseDocTitle(useDocTitle);
 
         CmdParameters moreParams = null;
-        if(parameters != null && parameters.size() > 0) {
+        if (parameters != null && parameters.size() > 0) {
             moreParams = new CmdParameters();
-            for(Entry<String, String> oneParam : parameters.entrySet()) {
+            for (Entry<String, String> oneParam : parameters.entrySet()) {
                 moreParams.addNamedParameter(oneParam.getKey(), oneParam.getValue());
             }
         }
