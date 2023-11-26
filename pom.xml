@@ -5,19 +5,20 @@
   <parent>
     <groupId>org.nuxeo</groupId>
     <artifactId>nuxeo-parent</artifactId>
-    <version>11.4</version>
+    <version>2021.43</version>
   </parent>
   
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
-  <version>11.4-SNAPSHOT</version>
+  <version>2021-SNAPSHOT</version>
   <name>Nuxeo Labs</name>
   <packaging>pom</packaging>
   <description />
 
   <properties>
     <nuxeo.skip.enforcer>true</nuxeo.skip.enforcer>
-    <nuxeo.target.version>11.*</nuxeo.target.version>
+    <nuxeo.target.version>2021.*</nuxeo.target.version>
+    <skipDocker>true</skipDocker>
   </properties>
 
   <modules>

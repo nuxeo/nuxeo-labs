@@ -13,11 +13,10 @@
   <!-- Production State: production_ready | testing | proto -->
   <production-state>testing</production-state>
   <supported>false</supported>
-  <platforms>
-    <platform>server-@NUXEO_TARGET_VERSION@</platform>
-    <platform>server-2021.*</platform>
-    <platform>server-11.*</platform>
-  </platforms>
+  <target-platform>
+    <name>lts</name>
+    <version>[2021.0,2023.99]</version>
+  </target-platform>
   <!-- Dependencies on other packages -->
   <!-- <dependencies> -->
   <!-- <package>another-package:1.0.0:1.0.0</package> -->

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.nuxeo.labs</groupId>
         <artifactId>nuxeo-labs-parent</artifactId>
-        <version>11.4-SNAPSHOT</version>
+        <version>2021-SNAPSHOT</version>
     </parent>
 
     <artifactId>nuxeo-labs-operations-mp</artifactId>
@@ -25,6 +25,7 @@
         <dependency>
             <groupId>org.nuxeo.labs</groupId>
             <artifactId>nuxeo-labs-operations</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
