@@ -21,6 +21,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -28,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -51,8 +55,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 /**
- * NOTICE: Using dam.cloud.nuxeo.com as distant test server. If it's not
- * available, we don't consider it's an error.
+ * The tests expect environement variables to be set with the distant server and misc info to test.
+ * <ul>
+ * <li>NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL
+ * <ul>
+ * <li>The full url to use to access the resource to get.</li>
+ * <li>Must be a Nuxeo server</li>
+ * <li>And must have file:content. The downlaod test will just append the /@blob adapter</li>
+ * <li>Example: https://someserver.cloud.nuxeo.com/nuxeo/api/v1/path/mydomain/myworkspace/mydocument</li>
+ * <li>Example: https://someserver.cloud.nuxeo.com/nuxeo/api/v1/id/1234567890-abcdef-etc</li>
+ * </ul></li>
+ * <li>NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION<br>
+ * The full authorizaiton header. For example, "Basic 1234567890ABcdefGhiJ123LiBBf"</li>
+ * <li>NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD and NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD_VALUE<br>
+ * The field (XPATH) to test and the expected value</li>
+ * <li>NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME</li>
+ * <li>NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE</li>
+ * <li></li>
+ * </ul>
+ * Examples:<br>
+ * NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL="https://my.nuxeo.server/nuxeo/api/v1/id/123456-abcdef"<br>
+ * NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION="Basic 1234567890ABcdefGhiJ123LiBBf"<br>
+ * NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD="dc:title"<br>
+ * NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD_VALUE="The Title"<br>
+ * NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME="myfile.jpg"<br>
+ * NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE="image/jpeg"<br>
  *
  * @since 7.2
  */
@@ -61,31 +88,55 @@ import com.google.inject.Inject;
 @Deploy({ "org.nuxeo.labs.operations" })
 public class HTTPTest {
 
+    protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL = null;
+
+    protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION = null;
+
+    protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD = null;
+
+    protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD_VALUE = null;
+
+    protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME = null;
+
+    protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE = null;
+
     private static final Log log = LogFactory.getLog(HTTPTest.class);
 
-    // This shouyld be set with a test config file/env variable
-    // The test assumes the default passwords are set while it's never the case
-    // TODO Add configuration of a server, password file to download etc. for unit testing
-    protected static final String DISTANT_SERVER = null;// "http://dam.cloud.nuxeo.com/nuxeo";
+    public static final String HYLAND_DOT_COM = "https://www.hyland.com/en";
 
-    protected static final String DISTANT_SERVER_REST_PATTERN = DISTANT_SERVER + "/api/v1";
-
-    protected static final String URL_TEST_GET = DISTANT_SERVER_REST_PATTERN + "/path//";
-
-    protected static final String URL_TEST_FILE_UPLOAD = DISTANT_SERVER + "/api/v1/upload/";
-
-    // Should be set via test configuration file/env. variables.
-    protected static final String DISTANT_PICTURE_DOC_ID = "ef825f50-c12e-4e13-b3b7-31f95cc500fe";
+    protected static boolean isHylandComAvailable = false;
 
     @Inject
     CoreSession session;
 
     @Inject
-    AutomationService service;
+    AutomationService automationService;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
 
+        URL url = new URL(HYLAND_DOT_COM);
+
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("HEAD");
+        connection.setConnectTimeout(3000);
+        connection.setReadTimeout(3000);
+
+        int responseCode = connection.getResponseCode();
+        // Response code is in the range of 200 to 299 (inclusive) are considered successful HTTP responses.
+        isHylandComAvailable = 200 <= responseCode && responseCode <= 299;
+
+        NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL = System.getProperty("NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL");
+        NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION = System.getProperty(
+                "NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION");
+        NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD = System.getProperty(
+                "NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD");
+        NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD_VALUE = System.getProperty(
+                "NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD_VALUE");
+        NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME = System.getProperty(
+                "NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME");
+        NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE = System.getProperty(
+                "NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE");
     }
 
     @After
@@ -94,75 +145,22 @@ public class HTTPTest {
     }
 
     @Test
-    public void testRESTGet() throws Exception {
+    public void testSimpleGet() throws Exception {
 
-        Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
-
-        OperationContext ctx;
-        OperationChain chain;
-
-        ctx = new OperationContext(session);
-        assertNotNull(ctx);
-
-        chain = new OperationChain("testChain");
-
-        Properties props = new Properties();
-        props.put("Authorization", "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y");
-        props.put("Accept", "application/json");
-        props.put("Content-Type", "application/json");
-
-        chain.add(HTTPCall.ID).set("method", "GET").set("url", URL_TEST_GET).set("headers", props);
-        // No input
-
-        Blob result = (Blob) service.run(ctx, chain);
-        assertTrue(result instanceof StringBlob);
-
-        String jsonResult = result.getString();// ((StringBlob)result).getString();
-        // If dam.cloud.nuxeo.com can't be reached, it's not an error
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = mapper.readTree(jsonResult);
-        int status = rootNode.get("status").intValue();
-        if (status == 200) {
-
-            JsonNode theDoc = rootNode.get("result");
-            String str;
-
-            str = theDoc.get("type").textValue();
-            assertEquals("Root", str);
-
-        } else {
-
-            String statusMsg = rootNode.get("statusMessage").textValue();
-            String error = rootNode.get("error").textValue();
-            log.error("PROBLEM REACHING " + URL_TEST_GET + ", status: " + status + ", statusMessage: " + statusMsg
-                    + ", error: " + error);
-        }
-
-    }
-
-    @Test
-    public void testDownloadFile() throws Exception {
-
-        Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
+        Assume.assumeTrue(HYLAND_DOT_COM + " not available => no test", isHylandComAvailable);
 
         OperationContext ctx;
         OperationChain chain;
 
         ctx = new OperationContext(session);
-        assertNotNull(ctx);
-
         chain = new OperationChain("testChain");
 
-        // check we have our Picture available
         Properties props = new Properties();
-        props.put("Authorization", "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y");
         props.put("Accept", "application/json");
-        props.put("Content-Type", "application/json");
 
-        String url = DISTANT_SERVER_REST_PATTERN + "/id/" + DISTANT_PICTURE_DOC_ID;
-        chain.add(HTTPCall.ID).set("method", "GET").set("url", url).set("headers", props);
+        chain.add(HTTPCall.ID).set("method", "GET").set("url", HYLAND_DOT_COM).set("headers", props);
 
-        Blob result = (Blob) service.run(ctx, chain);
+        Blob result = (Blob) automationService.run(ctx, chain);
         assertTrue(result instanceof StringBlob);
 
         String jsonResult = result.getString();
@@ -170,39 +168,133 @@ public class HTTPTest {
         JsonNode rootNode = mapper.readTree(jsonResult);
         int status = rootNode.get("status").intValue();
         if (status == 200) {
-            JsonNode theDoc = rootNode.get("result");
-            String str;
 
-            str = theDoc.get("type").textValue();
-            assertEquals("Picture", str);
+            String rawHtml = rootNode.get("result").asText();
+            assertTrue(rawHtml.indexOf("Hyland") > -1);
 
-            // OK, now, download it
-            // http://dam.cloud.nuxeo.com/nuxeo/nxpicsfile/default/ef825f50-c12e-4e13-b3b7-31f95cc500fe/Medium:content/Thu%20Mar%2019%2008%3A58%3A31%20UTC%202015
-            url = DISTANT_SERVER + "/nxpicsfile/default/" + DISTANT_PICTURE_DOC_ID + "/Medium:content/whatever";
-            chain = new OperationChain("testChain2");
-            props = new Properties();
-            props.put("Authorization", "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y");
-            props.put("Accept", "*/*");
-
-            chain.add(HTTPDownloadFile.ID).set("url", url).set("headers", props);
-            result = (Blob) service.run(ctx, chain);
-            assertTrue(result instanceof FileBlob);
-
-            assertEquals("Medium_wallpaper-nuxeo-X-noir-1600.jpg", result.getFilename());
-            assertEquals("image/jpeg", result.getMimeType());
-
-            File f = result.getFile();
-            result = null;
-            f.delete();
-
+        } else {
+            // This is not an error in the unit test
+            String statusMsg = rootNode.get("statusMessage").textValue();
+            String error = rootNode.get("error").textValue();
+            System.out.println("PROBLEM REACHING " + HYLAND_DOT_COM + ", status: " + status + ", statusMessage: "
+                    + statusMsg + ", error: " + error);
         }
 
     }
 
     @Test
+    public void testRESTGet() throws Exception {
+
+        Assume.assumeTrue("No remote server defined => no test",
+                StringUtils.isNotBlank(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL));
+
+        OperationContext ctx;
+        OperationChain chain;
+
+        ctx = new OperationContext(session);
+        chain = new OperationChain("testChain");
+
+        Properties props = new Properties();
+        props.put("Authorization", NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION);
+        props.put("Accept", "application/json");
+        props.put("Content-Type", "application/json");
+        props.put("properties", "*");
+
+        chain.add(HTTPCall.ID)
+             .set("method", "GET")
+             .set("url", NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL)
+             .set("headers", props);
+        // No input
+
+        Blob result = (Blob) automationService.run(ctx, chain);
+        assertTrue(result instanceof StringBlob);
+
+        String jsonResult = result.getString();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(jsonResult);
+        int status = rootNode.get("status").intValue();
+        if (status == 200) {
+
+            JsonNode theDoc = rootNode.get("result");
+            assertNotNull(theDoc);
+
+            JsonNode properties = theDoc.get("properties");
+            assertNotNull(properties);
+
+            JsonNode field = properties.get(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD);
+            assertNotNull(field);
+
+            String fieldValue = field.asText();
+            assertEquals(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_TEST_FIELD_VALUE, fieldValue);
+
+        } else {
+
+            String statusMsg = rootNode.get("statusMessage").textValue();
+            String error = rootNode.get("error").textValue();
+            System.out.println("PROBLEM REACHING " + NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL + ", status: " + status
+                    + ", statusMessage: " + statusMsg + ", error: " + error);
+        }
+
+    }
+
+    @Test
+    public void testDownloadFile() throws Exception {
+
+        Assume.assumeTrue("No remote server defined => no test",
+                StringUtils.isNotBlank(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL));
+        Assume.assumeTrue("No test value defined => no test",
+                StringUtils.isNotBlank(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME));
+        Assume.assumeTrue("No test value defined => no test",
+                StringUtils.isNotBlank(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE));
+
+        OperationContext ctx;
+        OperationChain chain;
+
+        ctx = new OperationContext(session);
+        chain = new OperationChain("testChain");
+
+        Properties props = new Properties();
+        props.put("Authorization", NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_AUTHORIZATION);
+        props.put("Accept", "*/*");
+        String url = NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL + "/@blob/file:content";
+        
+        chain.add(HTTPDownloadFile.ID)
+             .set("url", url)
+             .set("headers", props);
+
+
+        Blob result = (Blob) automationService.run(ctx, chain);
+        
+        String statusStr = (String) ctx.get("httpDownloadFileStatus");
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(statusStr);
+        int status = rootNode.get("status").intValue();
+        if (status == 200) {
+            assertNotNull(result);
+            assertTrue(result instanceof FileBlob);
+
+            assertEquals(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_FILENAME, result.getFilename());
+            assertEquals(NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE, result.getMimeType());
+
+            File f = result.getFile();
+            result = null;
+            f.delete();
+
+        } else {
+
+            String statusMsg = rootNode.get("statusMessage").textValue();
+            String error = rootNode.get("error").textValue();
+            System.out.println("PROBLEM REACHING " + NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOC_URL + "/@blob, status: " + status
+                    + ", statusMessage: " + statusMsg + ", error: " + error);
+        }
+
+    }
+
+    @Ignore
+    @Test
     public void testSendBlob() throws Exception {
 
-        Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
+        // TODO Assume.assumeTrue("No remote server defined => no test", StringUtils.isNotBlank(DISTANT_SERVER));
 
         File f = FileUtils.getResourceFileFromContext("Nuxeo-logo.png");
         FileBlob fileBlob = new FileBlob(f);
@@ -211,7 +303,6 @@ public class HTTPTest {
         OperationChain chain;
 
         ctx = new OperationContext(session);
-        assertNotNull(ctx);
 
         chain = new OperationChain("testChain");
 
@@ -220,15 +311,16 @@ public class HTTPTest {
         props.put("Accept", "application/json");
         props.put("Content-Type", "application/json");
 
+        // TODO 
+        /*
         chain.add(HTTPCall.ID)
              .set("method", "POST")
              .set("url", URL_TEST_FILE_UPLOAD)
              .set("headers", props)
              .set("blobToSend", fileBlob);
-
-        // No input
-
-        Blob result = (Blob) service.run(ctx, chain);
+        */
+        
+        Blob result = (Blob) automationService.run(ctx, chain);
         assertTrue(result instanceof StringBlob);
 
         String jsonResult = result.getString();
@@ -247,8 +339,9 @@ public class HTTPTest {
 
             String statusMsg = rootNode.get("statusMessage").textValue();
             String error = rootNode.get("error").textValue();
-            log.error("PROBLEM REACHING " + URL_TEST_FILE_UPLOAD + ", status: " + status + ", statusMessage: "
-                    + statusMsg + ", error: " + error);
+            // TODO
+            //log.error("PROBLEM REACHING " + URL_TEST_FILE_UPLOAD + ", status: " + status + ", statusMessage: "
+            //        + statusMsg + ", error: " + error);
         }
 
     }

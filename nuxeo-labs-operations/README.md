@@ -81,6 +81,7 @@ function run(input, params) {
     * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
     * `headersAsJSON`: A string containing a JSON object with the headers.
   * Returns a `FileBlob`
+  * Also set the `"httpDownloadFileStatus"` Context variable to a string holding a JSON object with 3 fields, `status`, `errorMessage` and `error`.
   * Example of JavaScript Automation, getting a file from a distant nuxeo server, saving the file to current document:
 
 ```javascript
@@ -97,11 +98,17 @@ function run(input, params) {
     'url': "your-server-url-to-the-file",
     'headersAsJSON': JSON.stringify(headers)
   });
+  
+  var reulstJsonStr = ctx.httpDownloadFileStatus;
+  var resultJson = JSON.parse(reulstJsonStr);
 
   // Save the blob to the document
-  input.setPropertyValue("file:content", blob);
-  input = Document.Save(input, {});
-
+  if(resultJson.status === 200) {
+    input.setPropertyValue("file:content", blob);
+    input = Document.Save(input, {});
+  } else {
+    // . . . handle error/message/etc
+  }
   return input;
 }
 ```
