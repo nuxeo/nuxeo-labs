@@ -1,7 +1,5 @@
 # Nuxeo Labs
 
-Build Status: [![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=master/nuxeo-labs-master)](https://qa.nuxeo.org/jenkins/job/master/job/nuxeo-labs-master/)
-
 Nuxeo Labs is a collection of features developed by the Nuxeo Solution Engineering team. These features are purpose-built generally in the context of creating prospect demos.  These features are often re-usable and, therefore, collected in this project.
 
 Note that over time certain features may be removed from this project as a) they no longer work or b) they were integrated into Nuxeo platform.
