@@ -1,5 +1,5 @@
 # Description
-This plugin contains miscellaneous operations. It was better to group them in this generic "nuxeo-labs-operation" plug-in, instead of creating one dedicated plug-in/operation
+This plugin contains miscellaneous operations.
 
 # List of Operations
 
@@ -17,7 +17,7 @@ This plugin contains miscellaneous operations. It was better to group them in th
     * `statusMessage`: The HTTP status message ("OK" for example)
     * `error`: The detailed error when reaching the server or parsing the result failed.
     * `result`: The raw data ans returned by the server.
-  * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a document from a distant nuxeo server:
+  * Example of JavaScript Automation, getting a document from a distant nuxeo server:
 
 ```javascript
 function run(input, params) {
@@ -26,15 +26,17 @@ function run(input, params) {
 
   try {
 
+    // properties: * => we fetch all and every field
     headers = {
-       "Authorization": "Basic QWRtaW5pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
+       "Authorization": "Basic 1234567890ABcdEfgHiJ1234567890kijUHG",
        "Accept": "application/json",
-       "Content-Type": "application/json"
+       "Content-Type": "application/json",
+       "properties": "*"
     };
 
     resultStringBlob = HTTPlabs.Call(input, {
       'method': "GET",
-      'url': "http://YOUR_NUXEO_SERVER/nuxeo/api/v1//path//",
+      'url': "https://A_NUXEO_SERVER/nuxeo/api/v1/path/",
       'headersAsJSON': JSON.stringify(headers)
     });
 
@@ -44,20 +46,15 @@ function run(input, params) {
 
     // Check the status. Here, we are expecting 200
     if(resultObj.status == 200) {
-      Log(input, {
-	'level': "warn",
-	'message': "All good, the doc uid is: " + resultObj.result.uid,
-      });
-
+      // All good. resultObj.result contains an entity of type "document"
+      // Fields are at resultObj.result.properties. For example, resultObj.result.properties["myschema:myfield"]
+      Console.log("All good, the doc uid is: " + resultObj.result.uid);
     } else {
       // The server returned an error
       msg = "Status: " + resultObj.status;
       msg += ", message: " + resultObj.statusMessage;
       msg += ", error: " + resultObj.error;
-      Log(input, {
-        'level': "warn",
-         'message': "Some error occured: " + msg
-      });
+      Console.error("An error occured:\n" + msg);
     }
 
   } catch(e) {
@@ -72,10 +69,7 @@ function run(input, params) {
     } else {
       msg = e;
     }
-    Log(input, {
-        'level': "warn",
-         'message': "An error was catched during execution of the script: " + msg
-    });
+    Console.error("An error was catched during execution of the script: " + msg);c
   }
 }
 ```
@@ -87,15 +81,15 @@ function run(input, params) {
     * `headers`: A string, containing a list a `key=value`, separated with a newline, to setup the headers
     * `headersAsJSON`: A string containing a JSON object with the headers.
   * Returns a `FileBlob`
-  * Example of JavaScript Automation (_new since nuxeo 7.2_), getting a file from a distant nuxeo server, saving the file to current document:
+  * Example of JavaScript Automation, getting a file from a distant nuxeo server, saving the file to current document:
 
-```
+```javascript
 // Here, input is a File for example
 function run(input, params) {
   var headers, blob;
 
   headers = {
-    "Authorization": "Basic 34565pc3RyYXRvcjpBZG1pbmlzdHJhdG9y",
+    "Authorization": "Basic 1234567890ABcdEfgHiJ1234567890kijUHG",
     "Accept": "*/*"
   };
 
@@ -114,7 +108,7 @@ function run(input, params) {
 
 * `Images Sheet Builder` (ID `ImagesSheet.Build`)
   * Receives a list of documents or a list of Blobs, outputs a blob, a JPEG Images Sheet. Different parameters allow to setup the output.
-  * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for hez `geometry` parameter for example`
+  * The operation uses ImageMagick `montage` command, so please refer to its documentation for details about the parameters. Typically, make sure to pass a correct format for the `geometry` parameter for example.
   * `input`:
     * A list of Documents or a list of Blobs
     * When input is a list of Documents, then, for each document with the "Picture" facet, it uses a `PictureView` to generate the thumbnail in the sheet. By default, it uses the "Medium" view. If the view is not found, it uses the binary in "file:content".
