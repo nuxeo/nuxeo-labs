@@ -6,6 +6,9 @@ Note that over time certain features may be removed from this project as a) they
 
 Notice: We always build the `master` branch. For older version, check the misc. branches. For example, if you need the plugin for LTS2019 (10.10), switch to the 10.10 branch and build the plugin.
 
+> [!IMPORTANT]
+> This plugin is not the same as [nuxeo-labs-utils](https://github.com/nuxeo-sandbox/nuxeo-labs-utils), which contains other utilities.
+
 ## What's Inside?
 
 * [_nuxeo-labs-operations_](https://github.com/nuxeo/nuxeo-labs/tree/master/nuxeo-labs-operations)
