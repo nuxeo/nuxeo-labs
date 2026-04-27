@@ -28,8 +28,8 @@ import java.net.URL;
 import java.nio.file.Files;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
@@ -52,7 +52,7 @@ public class HTTPDownloadFile {
 
     public static final String ID = "HTTPlabs.DownloadFile";
 
-    public static final Log log = LogFactory.getLog(HTTPDownloadFile.class);
+    public static final Logger log = LogManager.getLogger(HTTPDownloadFile.class);
 
     protected static final int BUFFER_SIZE = 4096;
 

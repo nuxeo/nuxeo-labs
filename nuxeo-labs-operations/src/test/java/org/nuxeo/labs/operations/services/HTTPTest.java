@@ -25,9 +25,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -52,7 +52,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * The tests expect environement variables to be set with the distant server and misc info to test.
@@ -100,7 +100,7 @@ public class HTTPTest {
 
     protected static String NXLABS_TEST_HTTPCCAL_NUXEO_SERVER_DOWNLOAD_MIMETYPE = null;
 
-    private static final Log log = LogFactory.getLog(HTTPTest.class);
+    private static final Logger log = LogManager.getLogger(HTTPTest.class);
 
     public static final String HYLAND_DOT_COM = "https://www.hyland.com/en";
 

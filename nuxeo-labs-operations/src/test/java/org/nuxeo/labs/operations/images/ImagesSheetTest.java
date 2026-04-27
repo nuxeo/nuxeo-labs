@@ -38,7 +38,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import org.nuxeo.runtime.transaction.TransactionHelper;
 
-import com.google.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author Thibaud Arguillere

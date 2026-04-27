@@ -20,8 +20,8 @@ package org.nuxeo.labs.utils;
 
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.nuxeo.ecm.collections.api.CollectionConstants;
 import org.nuxeo.ecm.collections.api.CollectionManager;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -63,7 +63,7 @@ public class StringListPageProvider extends AbstractPageProvider<DocumentModel> 
 
     public static final String XPATH_PROPERTY = "xpath";
 
-    protected static final Log log = LogFactory.getLog(StringListPageProvider.class);
+    protected static final Logger log = LogManager.getLogger(StringListPageProvider.class);
 
     protected CoreSession getCoreSession() {
         Object session = getProperties().get(CORE_SESSION_PROPERTY);

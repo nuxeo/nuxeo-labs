@@ -28,7 +28,7 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import com.google.inject.Inject;
+import jakarta.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features({ AutomationFeature.class })

@@ -20,13 +20,14 @@ package org.nuxeo.labs.operations.images;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.nuxeo.ecm.automation.core.util.BlobList;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.Blobs;
@@ -42,8 +43,6 @@ import org.nuxeo.ecm.platform.commandline.executor.api.ExecResult;
 import org.nuxeo.ecm.platform.picture.api.PictureView;
 import org.nuxeo.ecm.platform.picture.api.adapters.MultiviewPicture;
 import org.nuxeo.runtime.api.Framework;
-
-import com.google.common.io.Files;
 
 /**
  * Use ImageMagick <code>montage</code> to build a sheet from the images, with misc. parameters.
@@ -78,7 +77,7 @@ import com.google.common.io.Files;
  */
 public class ImagesSheetBuilder {
 
-    private static final Log log = LogFactory.getLog(ImagesSheetBuilder.class);
+    private static final Logger log = LogManager.getLogger(ImagesSheetBuilder.class);
 
     public static final String DEFAULT_COMMAND = "IM-montage";
 
@@ -215,7 +214,7 @@ public class ImagesSheetBuilder {
         // Prepare each blob
         // Duplicate the images in a temp folder
         // and build a list of path, ordered as the doc list
-        File tempDir = Files.createTempDir();
+        File tempDir = Files.createTempDirectory("images-sheet").toFile();
         File f;
         String fileList = "";
         for (Blob b : blobs) {
