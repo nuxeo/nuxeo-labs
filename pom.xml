@@ -10,7 +10,7 @@
   
   <groupId>org.nuxeo.labs</groupId>
   <artifactId>nuxeo-labs-parent</artifactId>
-  <version>2025.1.0-SNAPSHOT</version>
+  <version>2025.2.0-SNAPSHOT</version>
   <name>Nuxeo Labs</name>
   <packaging>pom</packaging>
   <description />
