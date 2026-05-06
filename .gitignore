@@ -22,3 +22,5 @@ target
 *cpJar*
 dependency-tree.log
 nashorn_code_cache
+.opencode
+AGENTS.md
